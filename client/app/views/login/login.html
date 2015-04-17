@@ -1,0 +1,32 @@
+<md-content layout="row" layout-align="center center" layout-fill class="bg-none">
+  <md-card class="card card-login">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 flex="100" class="tac">ログイン</h2>
+      </div>
+    </md-toolbar>
+    <div style="margin: 20px;">
+      <form ng-submit="submit()" name="loginForm" novalidate>
+        <md-input-container>
+          <label>ユーザー名</label>
+          <input ng-model="user.id" type="text" name="id" required>
+          <!-- <div ng-messages="loginForm.id.$error">                                       -->
+          <!--   <div ng-message="required">ユーザー名を入力してください</div> -->
+          <!-- </div>                                                                        -->
+        </md-input-container>
+        <md-input-container>
+          <label>パスワード</label>
+          <input ng-model="user.password" type="password" name="password" required>
+          <!-- <div ng-messages="loginForm.password.$error">                                 -->
+          <!--   <div ng-message="required">パスワードを入力してください</div> -->
+          <!-- </div>                                                                        -->
+        </md-input-container>
+        <md-input-container ng-show="loginForm.$valid" class="anim-pop" style="position: absolute; right: 20px; bottom: 0px;">
+          <md-button type="submit" class="md-fab" aria-label="login">
+            <i class="fa fa-sign-in fa-2x"></i>
+          </button>
+        </md-input-container>
+      </form>
+    </div>
+  </md-card>
+</md-content>
