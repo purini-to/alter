@@ -1,0 +1,46 @@
+baseColor = #444
+baseBgColor = #eee
+
+cardColor = white
+
+html, body
+  margin 0px
+  font-family Verdana,  "游ゴシック",  YuGothic,  "Hiragino Kaku Gothic ProN",  Meiryo,  sans-serif
+  font-size 16px
+  background-color baseBgColor
+  color baseColor
+
+md-card-content
+  padding 10px
+
+.container
+  width 100%
+  height 100%
+
+.card
+  background-color cardColor
+
+.bg-none
+  background-color transparent !important
+
+.card-login
+  position relative
+  width 440px
+  height 350px
+
+.tac
+  text-align center
+
+.anim-pop.ng-hide-add,
+.anim-pop.ng-hide-remove
+  transition all linear 0.3s
+
+.anim-pop.ng-hide-add.ng-hide-add-active
+.anim-pop.ng-hide-remove
+  transform scale(0.3)
+  opacity 0.5
+
+.anim-pop.ng-hide-remove.ng-hide-remove-active
+.anim-pop.ng-hide-add
+  transform scale(1)
+  opacity 1
