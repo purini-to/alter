@@ -1,5 +1,8 @@
 app = angular.module 'alter'
 
+###
+ページごとのタイトルを設定するディレクティブ
+###
 app.directive 'pageTitle', ($rootScope, $translate) =>
     return {
       restrict: 'A'
