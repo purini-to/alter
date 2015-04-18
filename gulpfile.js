@@ -12,6 +12,8 @@ var stylus = require('gulp-stylus');
 var autoprefixer = require('gulp-autoprefixer');
 var watch = require('gulp-watch');
 var clean = require('gulp-clean');
+var plumber = require('gulp-plumber');
+var notify = require('gulp-notify');
 
 var path = require('path');
 
@@ -33,7 +35,7 @@ gulp.task('minify:js', function () {
         .pipe(gulp.dest(conf.dest));
 });
 
-gulp.task('build', ['compile:coffee', 'compile:stylus', 'copy:html', 'copy:vendor']);
+gulp.task('build', ['compile:coffee', 'compile:stylus', 'copy:html', 'copy:assets', 'copy:vendor']);
 
 gulp.task('compile:coffee', ['clean:js'], function () {
     var path = conf.tmp;
@@ -42,6 +44,7 @@ gulp.task('compile:coffee', ['clean:js'], function () {
     }
 
     return gulp.src(conf.src + '/**/*.coffee', {base: conf.src})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(coffee())
         .pipe(gulp.dest(path));
 });
@@ -53,12 +56,13 @@ gulp.task('compile:stylus', ['clean:css'], function () {
     }
 
     return gulp.src(conf.src + '/**/*.styl', {base: conf.src})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(stylus())
         .pipe(autoprefixer())
         .pipe(gulp.dest(path));
 });
 
-gulp.task('inject', ['build'], function () {
+gulp.task('inject', ['compile:coffee', 'compile:stylus', 'copy:html', 'copy:assets'], function () {
     var path = conf.tmp;
     if (conf.prod) {
         path = conf.dest;
@@ -78,6 +82,7 @@ gulp.task('copy:vendor', ['clean:vendor'], function () {
     }
 
     return gulp.src(bowerFiles(), {base: conf.bowerDir})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(gulp.dest(path + '/bower_components'));
 });
 
@@ -88,6 +93,18 @@ gulp.task('copy:html', ['clean:html'], function () {
     }
 
     return gulp.src([conf.src + '/views/**/*.html', '!' + conf.src + '/views/index.html'], {base: conf.src})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
+        .pipe(gulp.dest(path));
+});
+
+gulp.task('copy:assets', ['clean:assets'], function () {
+    var path = conf.tmp;
+    if (conf.prod) {
+        path = conf.dest;
+    }
+
+    return gulp.src([conf.src + '/assets/**/*'], {base: conf.src})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(gulp.dest(path));
 });
 
@@ -100,12 +117,16 @@ gulp.task('watch', function () {
         }
     });
 
-    return watch([conf.src + '/**/*.html'], function(file){
+    watch([conf.src + '/**/*.html'], function(file){
         if (path.basename(file.relative) === 'index.html') {
             gulp.start("inject");
         } else {
             gulp.start("copy:html");
         }
+    });
+
+    return watch([conf.src + '/assets/**/*'], function(file){
+        gulp.start("copy:assets");
     });
 });
 
@@ -116,6 +137,7 @@ gulp.task('clean:js', function () {
     }
 
     return gulp.src([path + '/**/*.js', '!' + path + '/bower_components/**/*.js'], {read: false})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(clean({force: true}));
 });
 
@@ -126,6 +148,7 @@ gulp.task('clean:css', function () {
     }
 
     return gulp.src([path + '/**/*.css', '!' + path + '/bower_components/**/*.css'], {read: false})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(clean({force: true}));
 });
 
@@ -136,6 +159,7 @@ gulp.task('clean:vendor', function () {
     }
 
     return gulp.src(path + '/bower_components', {read: false})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(clean({force: true}));
 });
 
@@ -146,12 +170,24 @@ gulp.task('clean:html', function () {
     }
 
     return gulp.src([path + '/**/*.html', '!' + path + '/bower_components', '!' + path + '/index.html'], {read: false})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
+        .pipe(clean({force: true}));
+});
+
+gulp.task('clean:assets', function () {
+    var path = conf.tmp;
+    if (conf.prod) {
+        path = conf.dest;
+    }
+
+    return gulp.src([path + '/assets/**/*'], {read: false})
+        .pipe(plumber({errorHandler: notify.onError('<%= error.message %>')}))
         .pipe(clean({force: true}));
 });
 
 gulp.task('clean', ['clean:js', 'clean:css', 'clean:vendor']);
 
-gulp.task('serve', ['inject'], function () {
+gulp.task('serve', ['copy:vendor', 'inject'], function () {
   livereload.listen();
 
   nodemon({

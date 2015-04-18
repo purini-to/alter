@@ -1,0 +1,10 @@
+{
+    "NAME": "Alter",
+    "LOGIN": {
+        "TITLE": "ログイン",
+        "LABEL": {
+            "ID": "ユーザー名",
+            "PASSWORD": "パスワード"
+        }
+    }
+}
