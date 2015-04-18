@@ -5,3 +5,4 @@ angular.module 'alter'
             url: "/login"
             templateUrl: "views/login/login.html"
             controller: "loginCtrl"
+            title: "LOGIN.TITLE"
