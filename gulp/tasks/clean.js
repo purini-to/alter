@@ -54,4 +54,12 @@ gulp.task('clean:dest', function () {
         .pipe($.clean({force: true}));
 });
 
-gulp.task('clean', ['clean:js', 'clean:css', 'clean:vendor', 'clean:dest']);
+gulp.task('clean:server', function () {
+    var path = conf.build;
+
+    return gulp.src([path + '/**/*'], {read: false})
+        .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+        .pipe($.clean({force: true}));
+});
+
+gulp.task('clean', ['clean:js', 'clean:css', 'clean:vendor', 'clean:dest', 'clean:server']);

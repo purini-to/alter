@@ -6,7 +6,7 @@ var $ = require('gulp-load-plugins')({
 var conf = require('../config.js');
 var confUtil = require('../utils/configUtil.js');
 
-gulp.task('serve', ['copy:vendor', 'inject'], function () {
+gulp.task('serve', ['copy:vendor', 'inject', 'build:coffee:server'], function () {
   $.livereload.listen();
 
   $.nodemon({
@@ -36,7 +36,7 @@ gulp.task('serve', ['copy:vendor', 'inject'], function () {
     });
 });
 
-gulp.task('serve:dest', ['copy:dest', 'inject:dest'], function () {
+gulp.task('serve:dest', ['copy:dest', 'inject:dest', 'build:coffee:server'], function () {
   return $.nodemon({
     script: './bin/www',
     ext: 'js',
