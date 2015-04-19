@@ -1,26 +1,29 @@
-<md-content layout="row" layout-align="space-around center" layout-fill class="bg-none">
-  <md-card class="card card-login">
-    <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2 flex="100" class="tac">{{'LOGIN.TITLE' | translate}}</h2>
-      </div>
-    </md-toolbar>
-    <div style="margin: 20px;">
-      <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate>
-        <md-input-container>
-          <label>{{'LOGIN.LABEL.ID' | translate}}</label>
-          <input ng-model="user.id" type="text" name="id" required>
-        </md-input-container>
-        <md-input-container>
-          <label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label>
-          <input ng-model="user.password" type="password" name="password" required>
-        </md-input-container>
-        <md-input-container ng-show="loginForm.$valid" class="anim-pop" style="position: absolute; right: 20px; bottom: 0px;">
-          <md-button type="submit" class="md-fab" aria-label="login">
-            <i class="fa fa-sign-in fa-2x"></i>
-          </button>
-        </md-input-container>
-      </form>
-    </div>
-  </md-card>
+<md-content layout="column" layout-align="center center" layout-fill class="bg-none">
+    <md-card class="card card-login">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 flex="100" class="tac">{{'LOGIN.TITLE' | translate}}</h2>
+            </div>
+        </md-toolbar>
+        <div style="margin: 20px;">
+            <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate>
+                <md-input-container>
+                    <label>{{'LOGIN.LABEL.ID' | translate}}</label>
+                    <input ng-model="user.id" type="text" name="id" required maxlength="15">
+                </md-input-container>
+                <md-input-container>
+                    <label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label>
+                    <input ng-model="user.password" type="password" name="password" required maxlength="20">
+                </md-input-container>
+                <div layout layout-align="end center">
+                    <md-button ng-show="loginForm.$valid" type="submit" class="md-fab anim-pop" aria-label="login">
+                        <i class="fa fa-sign-in fa-2x"></i>
+                    </md-button>
+                </div>
+                </tmd-input-container>
+            </form>
+        </div>
+    </md-card>
+
+    <md-button ng-click="showNewAccountDialog($event)" class="md-accent">{{ 'LOGIN.ACCOUNT.ACTION' | translate }}</md-button>
 </md-content>
