@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'loginCtrl', ($scope, userService, userModel) =>
+app.controller 'loginCtrl', ($scope, $mdDialog, userService, userModel) =>
   $scope.user = {
     id: ''
     password: ''
@@ -12,3 +12,10 @@ app.controller 'loginCtrl', ($scope, userService, userModel) =>
       console.log aa
     , (errorResult) =>
       console.log errorResult
+
+  $scope.showNewAccountDialog = (ev) =>
+    $mdDialog.show({
+      controller: "newAccountCtrl"
+      templateUrl: 'views/login/newAccount.html'
+      targetEvent: ev 
+    })

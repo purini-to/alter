@@ -1,0 +1,34 @@
+<md-dialog aria-label="{{ 'LOGIN.ACCOUNT.TITLE' | translate }}">
+    <md-subheader class="md-sticky-no-effect tac">
+        {{ 'LOGIN.ACCOUNT.TITLE' | translate }}
+    </md-subheader>
+    <md-content layout="row" layout-sm="column" layout-fill>
+        <div class="dialog-container">
+            <form name="newAccountForm" novalidate>
+                <div layout layout-sm="column">
+                    <md-input-container flex>
+                        <label>{{'LOGIN.LABEL.ID' | translate}}</label>
+                        <input ng-model="user.id" type="text" name="id" required maxlength="15">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>{{'LOGIN.ACCOUNT.LABEL.NAME' | translate}}</label>
+                        <input ng-model="user.name" type="text" name="name" required maxlength="12">
+                    </md-input-container>
+                </div>
+                <md-input-container flex>
+                    <label>{{'LOGIN.ACCOUNT.LABEL.EMAIL' | translate}}</label>
+                    <input ng-model="user.email" type="email" name="email" maxlength="50">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label>
+                    <input ng-model="user.password" type="password" name="password" required maxlength="20">
+                </md-input-container>
+                <div layout layout-align="end center" class="fab-box-2x">
+                    <md-button ng-show="newAccountForm.$valid" type="submit" class="md-fab anim-pop ng-hide" aria-label="regist">
+                        <i class="fa fa-check fa-2x"></i>
+                    </md-button>
+                </div>
+            </form>
+        </div>
+    </md-content>
+</md-dialog>
