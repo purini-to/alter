@@ -3,5 +3,7 @@ module.exports = {
     tmp: '.tmp',
     prod: false,
     bowerDir: 'client/bower_components',
-    src: 'client/app'
+    src: 'client/app',
+    build: 'build',
+    serverSrc: 'server'
 };

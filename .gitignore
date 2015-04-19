@@ -1,4 +1,6 @@
 /node_modules
 /client/bower_components
 /public
+/build
 /.tmp
+/npm-debug.log<

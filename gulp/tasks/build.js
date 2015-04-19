@@ -16,6 +16,15 @@ gulp.task('build:coffee', ['clean:js'], function () {
         .pipe(gulp.dest(path));
 });
 
+gulp.task('build:coffee:server', ['clean:server'], function () {
+    var path = conf.build;
+
+    return gulp.src(conf.serverSrc + '/**/*.coffee', {base: conf.serverSrc})
+        .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+        .pipe($.coffee())
+        .pipe(gulp.dest(path));
+});
+
 gulp.task('build:stylus', ['clean:css'], function () {
     var path = confUtil.getPath(conf);
 
@@ -26,4 +35,4 @@ gulp.task('build:stylus', ['clean:css'], function () {
         .pipe(gulp.dest(path));
 });
 
-gulp.task('build', ['build:coffee', 'build:stylus']);
+gulp.task('build', ['build:coffee', 'build:stylus', 'build:coffee:server']);

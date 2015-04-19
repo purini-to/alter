@@ -27,6 +27,9 @@ gulp.task('watch:app', function () {
         }), 
         $.watch([conf.src + '/assets/**/*'], function(file){
             gulp.start("copy:assets");
+        }),
+        $.watch([conf.serverSrc + '/**/*.coffee'], function(file){
+            gulp.start("build:coffee:server");
         })
     );
 });

@@ -4,8 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../server/app');
-var config = require('../server/config/env_settings');
+var app = require('../build/app');
+var config = require('../build/config/env_settings');
 var debug = require('debug')('alter:server');
 var http = require('http');
 
