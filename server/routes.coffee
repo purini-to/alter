@@ -2,14 +2,12 @@
 サーバー側のルーティング設定
 ###
 'use strict'
+requireDir = require('require-dir')
 
 module.exports = (app) =>
-  app.route('/api/users/login').post (req, res, next) =>
-    resData = {
-      user: 
-        id: 2133212
-        name: 'オレオレ'
-        token: 'efoij2109fj2o3u0fj320rf0'
-    }
+  api = requireDir('./api',  {recurse: true})
 
-    res.send resData
+  # ログインAPI
+  app.route('/api/users/login').post(api.users.users.login)
+  # アカウント新規登録API
+  app.route('/api/users').post(api.users.users.save)
