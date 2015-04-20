@@ -45,6 +45,7 @@
     "gulp-ng-annotate": "~0.5.2",
     "gulp-jsonminify": "~1.0.0",
     "gulp-minify-html": "~1.0.2",
-    "gulp-replace": "~0.5.3"
+    "gulp-replace": "~0.5.3",
+    "del": "~1.1.1"
   }
 }
