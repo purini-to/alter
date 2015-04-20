@@ -1,6 +1,7 @@
 'use strict'
 
 express = require 'express'
+expressValidator = require 'express-validator'
 path = require 'path'
 logger = require 'morgan'
 cookieParser = require 'cookie-parser'
@@ -16,6 +17,14 @@ ectRenderer = ECT {
   ext : '.ect'
 }
 
+# カスタムバリデーション定義
+customValidators = {
+  # 半角英数字と記号
+  isAlphaNumericSymbol: (value) =>
+    pattern = new RegExp "^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$"
+    pattern.test value
+}
+
 module.exports = (app) =>
   env = config.env
 
@@ -24,10 +33,13 @@ module.exports = (app) =>
   app.engine 'ect', ectRenderer.render
   app.set 'view engine', 'ect'
   app.use(bodyParser.urlencoded({
-    extended: false 
+    extended: false
   }))
   app.use bodyParser.json()
   app.use cookieParser()
+  app.use(expressValidator({
+    customValidators: customValidators
+  }))
   if 'production' is env
     # app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use express.static path.join(config.root, 'public')
