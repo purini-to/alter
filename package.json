@@ -13,11 +13,11 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
     "ect": "~0.5.9",
-    "lodash": "~3.6.0"
+    "lodash": "~3.6.0",
+    "require-dir": "~0.3.0"
   },
   "devDependencies": {
     "gulp": "~3.8.11",
-    "require-dir": "~0.3.0",
     "coffee-script": "~1.9.1",
     "gulp-livereload": "~3.8.0",
     "gulp-nodemon": "~2.0.2",
