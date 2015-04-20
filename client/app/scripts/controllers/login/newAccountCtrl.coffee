@@ -6,6 +6,15 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog) =>
     name: ''
     email: ''
     password: ''
+    conf: ''
+  }
+
+  $scope.validators = {
+    password_confirm:
+      confirm: (modelValue,  viewValue) =>
+        user = $scope.user || {}
+        val = modelValue || viewValue
+        user.password is val
   }
 
   $scope.hide = =>
