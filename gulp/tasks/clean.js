@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')({
-    pattern: ['gulp-*']
+    pattern: ['gulp-*', 'del']
 });
 
 var conf = require('../config.js');
@@ -54,12 +54,10 @@ gulp.task('clean:dest', function () {
         .pipe($.clean({force: true}));
 });
 
-gulp.task('clean:server', function () {
+gulp.task('clean:server', function (cb) {
     var path = conf.build;
 
-    return gulp.src([path + '/**/*'], {read: false})
-        .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-        .pipe($.clean({force: true}));
+    $.del(path + '/**/*', cb);
 });
 
 gulp.task('clean', ['clean:js', 'clean:css', 'clean:vendor', 'clean:dest', 'clean:server']);
