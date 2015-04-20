@@ -8,29 +8,6 @@ cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 echo 'ZONE="Asia/Tokyo"' > /etc/sysconfig/clock
 echo 'UTC=false' >> /etc/sysconfig/clock
 
-# ファイヤーウォール無効化
-#echo "==========================================================="
-#echo "  Iptables disabled"
-#echo "==========================================================="
-#service iptables stop
-#chkconfig iptables off
-
-# 現在インストール済みのツールを最新にする
-#echo "==========================================================="
-#echo "  Currently the installed tool to the latest"
-#echo "==========================================================="
-#yum update -y
-
-# カーネルのバージョンアップと必要なパッケージのインストール
-# これをしないとvagrantのmountエラーが起こる
-# http://qiita.com/wakaba260/items/b5c87b7815b710f303a0
-#echo "==========================================================="
-#echo "  Kernel version up"
-#echo "==========================================================="
-#yum install -y kernel-devel kernel-headers dkms gcc gcc-c++ wget
-#yum install -y http://vault.centos.org/6.4/cr/x86_64/Packages/kernel-devel-2.6.32-431.el6.x86_64.rpm
-#/etc/init.d/vboxadd setup
-
 # Gitのインストール
 echo "==========================================================="
 echo "  Git install"
