@@ -15,7 +15,8 @@
     "ect": "~0.5.9",
     "lodash": "~3.6.0",
     "require-dir": "~0.3.0",
-    "express-validator": "~2.9.0"
+    "express-validator": "~2.9.0",
+    "mongoose": "~4.0.1"
   },
   "devDependencies": {
     "gulp": "~3.8.11",
