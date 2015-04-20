@@ -10,4 +10,11 @@ app.factory 'userService', ($resource) =>
 
     $resource url, defaultParams, actions
 
+  user.save =  =>
+    url = '/api/users'
+    defaultParams = {}
+    actions = {}
+
+    $resource url, defaultParams, actions
+
   user

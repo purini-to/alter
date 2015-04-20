@@ -37,7 +37,7 @@
         </md-input-container>
         <md-input-container flex>
           <label>{{'LOGIN.ACCOUNT.INPUT.CONF.LABEL' | translate}}</label>
-          <input ng-model="user.conf" type="password" name="conf" required app-validators="validators.password_confirm">
+          <input ng-model="conf" type="password" name="conf" required app-validators="validators.password_confirm">
             <div ng-messages="newAccountForm.conf.$error">
               <div ng-message="confirm">{{'LOGIN.ACCOUNT.INPUT.CONF.VALIDATION.INVALID' | translate}}</div>
             </div>
