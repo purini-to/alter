@@ -12,7 +12,7 @@ echo 'UTC=false' >> /etc/sysconfig/clock
 echo "==========================================================="
 echo "  Git install"
 echo "==========================================================="
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker
+yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-ExtUtils-MakeMaker gcc gcc-c++
 wget -O - https://git-core.googlecode.com/files/git-1.8.5.2.tar.gz | tar zxvf -
 cd git-1.8.5.2
 ./configure --prefix=/usr/local/
