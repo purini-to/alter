@@ -3,8 +3,9 @@ app = angular.module 'alter'
 app.controller 'newAccountCtrl', ($scope, $mdDialog) =>
   $scope.user = {
     id: ''
-    password: ''
     name: ''
+    email: ''
+    password: ''
   }
 
   $scope.hide = =>
