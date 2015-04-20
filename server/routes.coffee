@@ -4,7 +4,7 @@
 'use strict'
 requireDir = require('require-dir')
 
-module.exports = (app) =>
+module.exports = (app) ->
   api = requireDir('./api',  {recurse: true})
 
   # ログインAPI

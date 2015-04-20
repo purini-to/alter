@@ -7,10 +7,35 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 UserSchema = new Schema({
-  id: String
-  name: String
-  password: String
-  email: String
+  id: {
+    type: String
+    unique: true
+  }
+  name: {
+    type: String
+  }
+  password: {
+    type: String
+  }
+  email: {
+    type: String
+    default: ''
+  }
+  createdAt: {
+    type: Date
+    default: Date.now
+  }
 })
 
-module.exports = mongoose.model 'User',  UserSchema
+load = (options, cb) ->
+  options.select = options.select || 'id name email'
+  this.findOne(options.criteria)
+    .select(options.select)
+    .exec(cb)
+  
+
+UserSchema.statics = {
+  load: load
+}
+
+mongoose.model 'User',  UserSchema

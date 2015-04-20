@@ -3,10 +3,13 @@
 ###
 'use strict'
 
+mongoose = require 'mongoose'
+User = mongoose.model 'User'
+
 ###
 ログイン認証API
 ###
-login = (req, res, next) =>
+login = (req, res, next) ->
   req.checkBody('id',  '不正な値です').notEmpty().isLength(5, 15).isAlphaNumericSymbol()
   req.checkBody('password',  '不正な値です').notEmpty().isLength(6, 20).isAlphaNumericSymbol()
   errors = req.validationErrors(true)
@@ -14,18 +17,26 @@ login = (req, res, next) =>
     res.status 400
     return res.send errors
 
-  resData = {
-    user:
-      id: 2133212
-      name: 'オレオレ'
-      token: 'efoij2109fj2o3u0fj320rf0'
+  options = {
+    criteria: {
+      id: req.body.id
+      password: req.body.password
+    }
   }
-  res.send resData
+  User.load options, (err, user) ->
+    if err?
+      return next err
+    if !user?
+      res.status 401
+      return res.send {
+        msg: 'アカウント名またはパスワードが間違ってます'
+      }
+    res.send user
 
 ###
 アカウント新規登録API
 ###
-save = (req, res, next) =>
+save = (req, res, next) ->
   req.checkBody('id',  '不正な値です').notEmpty().isLength(5, 15).isAlphaNumericSymbol()
   req.checkBody('name',  '不正な値です').notEmpty().isLength(1, 12)
   req.checkBody('password',  '不正な値です').notEmpty().isLength(6, 20).isAlphaNumericSymbol()
@@ -36,14 +47,8 @@ save = (req, res, next) =>
     res.status 400
     return res.send errors
 
-  User = require('../../models/users')
-  user = new User()
-  user.id = req.param 'id'
-  user.name = req.param 'name'
-  user.password = req.param 'password'
-  user.email = req.param 'email'
-  user.save (err) =>
-    console.log err
+  user = new User req.body
+  user.save (err) ->
     if err?
       res.send(err)
 
