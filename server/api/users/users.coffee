@@ -3,6 +3,7 @@
 ###
 'use strict'
 
+errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
 User = mongoose.model 'User'
 
@@ -14,8 +15,9 @@ login = (req, res, next) ->
   req.checkBody('password',  '不正な値です').notEmpty().isLength(6, 20).isAlphaNumericSymbol()
   errors = req.validationErrors(true)
   if errors?
-    res.status 400
-    return res.send errors
+    res.status 401
+    errData = errUtil.addError 'global', 'アカウント名またはパスワードが間違ってます'
+    return res.send errData
 
   options = {
     criteria: {
@@ -27,10 +29,9 @@ login = (req, res, next) ->
     if err?
       return next err
     if !user?
+      errData = errUtil.addError 'global', 'アカウント名またはパスワードが間違ってます'
       res.status 401
-      return res.send {
-        msg: 'アカウント名またはパスワードが間違ってます'
-      }
+      return res.send errData
     res.send user
 
 ###
@@ -47,15 +48,22 @@ save = (req, res, next) ->
     res.status 400
     return res.send errors
 
-  user = new User req.body
-  user.save (err) ->
+  User.load {criteria: {id: req.body.id}}, (err, user) ->
     if err?
-      res.send(err)
+      return next err
+    if user?
+      res.status 400
+      errData = errUtil.addError 'id', '既に使用されています', 'id', req.body.id
+      return res.send errData
+    user = new User req.body
+    user.save (err) ->
+      if err?
+        res.send err
 
-    resData = {
-      result: 'SUCCESS'
-    }
-    res.send resData
+      resData = {
+        result: 'SUCCESS'
+      }
+      res.send resData
 
 module.exports = {
   login: login
