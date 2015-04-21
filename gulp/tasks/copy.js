@@ -30,7 +30,7 @@ gulp.task('copy:assets', ['clean:assets'], function () {
         .pipe(gulp.dest(path));
 });
 
-gulp.task('copy:dest', function () {
+gulp.task('copy:dest', ['clean:dest'], function () {
     var fontFilter = $.filter(['**/*.ttf', '**/*.woff*']);
     var path = conf.dest;
 

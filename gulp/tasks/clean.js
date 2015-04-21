@@ -46,18 +46,12 @@ gulp.task('clean:assets', function () {
         .pipe($.clean({force: true}));
 });
 
-gulp.task('clean:dest', function () {
-    var path = conf.dest;
-
-    return gulp.src([path + '/**/*'], {read: false})
-        .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
-        .pipe($.clean({force: true}));
+gulp.task('clean:dest', function (cb) {
+    $.del(conf.dest + '/**/*', cb)
 });
 
 gulp.task('clean:server', function (cb) {
-    var path = conf.build;
-
-    $.del(path + '/**/*', cb);
+    $.del(conf.build + '/**/*', cb);
 });
 
 gulp.task('clean', ['clean:js', 'clean:css', 'clean:vendor', 'clean:dest', 'clean:server']);
