@@ -2,9 +2,11 @@
 
 express = require 'express'
 mongoose = require 'mongoose'
-conf = require './config/env_settings'
+requireDir = require 'require-dir'
+requireDir './models', {recurse: true}
 app = express()
 
+conf = require './config/env_settings'
 require('./config/application')(app)
 
 connect = ->
@@ -17,8 +19,6 @@ connect()
 mongoose.connection.on 'error', console.error.bind console, 'connection error:'
 mongoose.connection.on 'disconnected',  connect
 
-requireDir = require 'require-dir'
-requireDir './models', {recurse: true}
 require('./routes')(app)
 
 # catch 404 and forward to error handler
