@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) =>
+app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
   $scope.user = {
     id: ''
     name: ''
@@ -11,21 +11,21 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) =>
 
   $scope.validators = {
     password_confirm:
-      confirm: (modelValue,  viewValue) =>
+      confirm: (modelValue,  viewValue) ->
         user = $scope.user || {}
         val = modelValue || viewValue
         user.password is val
   }
 
-  $scope.hide = =>
+  $scope.hide = ->
     $mdDialog.hide()
 
-  $scope.cancel = =>
+  $scope.cancel = ->
     $mdDialog.cancel()
 
-  $scope.submit = =>
+  $scope.submit = ->
     user = userService.save()
-    aa = user.save $scope.user, (successResult) =>
+    aa = user.save $scope.user, (successResult) ->
       console.log aa
-    , (errorResult) =>
+    , (errorResult) ->
       console.log errorResult

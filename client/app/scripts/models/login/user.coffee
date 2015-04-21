@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.factory 'userModel', =>
+app.factory 'userModel', ->
   return {
     id: ''
     name: ''
