@@ -1,16 +1,16 @@
 app = angular.module 'alter'
 
-app.factory 'userService', ($resource) =>
+app.factory 'userService', ($resource) ->
   user = {}
 
-  user.login =  =>
+  user.login =  ->
     url = '/api/users/login'
     defaultParams = {}
     actions = {}
 
     $resource url, defaultParams, actions
 
-  user.save =  =>
+  user.save =  ->
     url = '/api/users'
     defaultParams = {}
     actions = {}

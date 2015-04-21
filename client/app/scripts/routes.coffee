@@ -3,7 +3,7 @@ app = angular.module 'alter'
 ###
 アプリケーション内でのルーティング設定
 ###
-app.config ($stateProvider, $urlRouterProvider) =>
+app.config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise '/login'
   $stateProvider.state 'login',
       url: "/login"

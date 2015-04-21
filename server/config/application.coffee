@@ -20,12 +20,12 @@ ectRenderer = ECT {
 # カスタムバリデーション定義
 customValidators = {
   # 半角英数字と記号
-  isAlphaNumericSymbol: (value) =>
+  isAlphaNumericSymbol: (value) ->
     pattern = new RegExp "^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$"
     pattern.test value
 }
 
-module.exports = (app) =>
+module.exports = (app) ->
   env = config.env
 
   app.set 'env', env

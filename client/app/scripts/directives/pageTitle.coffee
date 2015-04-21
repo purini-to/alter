@@ -3,16 +3,16 @@ app = angular.module 'alter'
 ###
 ページごとのタイトルを設定するディレクティブ
 ###
-app.directive 'pageTitle', ($rootScope, $translate) =>
+app.directive 'pageTitle', ($rootScope, $translate) ->
     return {
       restrict: 'A'
-      link : (scope, element) =>
-        listener = (event,  toState,  toParams,  fromState,  fromParams) =>
-          setAppName = (translateValue) =>
+      link : (scope, element) ->
+        listener = (event,  toState,  toParams,  fromState,  fromParams) ->
+          setAppName = (translateValue) ->
             element.text translateValue
           $translate('NAME').then(setAppName)
           if toState.title?
-            setPageTitle = (translateValue) =>
+            setPageTitle = (translateValue) ->
               element.text "#{translateValue} | #{element.text()}"
             $translate(toState.title).then(setPageTitle)
 
