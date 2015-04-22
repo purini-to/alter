@@ -7,7 +7,8 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
     email: ''
     password: ''
   }
-  $scope.isSuccess = false
+  $scope.isExist = false
+  $scope.errMsg = ''
 
   $scope.validators = {
     password_confirm:
@@ -15,7 +16,14 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
         user = $scope.user || {}
         val = modelValue || viewValue
         user.password is val
+    id_exist:
+      exist: (modelValue, viewValue) ->
+        val = modelValue || viewValue
+        $scope.isExist = if $scope.user.id is val then $scope.isExist else false
+        !$scope.isExist
   }
+  $scope.$watch 'isExist', ->
+    $scope.newAccountForm.id.$validate()
 
   $scope.hide = ->
     $mdDialog.hide()
@@ -32,4 +40,11 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
         targetEvent: ev 
       })
     , (errorResult) ->
-      console.log errorResult
+      code = errorResult.status
+      id = errorResult.data.id
+      if code is 400 and id?
+        $scope.errMsg = id.msg
+        $scope.isExist = true
+      else
+        console.log errorResult
+        alert "エラーが発生しました\n管理者に問い合わせてください"

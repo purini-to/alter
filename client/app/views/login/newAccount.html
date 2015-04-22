@@ -8,12 +8,13 @@
         <div layout layout-sm="column">
           <md-input-container flex>
             <label>{{'LOGIN.ACCOUNT.INPUT.ID.LABEL' | translate}}</label>
-            <input ng-model="user.id" type="text" name="id" required maxlength="15" minlength="5" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/">
+            <input ng-model="user.id" type="text" name="id" required maxlength="15" minlength="5" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/" app-validators="validators.id_exist">
             <div ng-messages="newAccountForm.id.$error">
               <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
               <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.15' | translate}}</div>
               <div ng-message="minlength">{{'VALIDATION.MINLENGTH.5' | translate}}</div>
               <div ng-message="pattern">{{'VALIDATION.INVALID.ALPHANUMSYM' | translate}}</div>
+              <div ng-message="exist">{{ errMsg }}</div>
             </div>
           </md-input-container>
           <md-input-container flex>
