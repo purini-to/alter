@@ -7,7 +7,7 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
     email: ''
     password: ''
   }
-  $scope.conf = ''
+  $scope.isSuccess = false
 
   $scope.validators = {
     password_confirm:
@@ -23,9 +23,13 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
   $scope.cancel = ->
     $mdDialog.cancel()
 
-  $scope.submit = ->
+  $scope.submit = (ev) ->
     user = userService.save()
-    aa = user.save $scope.user, (successResult) ->
-      console.log aa
+    user.save $scope.user, (successResult) ->
+      $mdDialog.show({
+        controller: "newAccountSuccessCtrl"
+        templateUrl: 'views/login/newAccountSuccess.html'
+        targetEvent: ev 
+      })
     , (errorResult) ->
       console.log errorResult
