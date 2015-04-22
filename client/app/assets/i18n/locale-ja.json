@@ -29,7 +29,10 @@
       "TITLE": "アカウント新規登録",
       "INPUT": {
         "ID": {
-          "LABEL": "アカウント名"
+          "LABEL": "アカウント名", 
+          "VALIDATION": {
+            "EXIST": "既に使用されています"
+          }
         },
         "NAME": {
           "LABEL": "表示名"
