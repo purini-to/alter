@@ -8,7 +8,6 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
     password: ''
   }
   $scope.isExist = false
-  $scope.errMsg = ''
 
   $scope.validators = {
     password_confirm:
@@ -43,7 +42,6 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
       code = errorResult.status
       id = errorResult.data.id
       if code is 400 and id?
-        $scope.errMsg = id.msg
         $scope.isExist = true
       else
         console.log errorResult
