@@ -8,11 +8,11 @@
         <div style="margin: 20px;">
             <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate>
                 <md-input-container>
-                    <label>{{'LOGIN.LABEL.ID' | translate}}</label>
+                    <label>{{'LOGIN.INPUT.ID.LABEL' | translate}}</label>
                     <input ng-model="user.id" type="text" name="id" required maxlength="15">
                 </md-input-container>
                 <md-input-container>
-                    <label>{{'LOGIN.LABEL.PASSWORD' | translate}}</label>
+                    <label>{{'LOGIN.INPUT.PASSWORD.LABEL' | translate}}</label>
                     <input ng-model="user.password" type="password" name="password" required maxlength="20">
                 </md-input-container>
                 <div layout layout-align="end center">
