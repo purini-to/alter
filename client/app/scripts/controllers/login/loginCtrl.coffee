@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'loginCtrl', ($scope, $mdDialog, userService, userModel) ->
+app.controller 'loginCtrl', ($scope, $state, $mdDialog, userService, userModel) ->
   $scope.user = {
     id: ''
     password: ''
@@ -18,8 +18,8 @@ app.controller 'loginCtrl', ($scope, $mdDialog, userService, userModel) ->
 
   $scope.submit = ->
     user = userService.login()
-    aa = user.save $scope.user, (successResult) ->
-      console.log aa
+    user.save $scope.user, (successResult) ->
+      $state.go 'room'
     , (errorResult) ->
       code = errorResult.status
       global = errorResult.data.global
