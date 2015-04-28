@@ -16,7 +16,7 @@ app.directive 'pageTitle', ($rootScope, $translate, $state) ->
     restrict: 'A'
     link : (scope, element) ->
       listener = (event,  toState,  toParams,  fromState,  fromParams) ->
-        parentsState = getParentsState toState.name
+        parentsState = getParentsState()
         setAppName = (translateValue) ->
           element.text translateValue
         $translate('NAME').then(setAppName)
