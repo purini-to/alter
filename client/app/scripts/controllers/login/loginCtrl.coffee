@@ -19,7 +19,7 @@ app.controller 'loginCtrl', ($scope, $state, $mdDialog, userService, userModel) 
   $scope.submit = ->
     user = userService.login()
     user.save $scope.user, (successResult) ->
-      $state.go 'room'
+      $state.go 'chat.room'
     , (errorResult) ->
       code = errorResult.status
       global = errorResult.data.global
