@@ -6,8 +6,7 @@ app = angular.module 'alter'
 app.directive 'myTopNav', ($rootScope, $translate) ->
   return {
     restrict: 'E'
-    templateUrl:'views/directives/top-nav.tpl.html'
-    replace: true
+    templateUrl:'views/directives/topNav.html'
     transclude: true
     controller:'topNavCtrl'
     controllerAs:'vm'

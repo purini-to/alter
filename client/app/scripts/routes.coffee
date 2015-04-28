@@ -10,8 +10,8 @@ app.config ($stateProvider, $urlRouterProvider) ->
       templateUrl: "views/login/login.html"
       controller: "loginCtrl"
       title: "LOGIN.TITLE"
-  .state 'room',
+  .state 'chat',
+      templateUrl: "views/main.html"
+  .state 'chat.room',
       url: "/chat/room"
       templateUrl: "views/chat/room.html"
-      # controller: "loginCtrl"
-      title: "LOGIN.TITLE"
