@@ -17,6 +17,7 @@
     "angular-translate-storage-local": "~2.6.1",
     "angular-translate-loader-static-files": "~2.6.1",
     "angular-translate-handler-log": "~2.6.1",
-    "angular-loading-bar": "~0.7.1"
+    "angular-loading-bar": "~0.7.1",
+    "angular-hero": "~0.0.5"
   }
 }
