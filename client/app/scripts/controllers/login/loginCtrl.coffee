@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'loginCtrl', ($scope, $state, $mdDialog, userService, userModel) ->
+app.controller 'loginCtrl', ($rootScope, $scope, $state, $mdDialog, AUTH_EVENTS, userService, sessionService) ->
   $scope.user = {
     id: ''
     password: ''
@@ -19,6 +19,8 @@ app.controller 'loginCtrl', ($scope, $state, $mdDialog, userService, userModel) 
   $scope.submit = ->
     user = userService.login()
     user.save $scope.user, (successResult) ->
+      sessionService.create successResult
+      $rootScope.$broadcast AUTH_EVENTS.loginSuccess
       $state.go 'chat.room'
     , (errorResult) ->
       code = errorResult.status

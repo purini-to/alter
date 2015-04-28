@@ -17,3 +17,4 @@ app.config ($stateProvider, $urlRouterProvider) ->
       url: "/chat/room"
       templateUrl: "views/chat/room.html"
       title: "CHAT.ROOM.TITLE"
+      auth: true
