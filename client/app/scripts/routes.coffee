@@ -12,6 +12,8 @@ app.config ($stateProvider, $urlRouterProvider) ->
       title: "LOGIN.TITLE"
   .state 'chat',
       templateUrl: "views/main.html"
+      title: "CHAT.TITLE"
   .state 'chat.room',
       url: "/chat/room"
       templateUrl: "views/chat/room.html"
+      title: "CHAT.ROOM.TITLE"
