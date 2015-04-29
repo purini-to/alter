@@ -3,20 +3,19 @@ app = angular.module 'alter'
 app.factory 'sessionService', ($cookieStore, userModel) ->
   session = {}
   sessionData = {
-    user:
-      id: ''
+    token: ''
   }
 
-  session.create = (user) ->
-    sessionData.user.id = user._id
+  session.create = (token, user) ->
+    sessionData.token = token
     userModel.set user._id, user.id, user.name, user.email
-    $cookieStore.put 'user', sessionData.user
+    $cookieStore.put 'token', sessionData.token
     session
 
   session.destroy = ->
     sessionData.id = null
     userModel.set '', '', '', ''
-    $cookieStore.remove 'user'
+    $cookieStore.remove 'token'
     session
 
   session.get = (name) ->
