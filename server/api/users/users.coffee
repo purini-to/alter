@@ -6,6 +6,7 @@
 errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
 User = mongoose.model 'User'
+SessionToken = mongoose.model 'SessionToken'
 
 ###
 ログイン認証API
@@ -25,15 +26,34 @@ login = (req, res, next) ->
       password: req.body.password
     }
   }
+  resultUser = null
+  resultToken = null
+  tokenCreate = (user) ->
+    SessionToken.load user
+      .then (token) ->
+        if !token?
+          token = new SessionToken({user: userInfo})
+        resultToken = SessionToken.token()
+        token.token = resultToken
+        token.save()
+
   User.load options
     .then (user) ->
       if user?
-        res.send user
+        resultUser = user
+        user = tokenCreate user
       else
         errData = errUtil.addError 'global', 'アカウント名またはパスワードが間違ってます'
         res.status 401
         res.send errData
       user
+    .then ->
+      if res.finished is false
+        resData = {
+          token: resultToken
+          user: resultUser
+        }
+        res.send resData
     .onReject (error) ->
       console.log error
       next error
