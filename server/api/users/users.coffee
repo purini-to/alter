@@ -25,14 +25,18 @@ login = (req, res, next) ->
       password: req.body.password
     }
   }
-  User.load options, (err, user) ->
-    if err?
-      return next err
-    if !user?
-      errData = errUtil.addError 'global', 'アカウント名またはパスワードが間違ってます'
-      res.status 401
-      return res.send errData
-    res.send user
+  User.load options
+    .then (user) ->
+      if user?
+        res.send user
+      else
+        errData = errUtil.addError 'global', 'アカウント名またはパスワードが間違ってます'
+        res.status 401
+        res.send errData
+      user
+    .onReject (error) ->
+      console.log error
+      next error
 
 ###
 アカウント新規登録API
@@ -48,22 +52,25 @@ save = (req, res, next) ->
     res.status 400
     return res.send errors
 
-  User.load {criteria: {id: req.body.id}}, (err, user) ->
-    if err?
-      return next err
-    if user?
-      res.status 400
-      errData = errUtil.addError 'id', '既に使用されています', 'id', req.body.id
-      return res.send errData
-    user = new User req.body
-    user.save (err) ->
-      if err?
-        res.send err
-
-      resData = {
-        result: 'SUCCESS'
-      }
-      res.send resData
+  User.load {criteria: {id: req.body.id}}
+    .then (user) ->
+      if user?
+        res.status 400
+        errData = errUtil.addError 'id', '既に使用されています', 'id', req.body.id
+        res.send errData
+      else
+        user = new User(req.body).save()
+      user
+    .then (user) ->
+      if res.finished is false
+        resData = {
+          result: 'SUCCESS'
+        }
+        res.send resData
+      user
+    .onReject (error) ->
+      console.log error
+      next error
 
 module.exports = {
   login: login
