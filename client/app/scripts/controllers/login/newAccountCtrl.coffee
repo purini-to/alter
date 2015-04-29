@@ -31,18 +31,18 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
     $mdDialog.cancel()
 
   $scope.submit = (ev) ->
-    user = userService.save()
-    user.save $scope.user, (successResult) ->
-      $mdDialog.show({
-        controller: "newAccountSuccessCtrl"
-        templateUrl: 'views/login/newAccountSuccess.html'
-        targetEvent: ev 
-      })
-    , (errorResult) ->
-      code = errorResult.status
-      id = errorResult.data.id
-      if code is 400 and id?
-        $scope.isExist = true
-      else
-        console.log errorResult
-        alert "エラーが発生しました\n管理者に問い合わせてください"
+    userService.save $scope.user
+      .then (result) ->
+        $mdDialog.show({
+          controller: "newAccountSuccessCtrl"
+          templateUrl: 'views/login/newAccountSuccess.html'
+          targetEvent: ev 
+        })
+      .catch (error) ->
+        code = error.status
+        id = error.data.id
+        if code is 400 and id?
+          $scope.isExist = true
+        else
+          console.log error
+          alert "エラーが発生しました\n管理者に問い合わせてください"
