@@ -27,12 +27,11 @@ UserSchema = new Schema({
   }
 })
 
-load = (options, cb) ->
+load = (options) ->
   options.select = options.select || 'id name email'
   this.findOne(options.criteria)
     .select(options.select)
-    .exec(cb)
-  
+    .exec()
 
 UserSchema.statics = {
   load: load
