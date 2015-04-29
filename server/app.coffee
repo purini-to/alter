@@ -32,19 +32,15 @@ app.use (req, res, next) ->
 # will print stacktrace
 if app.get('env') is 'development'
   app.use (err, req, res, next) ->
-    res.status err.status || 500
-    res.send 'error', {
-      message: err.message
-      error: err
-    }
+    status = if err.status? then err.status else 500
+    res.status status
+    res.send err
 
 # production error handler
 # no stacktraces leaked to user
 app.use (err, req, res, next) ->
-  res.status err.status || 500
-  res.send 'error', {
-    message: err.message
-    error: {}
-  }
+  status = if err.status? then err.status else 500
+  res.status status
+  res.send 'Internal Server Error'
 
 module.exports = app
