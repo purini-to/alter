@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.factory 'userService', ($resource, sessionService, userModel) ->
+app.factory 'userService', ($resource, $state, sessionService, userModel) ->
   user = {}
 
   user.login =  (user) ->
@@ -26,8 +26,31 @@ app.factory 'userService', ($resource, sessionService, userModel) ->
       .save user
       .$promise
 
+  user.loadByToken = (token) ->
+    url = '/api/users/token'
+    defaultParams = {}
+    actions = {}
+
+    $resource url, defaultParams, actions
+      .save {token: token}
+      .$promise
+      .then (user) ->
+        if user?
+          sessionService.create token, user
+        else
+          sessionService.destroy()
+          $state.go 'login'
+        user
+      .catch (err) ->
+        console.log err
+        sessionService.destroy()
+        $state.go 'login'
+
   user.isLogged = ->
     token = sessionService.get 'token'
-    token?.trim() isnt ''
+    logged = token?
+    if logged is true and userModel.user._id.trim() is ''
+      user.loadByToken token
+    logged
 
   user

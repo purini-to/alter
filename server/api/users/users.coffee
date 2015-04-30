@@ -29,7 +29,7 @@ login = (req, res, next) ->
   resultUser = null
   resultToken = null
   tokenCreate = (user) ->
-    SessionToken.load user
+    SessionToken.load {user: user}
       .then (token) ->
         if !token?
           token = new SessionToken({user: resultUser})
@@ -54,6 +54,29 @@ login = (req, res, next) ->
           user: resultUser
         }
         res.send resData
+    .onReject (error) ->
+      console.log error
+      next error
+
+###
+# アクセストークンからユーザー情報を取得する
+###
+getUserByToken = (req, res, next) ->
+  req.checkBody('token',  '無効なアクセストークンです').notEmpty().isLength(36, 36)
+  errors = req.validationErrors(true)
+  if errors?
+    res.status 401
+    return res.send errors
+
+  SessionToken.load {token: req.body.token}
+    .then (token) ->
+      if token?
+        res.send token.user
+      else
+        errData = errUtil.addError 'token', '無効なアクセストークンです'
+        res.status 401
+        res.send errData
+      token
     .onReject (error) ->
       console.log error
       next error
@@ -94,5 +117,6 @@ save = (req, res, next) ->
 
 module.exports = {
   login: login
+  getUserByToken: getUserByToken
   save: save
 }

@@ -15,15 +15,16 @@ SessionTokenSchema = new Schema({
   }
   token: {
     type: String
+    unique: true
   }
   expire: {
     type: Date
   }
 })
 
-load = (user) ->
-  this.findOne {user: user}
-    .select 'token'
+load = (criteria) ->
+  this.findOne criteria
+    .select 'token user'
     .populate 'user', 'id name email'
     .exec()
 
