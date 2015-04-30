@@ -15,4 +15,6 @@ app.factory 'userModel', ->
     user.name = name
     user.email = email
 
+  service.user = user
+
   service

@@ -9,5 +9,7 @@ module.exports = (app) ->
 
   # ログインAPI
   app.route('/api/users/login').post(api.users.users.login)
+  # ユーザー情報取得(トークン)API
+  app.route('/api/users/token').post(api.users.users.getUserByToken)
   # アカウント新規登録API
   app.route('/api/users').post(api.users.users.save)
