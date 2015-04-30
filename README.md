@@ -5,7 +5,6 @@
 ## 依存関係
 - Node.js
 - MongoDB
-- AngularJS
 
 ## 環境構築
 ### Vagrant使用の場合(おすすめ)
@@ -18,7 +17,7 @@ vagrant up
 Provisionが動作して、「MEAN stack」の環境が整う
 
 ### 既存サーバーにインストールする
-CentOS 6.6(64bit)の例です
+CentOS 6.6(64bit)の例です  
 **Node.js**のインストール
 ```
 rpm -ivh http://ftp.riken.jp/Linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -36,11 +35,11 @@ _EOT_
 yum install -y mongo-10gen mongo-10gen-server
 service mongod start
 ```
-npmを使用して各種ライブラリをインストール
+**NPM**を使用して各種ライブラリをインストール
 ```
 npm install -g express-generator
 npm install -g gulp
-npm install bower -g
+npm install -g bower 
 ```
 
 ## 実行方法
