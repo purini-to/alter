@@ -1,7 +1,7 @@
 <md-button type="button" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
     <ng-md-icon icon="add" style="fill: white" size="30"></ng-md-icon>
 </md-button>
-<div class="content anim-bottom2up" animate>
+<div class="content anim-bottom2up" animate flex>
     <h2 ng-if="rooms.length === 0">ルームが存在しません</h2>
     <md-list ng-if="rooms.length > 0">
         <md-subheader class="md-no-sticky">{{rooms.length}}ルーム存在します</md-subheader>
