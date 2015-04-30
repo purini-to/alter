@@ -22,6 +22,9 @@ positions(pos=absolute, top=0, right=0, bottom=0, left=0)
 .page-animation.ng-enter.ng-enter-active
   opacity 1
 
+.auto.anim-pop
+  animation pop 700ms ease
+
 .anim-pop.ng-hide-add,
 .anim-pop.ng-hide-remove
   transition all linear 0.3s
@@ -35,3 +38,29 @@ positions(pos=absolute, top=0, right=0, bottom=0, left=0)
 .anim-pop.ng-hide-add
   transform scale(1)
   opacity 1
+
+.auto.anim-top2down
+  animation top2down 300ms ease
+
+.auto.anim-bottom2up
+  animation bottom2up 0ms ease
+
+@keyframes pop
+  0%
+    transform scale(0.3)
+    opacity 0.5
+  100%
+    transform scale(1)
+    opacity 1
+
+@keyframes top2down
+  0%
+    transform translate(0px, -100px)
+  100%
+    transform translate(0px, 0px)
+
+@keyframes bottom2up
+  0%
+    transform translate(0px, 500px)
+  100%
+    transform translate(0px, 0px)
