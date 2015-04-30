@@ -14,3 +14,5 @@ app.config ($mdThemingProvider) ->
     .accentPalette 'teal', {
       'default': 'A400'
     }
+    .warnPalette 'pink'
+    .backgroundPalette 'grey'
