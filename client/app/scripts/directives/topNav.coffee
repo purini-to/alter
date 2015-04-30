@@ -9,11 +9,9 @@ app.directive 'myTopNav', ($rootScope, $translate) ->
     templateUrl:'views/directives/topNav.html'
     transclude: true
     controller:'topNavCtrl'
-    controllerAs:'vm'
     scope:{}
   }
 
-app.controller 'topNavCtrl', ->
-  vm = this
-
-  vm.collased = true
+app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav) ->
+  $rootScope.sideNavToggle = ->
+    $mdSidenav('siteNav').toggle()
