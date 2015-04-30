@@ -1,17 +1,9 @@
 <my-top-nav layout class="site-side-nav">
-    <ul>
-        <li>テストメニュー１</li>
-        <li>テストメニュー２</li>
-        <li>テストメニュー３</li>
-        <li>テストメニュー４</li>
-        <li>テストメニュー５</li>
-        <li>テストメニュー６</li>
-    </ul>
 </my-top-nav>
 <div layout="column" flex>
   <md-toolbar>
     <div class="md-toolbar-tools">
-      <md-button class="md-icon-button menu-button" hide-gt-md aria-label="Toggle Menu">
+      <md-button ng-click="sideNavToggle()" class="md-icon-button menu-button" hide-gt-md aria-label="Toggle Menu">
         <ng-md-icon icon="menu" style="fill: white" size="30"></ng-md-icon>
       </md-button>
       <h2>
@@ -19,5 +11,5 @@
       </h2>
     </div>
   </md-toolbar>
-  <section ui-view layout-padding flex></section>
+  <section ui-view flex></section>
 </div>
