@@ -1,7 +1,7 @@
-<my-top-nav layout class="site-side-nav auto anim-top2down">
+<my-top-nav layout class="site-side-nav">
 </my-top-nav>
 <div layout="column" flex>
-  <md-toolbar class="auto anim-top2down">
+  <md-toolbar class="anim-top2down" animate>
     <div class="md-toolbar-tools">
       <md-button ng-click="sideNavToggle()" class="md-icon-button menu-button" hide-gt-md aria-label="SideNav">
         <ng-md-icon icon="menu" style="fill: white" size="30"></ng-md-icon>
@@ -12,5 +12,5 @@
       <span flex></span>
     </div>
   </md-toolbar>
-  <md-content class="auto bottom2up" ui-view layout-padding flex></md-content>
+  <section ui-view flex></section>
 </div>
