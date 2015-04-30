@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.factory 'userModel', ->
+app.factory 'userModel', () ->
   service = {}
   user = {
     _id: ''
@@ -9,7 +9,7 @@ app.factory 'userModel', ->
     email: ''
   }
 
-  service.set = (_id, id, name, email = '') ->
+  service.set = (_id, id = '', name = '', email = '') ->
     user._id = _id
     user.id = id
     user.name = name

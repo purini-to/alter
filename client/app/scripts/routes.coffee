@@ -16,5 +16,10 @@ app.config ($stateProvider, $urlRouterProvider) ->
   .state 'chat.room',
       url: "/chat/room"
       templateUrl: "views/chat/room.html"
+      controller: "roomCtrl"
+      resolve: {
+        rooms: (roomService) ->
+          roomService.get()
+      }
       title: "CHAT.ROOM.TITLE"
       auth: true
