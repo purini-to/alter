@@ -1,15 +1,17 @@
-<md-button type="button" class="md-fab main-content-fab auto anim-pop" aria-label="addRoom">
-  <ng-md-icon icon="add" style="fill: white" size="30"></ng-md-icon>
+<md-button type="button" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
+    <ng-md-icon icon="add" style="fill: white" size="30"></ng-md-icon>
 </md-button>
-<h2 ng-if="rooms.length === 0">ルームが存在しません</h2>
-<md-list ng-if="rooms.length > 0">
-  <md-subheader class="md-no-sticky">{{rooms.length}}ルーム存在します</md-subheader>
-  <!-- <md-divider ></md-divider> -->
-  <md-list-item ng-repeat="room in rooms" class="md-2-line">
-    <div class="md-list-item-text">
-      <h3>{{room.name}}</h3>
-      <p>{{room.description}}</p>
-    </div>
-  </md-list-item>
-  <!-- <md-divider ></md-divider> -->
-</md-list>
+<div class="content anim-bottom2up" animate>
+    <h2 ng-if="rooms.length === 0">ルームが存在しません</h2>
+    <md-list ng-if="rooms.length > 0">
+        <md-subheader class="md-no-sticky">{{rooms.length}}ルーム存在します</md-subheader>
+        <!-- <md-divider ></md-divider> -->
+        <md-list-item ng-repeat="room in rooms" class="md-2-line">
+            <div class="md-list-item-text">
+                <h3>{{room.name}}</h3>
+                <p>{{room.description}}</p>
+            </div>
+        </md-list-item>
+        <!-- <md-divider ></md-divider> -->
+    </md-list>
+</div>
