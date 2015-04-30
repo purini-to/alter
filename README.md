@@ -54,3 +54,7 @@ npm install
 bower install
 gulp
 ```
+ローカルホスト(または、サーバーのホスト)の3000ポートにアクセス
+```
+http://localhost:3000
+```
