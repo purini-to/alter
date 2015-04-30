@@ -13,3 +13,8 @@ module.exports = (app) ->
   app.route('/api/users/token').post(api.users.users.getUserByToken)
   # アカウント新規登録API
   app.route('/api/users').post(api.users.users.save)
+
+  # ルーム取得(一覧)API
+  app.route('/api/chat/rooms').get(api.chat.rooms.getList)
+  # ルーム取得(ID指定)API
+  # app.route('/api/chat/rooms/:roomId').get(api.users.users.save)

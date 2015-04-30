@@ -50,6 +50,7 @@ app.factory 'userService', ($resource, $state, sessionService, userModel) ->
     token = sessionService.get 'token'
     logged = token?
     if logged is true and userModel.user._id.trim() is ''
+      userModel.set sessionService.get 'userId'
       user.loadByToken token
     logged
 
