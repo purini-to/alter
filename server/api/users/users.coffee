@@ -32,7 +32,7 @@ login = (req, res, next) ->
     SessionToken.load user
       .then (token) ->
         if !token?
-          token = new SessionToken({user: userInfo})
+          token = new SessionToken({user: resultUser})
         resultToken = SessionToken.token()
         token.token = resultToken
         token.save()
