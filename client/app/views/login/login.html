@@ -1,12 +1,11 @@
-<md-content layout="column" layout-align="center center" layout-fill class="bg-none">
-  <md-card class="card card-login">
+<md-content layout="column" layout-align-gt-sm="center center" class="bg-none" flex>
+  <md-card class="card card-login m0" flex-sm>
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2 flex="100" class="tac">{{'LOGIN.TITLE' | translate}}</h2>
       </div>
     </md-toolbar>
-    <div style="margin: 20px;">
-      <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate>
+      <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate layout="column" layout-margin flex>
         <md-input-container>
           <label>{{'LOGIN.INPUT.ID.LABEL' | translate}}</label>
           <input ng-model="user.id" type="text" name="id" required maxlength="15">
@@ -18,14 +17,13 @@
             <div ng-message="failledAuth">{{'LOGIN.INPUT.PASSWORD.VALIDATION.FAILLED_AUTH' | translate}}</div>
           </div>
         </md-input-container>
-        <div layout layout-align="end center">
+        <div flex layout="column" layout-align="end end">
           <md-button ng-show="loginForm.$valid" type="submit" class="md-fab anim-pop" aria-label="login">
             <ng-md-icon icon="input" style="fill: white" size="30"></ng-md-icon>
           </md-button>
         </div>
       </form>
-    </div>
   </md-card>
 
-  <md-button ng-click="showNewAccountDialog($event)" class="md-accent">{{ 'LOGIN.ACCOUNT.ACTION' | translate }}</md-button>
+  <md-button ng-click="showNewAccountDialog($event)" class="md-accent md-hue-3">{{ 'LOGIN.ACCOUNT.ACTION' | translate }}</md-button>
 </md-content>
