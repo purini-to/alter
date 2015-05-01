@@ -9,7 +9,7 @@ app.config ($mdThemingProvider) ->
       'default': '700'
       'hue-1': '300'
       'hue-2': '900'
-      'hue-3': '200'
+      'hue-3': '50'
     }
     .accentPalette 'teal', {
       'default': 'A400'

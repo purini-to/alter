@@ -1,0 +1,62 @@
+<md-dialog aria-label="{{ 'LOGIN.ACCOUNT.TITLE' | translate }}">
+  <md-subheader class="md-sticky-no-effect tac">
+    {{ 'LOGIN.ACCOUNT.TITLE' | translate }}
+  </md-subheader>
+  <md-content layout="row" layout-sm="column" layout-fill>
+    <div class="dialog-container">
+      <form ng-submit="newAccountForm.$invalid ? null : submit()" name="newAccountForm" novalidate>
+        <div layout layout-sm="column">
+          <md-input-container flex>
+            <label>{{'LOGIN.ACCOUNT.INPUT.ID.LABEL' | translate}}</label>
+            <input ng-model="user.id" type="text" name="id" required maxlength="15" minlength="5" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/" app-validators="validators.id_exist">
+            <div ng-messages="newAccountForm.id.$error">
+              <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
+              <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.15' | translate}}</div>
+              <div ng-message="minlength">{{'VALIDATION.MINLENGTH.5' | translate}}</div>
+              <div ng-message="pattern">{{'VALIDATION.INVALID.ALPHANUMSYM' | translate}}</div>
+              <div ng-message="exist">{{'LOGIN.ACCOUNT.INPUT.ID.VALIDATION.EXIST' | translate}}</div>
+            </div>
+          </md-input-container>
+          <md-input-container flex>
+            <label>{{'LOGIN.ACCOUNT.INPUT.NAME.LABEL' | translate}}</label>
+            <input ng-model="user.name" type="text" name="name" required maxlength="12">
+            <div ng-messages="newAccountForm.name.$error">
+              <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
+              <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.12' | translate}}</div>
+            </div>
+          </md-input-container>
+        </div>
+        <md-input-container flex>
+          <label>{{'LOGIN.ACCOUNT.INPUT.PASSWORD.LABEL' | translate}}</label>
+          <input ng-model="user.password" type="password" name="password" required maxlength="20" minlength="6" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/">
+          <div ng-messages="newAccountForm.password.$error">
+            <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
+            <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.20' | translate}}</div>
+            <div ng-message="minlength">{{'VALIDATION.MINLENGTH.6' | translate}}</div>
+            <div ng-message="pattern">{{'VALIDATION.INVALID.ALPHANUMSYM' | translate}}</div>
+          </div>
+        </md-input-container>
+        <md-input-container flex>
+          <label>{{'LOGIN.ACCOUNT.INPUT.CONF.LABEL' | translate}}</label>
+          <input ng-model="conf" type="password" name="conf" required app-validators="validators.password_confirm">
+          <div ng-messages="newAccountForm.conf.$error">
+            <div ng-message="confirm">{{'LOGIN.ACCOUNT.INPUT.CONF.VALIDATION.INVALID' | translate}}</div>
+          </div>
+        </md-input-container>
+        <md-input-container flex>
+          <label>{{'LOGIN.ACCOUNT.INPUT.EMAIL.LABEL' | translate}}</label>
+          <input ng-model="user.email" type="email" name="email" maxlength="50">
+          <div ng-messages="newAccountForm.email.$error">
+            <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.50' | translate}}</div>
+            <div ng-message="email">{{'VALIDATION.INVALID.EMAIL' | translate}}</div>
+          </div>
+        </md-input-container>
+        <div layout layout-align="end center" class="fab-box-2x">
+          <md-button ng-show="newAccountForm.$valid" type="submit" class="md-fab anim-pop ng-hide" aria-label="regist">
+            <ng-md-icon icon="done" style="fill: white" size="30"></ng-md-icon>
+          </md-button>
+        </div>
+      </form>
+    </div>
+  </md-content>
+</md-dialog>
