@@ -11,11 +11,11 @@
     <md-card class="card" style="margin: 0px;">
       <md-card-content>
         <div ng-if="rooms.length === 0">
-          <h3 class="md-no-sticky">ルームが存在しません</h3>
+          <h3>ルームが存在しません</h3>
           <p>新規ルームを作成してください</p>
         </div>
         <div ng-if="rooms.length > 0">
-          <h3 class="md-no-sticky">{{rooms.length}}ルーム存在します</h3>
+          <h3>{{rooms.length}}ルーム存在します</h3>
           <md-list>
             <md-list-item ng-repeat="room in rooms" class="md-2-line">
               <div class="md-list-item-text">
