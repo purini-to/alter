@@ -19,6 +19,7 @@
     "angular-translate-handler-log": "~2.6.1",
     "angular-loading-bar": "~0.7.1",
     "angular-hero": "~0.0.5",
-    "angular-material-icons": "~0.4.0"
+    "angular-material-icons": "~0.4.0",
+    "svg-morpheus": "~0.1.8"
   }
 }

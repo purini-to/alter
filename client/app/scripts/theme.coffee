@@ -6,10 +6,10 @@ app = angular.module 'alter'
 app.config ($mdThemingProvider) ->
   $mdThemingProvider.theme 'default'
     .primaryPalette 'blue-grey', {
-      'default': '700'
+      'default': '800'
       'hue-1': '300'
       'hue-2': '900'
-      'hue-3': '50'
+      'hue-3': '700'
     }
     .accentPalette 'teal', {
       'default': 'A400'

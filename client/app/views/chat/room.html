@@ -1,70 +1,18 @@
 <md-button type="button" ng-click="showNewRoomDialog($event)" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
   <ng-md-icon icon="add" style="fill: white" size="30"></ng-md-icon>
 </md-button>
-<!-- <md-content class="content" flex> -->
-<div class="content" layout="column" flex>
+<md-content layout="column" flex>
   <md-toolbar class="md-hue-3">
     <div class="md-toolbar-tools">
       <h2>ルーム一覧</h2>
     </div>
   </md-toolbar>
-  <div style="overflow-y: auto;" layout-align="center" flex>
-    <md-card class="card" flex-md style="width: 540px; margin: auto;">
+  <div class="main-content">
+    <md-card class="card" style="margin: 0px;">
       <md-card-content>
         <div ng-if="rooms.length === 0">
           <h3 class="md-no-sticky">ルームが存在しません</h3>
           <p>新規ルームを作成してください</p>
-          <md-list>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-            <md-divider ></md-divider>
-            <md-list-item class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>aaaa</h3>
-                <p>fawefweafwe</p>
-              </div>
-            </md-list-item>
-          </md-list>
         </div>
         <div ng-if="rooms.length > 0">
           <h3 class="md-no-sticky">{{rooms.length}}ルーム存在します</h3>
@@ -80,6 +28,4 @@
       </md-card-content>
     </md-card>
   </div>
-  </div>
-  <!-- </md-content> -->
-</div>
+</md-content>
