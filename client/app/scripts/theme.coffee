@@ -8,7 +8,7 @@ app.config ($mdThemingProvider) ->
     .primaryPalette 'blue-grey', {
       'default': '800'
       'hue-1': '300'
-      'hue-2': '900'
+      'hue-2': '500'
       'hue-3': '700'
     }
     .accentPalette 'teal', {
