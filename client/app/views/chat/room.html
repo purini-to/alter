@@ -1,5 +1,5 @@
 <md-button type="button" ng-click="showNewRoomDialog($event)" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
-  <ng-md-icon icon="add" style="fill: white" size="30"></ng-md-icon>
+  <ng-md-icon icon="add" style="fill: white" class="size-42" size="42"></ng-md-icon>
 </md-button>
 <md-content layout="column" flex>
   <md-toolbar class="md-hue-3">
@@ -7,25 +7,28 @@
       <h2>ルーム一覧</h2>
     </div>
   </md-toolbar>
-  <div class="main-content">
-    <md-card class="card" style="margin: 0px;">
-      <md-card-content>
-        <div ng-if="rooms.length === 0">
-          <h3>ルームが存在しません</h3>
-          <p>新規ルームを作成してください</p>
-        </div>
-        <div ng-if="rooms.length > 0">
-          <h3>{{rooms.length}}ルーム存在します</h3>
-          <md-list>
-            <md-list-item ng-repeat="room in rooms" class="md-2-line">
-              <div class="md-list-item-text">
-                <h3>{{room.name}}</h3>
-                <p>{{room.description}}</p>
-              </div>
-            </md-list-item>
-          </md-list>
-        </div>
-      </md-card-content>
-    </md-card>
-  </div>
+  <md-content class="main-content">
+    <div ng-if="rooms.length === 0">
+      <h3 class="title">ルームが存在しません</h3>
+      <p>新規ルームを作成してください</p>
+    </div>
+    <div ng-if="rooms.length > 0">
+      <h3 class="title">{{rooms.length}}ルーム見つかりました</h3>
+      <md-subheader class="md-primary">入室するルームを選択してください</md-subheader>
+    </div>
+    <section class="container">
+      <md-list>
+        <md-list-item ng-repeat="room in rooms" class="md-3-line" ng-click="showDetailRoom($event)">
+          <div class="anim-right2left" animate>
+            <div class="md-list-item-text" style="position: relative">
+              <h3>{{room.name}}</h3>
+              <p>{{room.description}}</p>
+              <md-switch class="md-secondary md-warn"></md-switch>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </div>
+        </md-list-item>
+      </md-list>
+    </section>
+  </md-content>
 </md-content>

@@ -50,6 +50,9 @@ positions(pos=absolute, top=0, right=0, bottom=0, left=0)
 .anim.anim-left2right
   animation left2right anim-duration forwards
 
+.anim.anim-right2left
+  animation right2left anim-duration forwards
+
 @keyframes pop
   0%
     transform scale(0.0)
@@ -75,5 +78,11 @@ positions(pos=absolute, top=0, right=0, bottom=0, left=0)
 @keyframes left2right
   0%
     transform translate(-100%)
+  100%
+    transform translate(0%)
+
+@keyframes right2left
+  0%
+    transform translate(100%)
   100%
     transform translate(0%)

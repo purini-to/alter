@@ -1,9 +1,10 @@
 app = angular.module 'alter'
 
-app.controller 'newRoomCtrl', ($scope, $mdDialog, userModel, roomService) ->
+app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, userModel, roomService) ->
   $scope.room = {
     name: ''
-    discription: ''
+    description: ''
+    users: [userModel.user._id]
   }
 
   $scope.hide = ->
@@ -13,3 +14,10 @@ app.controller 'newRoomCtrl', ($scope, $mdDialog, userModel, roomService) ->
     $mdDialog.cancel()
 
   $scope.submit = (ev) ->
+    roomService.add $scope.room
+      .then (room) ->
+        $rootScope.$broadcast 'event:addedRoom',  room: room
+        $mdDialog.hide()
+      .catch (err) ->
+        console.log error
+        alert "エラーが発生しました\n管理者に問い合わせてください"
