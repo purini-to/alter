@@ -5,7 +5,7 @@
         <h2 flex="100" class="tac">{{'LOGIN.TITLE' | translate}}</h2>
       </div>
     </md-toolbar>
-      <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate layout="column" layout-margin flex>
+      <form ng-submit="loginForm.$invalid ? null : submit()" name="loginForm" novalidate layout="column" layout-margin layout-align-sm="space-around" flex>
         <md-input-container>
           <label>{{'LOGIN.INPUT.ID.LABEL' | translate}}</label>
           <input ng-model="user.id" type="text" name="id" required maxlength="15">
@@ -17,7 +17,7 @@
             <div ng-message="failledAuth">{{'LOGIN.INPUT.PASSWORD.VALIDATION.FAILLED_AUTH' | translate}}</div>
           </div>
         </md-input-container>
-        <div flex layout="column" layout-align="end end">
+        <div flex-gt-sm layout="column" layout-align="end end" style="min-height: 80px;">
           <md-button ng-show="loginForm.$valid" type="submit" class="md-fab anim-pop" aria-label="login">
             <ng-md-icon icon="input" style="fill: white" class="size-35" size="35"></ng-md-icon>
           </md-button>

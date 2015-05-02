@@ -6,10 +6,10 @@
       </md-subheader>
     </div>
   </md-toolbar>
-  <div class="dialog-container scroll" layout="row" layout-sm="column" layout-margin>
-    <form ng-submit="newAccountForm.$invalid ? null : submit()" name="newAccountForm" novalidate>
+  <form ng-submit="newAccountForm.$invalid ? null : submit()" name="newAccountForm" novalidate layout="column">
+    <div class="dialog-container scroll" layout-margin>
       <div layout layout-sm="column">
-        <md-input-container flex>
+        <md-input-container flex layout-margin>
           <label>{{'LOGIN.ACCOUNT.INPUT.ID.LABEL' | translate}}</label>
           <input ng-model="user.id" type="text" name="id" required maxlength="15" minlength="5" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/" app-validators="validators.id_exist">
           <div ng-messages="newAccountForm.id.$error">
@@ -20,7 +20,7 @@
             <div ng-message="exist">{{'LOGIN.ACCOUNT.INPUT.ID.VALIDATION.EXIST' | translate}}</div>
           </div>
         </md-input-container>
-        <md-input-container flex>
+        <md-input-container flex layout-margin>
           <label>{{'LOGIN.ACCOUNT.INPUT.NAME.LABEL' | translate}}</label>
           <input ng-model="user.name" type="text" name="name" required maxlength="12">
           <div ng-messages="newAccountForm.name.$error">
@@ -54,11 +54,15 @@
           <div ng-message="email">{{'VALIDATION.INVALID.EMAIL' | translate}}</div>
         </div>
       </md-input-container>
-      <div layout layout-align="end start" class="fab-box-2x">
-        <md-button ng-show="newAccountForm.$valid" type="submit" class="md-fab anim-pop ng-hide" aria-label="regist">
-          <ng-md-icon icon="done" style="fill: white" class="size-42" size="42"></ng-md-icon>
-        </md-button>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div class="md-actions" layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()" type="button" class="md-warn">
+        閉じる
+      </md-button>
+      <md-button ng-disabled="newAccountForm.$invalid" type="submit" class="md-accent md-hue-3">
+        作成
+      </md-button>
+    </div>
+  </form>
 </md-dialog>
