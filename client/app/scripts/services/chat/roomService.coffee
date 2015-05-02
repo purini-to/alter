@@ -16,4 +16,13 @@ app.factory 'roomService', ($resource, userModel) ->
       .query {userId: userModel.user._id}
       .$promise
 
+  room.add = (params) ->
+    url = '/api/chat/rooms'
+    defaultParams = {}
+    actions = {}
+
+    $resource url, defaultParams, actions
+      .save params
+      .$promise
+
   room

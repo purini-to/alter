@@ -18,3 +18,4 @@ module.exports = (app) ->
   app.route('/api/chat/rooms').get(api.chat.rooms.getList)
   # ルーム取得(ID指定)API
   # app.route('/api/chat/rooms/:roomId').get(api.users.users.save)
+  app.route('/api/chat/rooms').post(api.chat.rooms.add)

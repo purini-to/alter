@@ -23,6 +23,9 @@ customValidators = {
   isAlphaNumericSymbol: (value) ->
     pattern = new RegExp "^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$"
     pattern.test value
+  # 配列
+  isArray: (value) ->
+    Array.isArray value
 }
 
 module.exports = (app) ->

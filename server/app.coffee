@@ -34,7 +34,7 @@ if app.get('env') is 'development'
   app.use (err, req, res, next) ->
     status = if err.status? then err.status else 500
     res.status status
-    res.send err
+    res.send {error: err.toString()}
 
 # production error handler
 # no stacktraces leaked to user
