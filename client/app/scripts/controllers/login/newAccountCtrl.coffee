@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
+app.controller 'newAccountCtrl', ($scope, $mdDialog, $mdToast, $translate, userModel, userService) ->
   $scope.user = {
     id: ''
     name: ''
@@ -8,6 +8,11 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
     password: ''
   }
   $scope.isExist = false
+  $scope.successMessage = ''
+
+  $translate('LOGIN.ACCOUNT.SUCCESS.MESSAGE')
+    .then (value) ->
+      $scope.successMessage = value
 
   $scope.validators = {
     password_confirm:
@@ -33,11 +38,13 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, userModel, userService) ->
   $scope.submit = (ev) ->
     userService.save $scope.user
       .then (result) ->
-        $mdDialog.show({
-          controller: "newAccountSuccessCtrl"
-          templateUrl: 'views/login/newAccountSuccess.html'
-          targetEvent: ev 
-        })
+        $scope.hide()
+        $mdToast.show(
+          $mdToast.simple()
+            .content $scope.successMessage
+            .position 'bottom left'
+            .hideDelay(3000)
+        )
       .catch (error) ->
         code = error.status
         id = error.data.id
