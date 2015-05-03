@@ -17,5 +17,8 @@ module.exports = (app) ->
   # ルーム取得(一覧)API
   app.route('/api/chat/rooms').get(api.chat.rooms.getList)
   # ルーム取得(ID指定)API
-  # app.route('/api/chat/rooms/:roomId').get(api.users.users.save)
+  app.route('/api/chat/rooms/:roomId').get(api.chat.rooms.get)
+  # ルームの作成
   app.route('/api/chat/rooms').post(api.chat.rooms.add)
+  # ルームに参加
+  app.route('/api/chat/rooms/:roomId').post(api.chat.rooms.join)
