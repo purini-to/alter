@@ -10,7 +10,7 @@
   <md-content class="main-content">
     <div ng-if="rooms.length === 0">
       <h3 class="title">ルームが存在しません</h3>
-      <p>新規ルームを作成してください</p>
+      <md-subheader class="md-primary md-no-sticky">新規ルームを作成してください</md-subheader>
     </div>
     <div ng-if="rooms.length > 0">
       <h3 class="title">{{rooms.length}}ルーム見つかりました</h3>
@@ -23,6 +23,11 @@
             <div class="md-list-item-text" style="position: relative">
               <h3>{{room.name}}</h3>
               <p>{{room.description}}</p>
+              <md-chips ng-model="room.users" readonly="true" class="no-border">
+                <md-chip-template>
+                  <span>{{$chip.user.name}}</span>
+                </md-chip-template>
+              </md-chips>
               <md-switch class="md-secondary md-warn"></md-switch>
             </div>
             <md-divider ng-if="!$last"></md-divider>
