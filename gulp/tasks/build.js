@@ -6,7 +6,7 @@ var $ = require('gulp-load-plugins')({
 var conf = require('../config.js');
 var confUtil = require('../utils/configUtil.js');
 
-gulp.task('build:coffee', ['clean:js'], function () {
+gulp.task('build:coffee', ['copy:js'], function () {
     var path = confUtil.getPath(conf);
 
     return gulp.src(conf.src + '/**/*.coffee', {base: conf.src})

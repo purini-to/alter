@@ -11,7 +11,7 @@ var confUtil = require('../utils/configUtil.js');
 
 gulp.task('watch:app', function () {
     return merge(
-        $.watch([conf.src + '/**/*.coffee', conf.src + '/**/*.styl'], function(file){
+        $.watch([conf.src + '/**/*.coffee', conf.src + '/**/*.styl', conf.src + '/**/*.js'], function(file){
             if (file.event === 'change') {
                 gulp.start(['build:coffee', 'build:stylus']);
             } else {

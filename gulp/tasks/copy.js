@@ -14,6 +14,15 @@ gulp.task('copy:vendor', ['clean:vendor'], function () {
         .pipe(gulp.dest(path + '/bower_components'));
 });
 
+gulp.task('copy:js', ['clean:js'], function () {
+    var path = confUtil.getPath(conf);
+
+    return gulp.src(conf.src + '/**/*.js', {base: conf.src})
+        .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
+        .pipe($.ngAnnotate())
+        .pipe(gulp.dest(path));
+});
+
 gulp.task('copy:html', ['clean:html'], function () {
     var path = confUtil.getPath(conf);
 
