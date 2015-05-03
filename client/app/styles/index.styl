@@ -19,8 +19,14 @@ md-dialog .md-subheader.dialog-header
   color rgba(255, 255, 255, 0.87)
   text-align center
 
-ng-md-icon.size-35 svg
-  vertical-align -13px
+md-list-item
+  position relative
+
+md-chips[readonly='true'] md-chips-wrap
+  cursor inherit
+
+ng-md-icon.size-32 svg
+  vertical-align -10px
 
 ng-md-icon.size-42 svg
   vertical-align -15px
@@ -49,5 +55,6 @@ ng-md-icon.size-42 svg
   overflow auto
 
 .no-border, md-chips.no-border md-chips-wrap.md-chips
+  padding-bottom 0px
   box-shadow none
   border noen

@@ -5,7 +5,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, userModel, roomSer
     name: ''
     description: ''
     users: [{
-      user: userModel.user._id
+      user: userModel.user
       isAdmin: true
     }]
   }
@@ -19,6 +19,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, userModel, roomSer
   $scope.submit = (ev) ->
     roomService.add $scope.room
       .then (room) ->
+        room.users = $scope.room.users
         $rootScope.$broadcast 'event:addedRoom',  room: room
         $mdDialog.hide()
       .catch (err) ->
