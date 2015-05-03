@@ -6,7 +6,6 @@ app.factory 'roomModel', ->
     _id: ''
     name: ''
     description: ''
-    activeUser: []
   }
 
   service.setActiveRoom = (_id, name, description = '') ->
