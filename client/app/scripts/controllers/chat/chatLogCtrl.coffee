@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $stateParams, socketUtil, roomModel, userModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, socketUtil, roomModel, userModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logs = []
@@ -10,6 +10,11 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $stateParams, socketUtil, roo
     user: userModel.user
     room: roomModel.activeRoom
   }
+
+  goButtom = ->
+    $timeout ->
+      $location.hash 'bottom'
+      $anchorScroll()
 
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
@@ -26,6 +31,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $stateParams, socketUtil, roo
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
     $scope.logs = logs
+    goButtom()
   $scope.$on 'socket:room:enter:user', (ev, data) ->
     $scope.enterUsers.push data.userId
   $scope.$on 'socket:room:enter:users', (ev, data) ->
@@ -36,6 +42,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $stateParams, socketUtil, roo
       $scope.enterUsers.splice idx, 1
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
+    goButtom()
 
   leaveRoom = (event,  toState,  toParams,  fromState,  fromParams) ->
     if fromState.name is 'chat.chatLog'
