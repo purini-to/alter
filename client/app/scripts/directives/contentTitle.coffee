@@ -8,6 +8,7 @@ app.directive 'contentTitle', ($rootScope, $translate, $state, stateUtil) ->
     restrict: 'A'
     link : (scope, element) ->
       listener = (event,  toState,  toParams,  fromState,  fromParams) ->
+        element.html ''
         parentsState = stateUtil.getCurrentParentsState()
         for s in parentsState
           if s.title?

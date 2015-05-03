@@ -68,6 +68,9 @@
       "TITLE": "チャット",
       "ROOM": {
         "TITLE": "ルーム"
+      }, 
+      "CHAT-LOG": {
+        "TITLE": "ログ"
       }
     }
 }

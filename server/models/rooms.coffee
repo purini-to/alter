@@ -39,8 +39,24 @@ load = (criteria, select) ->
     .sort {createdAt: 'desc'}
     .exec()
 
+join = (roomId, userId) ->
+  this.findOne {_id: roomId}
+    .select '_id users'
+    .populate 'users'
+    .exec()
+    .then (room) ->
+      if room?
+        user = {
+          user:
+            _id: userId
+        }
+        room.users.push user
+        room = room.save()
+      room
+
 RoomSchema.statics = {
   load: load
+  join: join
 }
 
 mongoose.model 'Room',  RoomSchema
