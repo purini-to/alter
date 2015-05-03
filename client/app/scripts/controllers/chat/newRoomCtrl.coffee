@@ -4,7 +4,10 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, userModel, roomSer
   $scope.room = {
     name: ''
     description: ''
-    users: [userModel.user._id]
+    users: [{
+      user: userModel.user._id
+      isAdmin: true
+    }]
   }
 
   $scope.hide = ->

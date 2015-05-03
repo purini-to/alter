@@ -13,11 +13,18 @@ RoomSchema = new Schema({
   description: {
     type: String
   }
-  users: [{
-    type: Schema.Types.ObjectId
-    ref: 'User'
-    unique: true
-  }]
+  users: [
+    {
+      user: {
+        type: Schema.Types.ObjectId
+        ref: 'User'
+      }
+      isAdmin: {
+        type: Boolean
+        default: false
+      }
+    }
+  ]
   createdAt: {
     type: Date
     default: Date.now
@@ -28,7 +35,7 @@ load = (criteria, select) ->
   select = if select? then select else 'name description users createdAt'
   this.find(criteria)
     .select(select)
-    .populate 'users', 'id name email'
+    .populate 'users.user', 'id name email'
     .sort {createdAt: 'desc'}
     .exec()
 
