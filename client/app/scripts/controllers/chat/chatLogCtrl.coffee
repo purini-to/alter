@@ -11,10 +11,20 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     room: roomModel.activeRoom
   }
 
-  goButtom = ->
+  goButtomSettings = {
+    container: '.main-content'
+    duration: 700
+    easing: 'swing'
+  }
+
+  goButtom = (settings, timout = 1000) ->
     $timeout ->
-      $location.hash 'bottom'
-      $anchorScroll()
+      scrollPane = angular.element(settings.container)
+      scrollY = scrollPane.get(0).scrollHeight
+      scrollPane.animate {scrollTop: scrollY},  settings.duration,  settings.easing, ->
+        if typeof callback is 'function'
+          callback.call(this)
+    , timout
 
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
@@ -31,7 +41,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
     $scope.logs = logs
-    goButtom()
+    goButtom goButtomSettings
   $scope.$on 'socket:room:enter:user', (ev, data) ->
     $scope.enterUsers.push data.userId
   $scope.$on 'socket:room:enter:users', (ev, data) ->
@@ -42,7 +52,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       $scope.enterUsers.splice idx, 1
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
-    goButtom()
+    goButtom goButtomSettings, 0
 
   leaveRoom = (event,  toState,  toParams,  fromState,  fromParams) ->
     if fromState.name is 'chat.chatLog'

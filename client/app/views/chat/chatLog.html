@@ -4,7 +4,7 @@
       <h2>{{activeRoom.name}} <span class="md-caption">{{activeRoom.description}}</span></h2>
     </div>
   </md-toolbar>
-  <md-content class="main-content">
+  <md-content class="main-content" flex>
     <section class="container">
       <md-list>
         <md-list-item ng-repeat="log in logs" class="md-2-line" style="word-wrap: break-word;">
@@ -14,14 +14,11 @@
           </div>
           <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
         </md-list-item>
-        <a id="bottom"></a>
       </md-list>
     </section>
+    <span id="bottom"></span>
   </md-content>
-  <section layout-margin>
-    <md-input-container flex>
-      <label>メッセージ</label>
-      <textarea ng-model="log.content" ng-enter='sendLog($event)' columns="1" md-maxlength="150"></textarea>
-    </md-input-container>
+  <section class="chat-input-container" layout="column">
+    <textarea ng-model="log.content" ng-enter="sendLog($event)" msd-elastic placeholder="メッセージ" flex></textarea>
   </section>
 </md-content>
