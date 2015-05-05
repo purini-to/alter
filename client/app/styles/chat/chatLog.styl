@@ -1,6 +1,7 @@
 .chat-input-container
-  margin-top 5px
-  margin-bottom 8px
+  padding-top 8px
+  padding-bottom 5px
+  background-color #ECEFF1
   & textarea
     color rgba(0, 0, 0, 0.87)
     border-color rgba(0, 0, 0, 0.12)
@@ -11,7 +12,7 @@
     -webkit-appearance none
     -moz-appearance none
     background none
-    background-color #ECEFF1
+    background-color translate
     padding-top 2px
     padding-bottom 1px
     padding-left 15px
@@ -24,6 +25,13 @@
 
 .chat-log
   md-list-item
+    min-height 32px
     div.md-list-item-text
       padding-top 8px
       padding-bottom 8px
+      .chat-content
+        white-space pre-line
+
+md-sidenav.member-nav 
+  min-width 180px
+  width 180px
