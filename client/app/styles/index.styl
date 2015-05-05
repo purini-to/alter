@@ -14,10 +14,25 @@ html, body
 md-card-content
   padding 10px
 
-md-dialog .md-subheader.dialog-header
-  background-color transparent
-  color rgba(255, 255, 255, 0.87)
-  text-align center
+md-dialog
+  md-toolbar
+    min-height 32px
+    .md-toolbar-tools
+      height 32px
+      min-height 32px
+      white-space nowrap
+      .md-subheader
+        background-color transparent
+        color rgba(255, 255, 255, 0.87)
+        text-align center
+        .md-subheader-inner
+          padding 0
+          font-size 16px
+
+.md-button.md-default-theme[disabled]
+  cursor not-allowed
+  span
+    color rgba(0, 0, 0, 0.26)
 
 md-list-item
   position relative
