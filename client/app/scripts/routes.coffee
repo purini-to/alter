@@ -30,7 +30,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
       resolve: {
         activeRoom: ($stateParams, roomService, roomModel) ->
           roomId = $stateParams.roomId
-          if roomModel.activeRoom._id is ''
+          if roomModel.activeRoom._id is '' or roomModel.activeRoom._id isnt roomId
             roomService.get roomId
               .then (result) ->
                 roomModel.setActiveRoom result._id, result.name, result.description

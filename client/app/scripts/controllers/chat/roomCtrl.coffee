@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userModel, roomModel, rooms) ->
+app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userModel, roomModel, topNavModel, rooms) ->
   $scope.rooms = rooms
 
   $scope.$on 'event:addedRoom', (event, args) ->
@@ -19,9 +19,10 @@ app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userMode
     idx = userModel.indexOfFavoriteRoom room._id
     if idx > -1
       userModel.favoriteRooms.splice idx, 1
+      topNavModel.removeToggleInMenu 'お気に入り', room.name
     else
       userModel.favoriteRooms.push room._id
-
+      topNavModel.addToggleInMenu 'お気に入り', room.name, "chat.chatLog({roomId:'#{room._id}'})"
 
   $scope.inRoom = (event, index) ->
     room = $scope.rooms[index]
