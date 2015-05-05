@@ -18,6 +18,9 @@ store.removeUser = (userId) ->
   delete users[userId]
   store
 
+store.getUser = (userId) ->
+  users[userId]
+
 store.getRoomUser = (socket, roomId) ->
   socketIdList = _.keys socket.adapter.rooms[roomId]
   roomUsers = _.reduce users, (result, val, key) ->
@@ -30,38 +33,3 @@ store.getRoomUser = (socket, roomId) ->
   , []
 
 module.exports = store
-# store.pushRoom = (roomId) ->
-#   index = -1
-#   for room, idx in rooms
-#     if room.roomId is roomId
-#       index = idx
-#       break
-#   if index is -1
-#     rooms.push {
-#       roomId: roomId
-#       users: []
-#     }
-#     index = rooms.length - 1
-#   index
-#
-# store.pushUser = (roomIndex, userId) ->
-#   room = rooms[roomIndex]
-#   index = room.users.indexOf userId
-#   if index is -1
-#     room.users.push userId
-#     index = room.users.length - 1
-#   index
-#
-# store.removeUser = (roomId, userId) ->
-#   index = -1
-#   for room, idx in rooms
-#     if room.roomId is roomId
-#       index = idx
-#       break
-#   if index is -1
-#     return
-#   else
-#     room = rooms[index]
-#     index = room.users.indexOf userId
-#     if index > -1
-#       room.users.splice index, 1

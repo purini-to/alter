@@ -1,24 +1,37 @@
-<md-content layout="column" flex>
-  <md-toolbar class="md-hue-3 sub-toolbar">
-    <div class="md-toolbar-tools">
-      <h2>{{activeRoom.name}} <span class="md-caption">{{activeRoom.description}}</span></h2>
-    </div>
-  </md-toolbar>
-  <md-content class="main-content" flex>
-    <section class="container">
-      <md-list class="chat-log">
-        <md-list-item ng-repeat="log in logs" class="md-2-line" style="word-wrap: break-word;">
-          <div class="md-list-item-text anim-right2left" animate flex>
-            <p ng-if="!isContinuation($index, -1)">{{::log.user.name}}</p>
-            {{::log.content}}
-          </div>
-          <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
-        </md-list-item>
-      </md-list>
+<md-content layout="row" flex>
+  <section layout="column" flex>
+    <md-toolbar class="md-hue-3 sub-toolbar">
+      <div class="md-toolbar-tools">
+        <h2>{{activeRoom.name}} <span class="md-caption">{{activeRoom.description}}</span></h2>
+      </div>
+    </md-toolbar>
+    <md-content class="main-content md-whiteframe-z1" flex>
+      <section class="container">
+        <md-list class="chat-log">
+          <md-list-item ng-repeat="log in logs" class="md-2-line" style="word-wrap: break-word;">
+            <div class="md-list-item-text anim-right2left" animate flex>
+              <p ng-if="!isContinuation($index, -1)">{{::log.user.name}}</p>
+              <div class="chat-content">{{::log.content}}</div>
+            </div>
+            <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
+          </md-list-item>
+        </md-list>
+      </section>
+    </md-content>
+    <section class="chat-input-container" layout="column">
+      <textarea ng-model="log.content" ng-enter="sendLog($event)" msd-elastic placeholder="メッセージ" flex></textarea>
     </section>
-    <span id="bottom"></span>
-  </md-content>
-  <section class="chat-input-container" layout="column">
-    <textarea ng-model="log.content" ng-enter="sendLog($event)" msd-elastic placeholder="メッセージ" flex></textarea>
   </section>
+  <md-sidenav class="member-nav md-whiteframe-z2" md-component-id="chat-member" md-is-locked-open="$mdMedia('gt-sm')">
+    <md-toolbar class="md-hue-3 sub-toolbar">
+      <h3 class="md-toolbar-tools">メンバー</h1>
+    </md-toolbar>
+    <md-content>
+      <ul class="nav-menu">
+        <li ng-repeat="user in enterUsers" class="anim-right-slide" flex>
+          <md-button class="anim-right-slide">{{::user.name}}</md-button>
+        </li>
+      </ul>
+    </md-content>
+  </md-sidenav>
 </md-content>

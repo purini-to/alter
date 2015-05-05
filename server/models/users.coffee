@@ -32,9 +32,15 @@ load = (options) ->
   this.findOne(options.criteria)
     .select(options.select)
     .exec()
+loads = (options) ->
+  options.select = options.select || 'id name email'
+  this.find(options.criteria)
+    .select(options.select)
+    .exec()
 
 UserSchema.statics = {
   load: load
+  loads: loads
 }
 
 mongoose.model 'User',  UserSchema

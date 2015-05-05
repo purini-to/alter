@@ -26,6 +26,14 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
           callback.call(this)
     , timout
 
+  indexOfEnterUser = (_id) ->
+    index = -1
+    for user, idx in $scope.enterUsers
+      if user._id is _id
+        index = idx
+        break
+    index
+
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
       return false
@@ -43,13 +51,15 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     $scope.logs = logs
     goButtom goButtomSettings
   $scope.$on 'socket:room:enter:user', (ev, data) ->
-    $scope.enterUsers.push data.userId
+    index = indexOfEnterUser data._id
+    if index is -1
+      $scope.enterUsers.push data
   $scope.$on 'socket:room:enter:users', (ev, data) ->
     $scope.enterUsers = data
   $scope.$on 'socket:room:leave:user', (ev, data) ->
-    idx = $scope.enterUsers.indexOf data.userId
-    if idx > -1
-      $scope.enterUsers.splice idx, 1
+    index = indexOfEnterUser data.userId
+    if index > -1
+      $scope.enterUsers.splice index, 1
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     goButtom goButtomSettings, 0
