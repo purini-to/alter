@@ -26,6 +26,8 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, topNavModel) ->
       menu.iconClose
   $scope.toggleMenu = (ev, menu) ->
     menu.opened = !menu.opened
+  $scope.close = ->
+    $mdSidenav('siteNav').close()
 
   $rootScope.sideNavToggle = ->
     $mdSidenav('siteNav').toggle()
