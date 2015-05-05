@@ -17,7 +17,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     easing: 'swing'
   }
 
-  goButtom = (settings, timout = 1000) ->
+  goButtom = (settings, timout = 700) ->
     $timeout ->
       scrollPane = angular.element(settings.container)
       scrollY = scrollPane.get(0).scrollHeight

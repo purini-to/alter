@@ -2,5 +2,28 @@
   <md-toolbar>
     <h1 class="md-toolbar-tools" layout-align="center end">{{ 'NAME' | translate }}</h1>
   </md-toolbar>
-  <md-content flex ng-transclude></md-content>
+  <md-content flex>
+    <ul class="nav-menu" flex>
+      <li ng-repeat="menu in ::staticMenus" flex>
+        <md-button ng-if="isLink(menu)" ui-sref="{{::menu.state}}">{{::menu.name}}</md-button>
+      </li>
+      <md-divider></md-divider>
+      <li ng-repeat="menu in dynamicMenus" flex>
+        <div ng-if="isLink(menu)">
+          <md-button ui-sref="{{::menu.state}}">{{::menu.name}}</md-button>
+        </div>
+        <div ng-show="isToggleMenu(menu)">
+          <md-button ng-click="toggleMenu($event, menu)">
+            {{::menu.name}}
+            <ng-md-icon icon="{{setIcon(menu)}}" style="fill: grey" size="30"></ng-md-icon>
+          </md-button>
+          <ul class="nav-sabmenu" ng-show="menu.opened">
+            <li ng-repeat="item in menu.items" flex>
+              <md-button ui-sref="{{::item.state}}">{{::item.name}}</md-button>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </md-content>
 </md-sidenav>
