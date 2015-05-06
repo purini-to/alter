@@ -3,6 +3,7 @@
 ###
 'use strict'
 
+_ = require 'lodash'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
@@ -21,6 +22,10 @@ UserSchema = new Schema({
     type: String
     default: ''
   }
+  favoriteRooms: [
+    type: Schema.Types.ObjectId
+    ref: 'Room'
+  ]
   createdAt: {
     type: Date
     default: Date.now
@@ -28,10 +33,13 @@ UserSchema = new Schema({
 })
 
 load = (options) ->
-  options.select = options.select || 'id name email'
-  this.findOne(options.criteria)
+  options.select = options.select || 'id name email favoriteRooms'
+  options.populate = options.populate || {}
+  query = this.findOne(options.criteria)
     .select(options.select)
-    .exec()
+  _.each options.populate, (value, key) ->
+    query.populate key, value
+  query.exec()
 loads = (options) ->
   options.select = options.select || 'id name email'
   this.find(options.criteria)

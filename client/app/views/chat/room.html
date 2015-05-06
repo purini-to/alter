@@ -18,15 +18,10 @@
     </div>
     <section class="container">
       <md-list>
-        <md-list-item ng-repeat="room in rooms" class="md-3-line" ng-click="inRoom($event, $index)">
+        <md-list-item ng-repeat="room in rooms" class="md-2-line" ng-click="inRoom($event, $index)">
           <div class="md-list-item-text anim-right2left" style="position: relative" animate flex>
             <h3>{{room.name}}</h3>
             <p>{{room.description}}</p>
-            <md-chips ng-model="room.users" readonly="true" class="no-border">
-              <md-chip-template>
-                <span>{{$chip.user.name}}</span>
-              </md-chip-template>
-            </md-chips>
             <list-actions>
               <md-button type="button" ng-click="toggleFavorite($event, $index)" class="md-secondary-container md-icon-button" animate aria-label="roomAdd">
                 <ng-md-icon icon="favorite" ng-attr-style="fill: {{getFavoriteColor($index)}}" class="size-32" size="32"></ng-md-icon>

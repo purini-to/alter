@@ -13,6 +13,10 @@ module.exports = (app) ->
   app.route('/api/users/token').post(api.users.users.getUserByToken)
   # アカウント新規登録API
   app.route('/api/users').post(api.users.users.save)
+  # お気に入り追加API
+  app.route('/api/users/addFavoriteRoom/:userId').post(api.users.users.addFavoriteRoom)
+  # お気に入り削除API
+  app.route('/api/users/removeFavoriteRoom/:userId').post(api.users.users.removeFavoriteRoom)
 
   # ルーム取得(一覧)API
   app.route('/api/chat/rooms').get(api.chat.rooms.getList)

@@ -7,23 +7,24 @@ app.factory 'userModel', () ->
     id: ''
     name: ''
     email: ''
+    favoriteRooms: []
   }
-  favoriteRooms = []
 
-  service.set = (_id, id = '', name = '', email = '') ->
+  service.set = (_id, id = '', name = '', email = '', favoriteRooms = []) ->
     user._id = _id
     user.id = id
     user.name = name
     user.email = email
+    user.favoriteRooms = favoriteRooms
+    user
 
   service.indexOfFavoriteRoom = (roomId) ->
-    favoriteRooms.indexOf roomId
+    user.favoriteRooms.indexOf roomId
 
   service.isFavoriteRoom = (roomId) ->
     idx = service.indexOfFavoriteRoom roomId
     idx > -1
 
   service.user = user
-  service.favoriteRooms = favoriteRooms
 
   service

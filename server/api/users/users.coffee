@@ -8,10 +8,12 @@ mongoose = require 'mongoose'
 User = mongoose.model 'User'
 SessionToken = mongoose.model 'SessionToken'
 
+api = {}
+
 ###
 ログイン認証API
 ###
-login = (req, res, next) ->
+api.login = (req, res, next) ->
   req.checkBody('id',  '不正な値です').notEmpty().isLength(5, 15).isAlphaNumericSymbol()
   req.checkBody('password',  '不正な値です').notEmpty().isLength(6, 20).isAlphaNumericSymbol()
   errors = req.validationErrors(true)
@@ -24,6 +26,9 @@ login = (req, res, next) ->
     criteria: {
       id: req.body.id
       password: req.body.password
+    }
+    populate: {
+      favoriteRooms: 'name'
     }
   }
   resultUser = null
@@ -61,7 +66,7 @@ login = (req, res, next) ->
 ###
 # アクセストークンからユーザー情報を取得する
 ###
-getUserByToken = (req, res, next) ->
+api.getUserByToken = (req, res, next) ->
   req.checkBody('token',  '無効なアクセストークンです').notEmpty().isLength(36, 36)
   errors = req.validationErrors(true)
   if errors?
@@ -84,7 +89,7 @@ getUserByToken = (req, res, next) ->
 ###
 アカウント新規登録API
 ###
-save = (req, res, next) ->
+api.save = (req, res, next) ->
   req.checkBody('id',  '不正な値です').notEmpty().isLength(5, 15).isAlphaNumericSymbol()
   req.checkBody('name',  '不正な値です').notEmpty().isLength(1, 12)
   req.checkBody('password',  '不正な値です').notEmpty().isLength(6, 20).isAlphaNumericSymbol()
@@ -115,8 +120,41 @@ save = (req, res, next) ->
       console.log error
       next error
 
-module.exports = {
-  login: login
-  getUserByToken: getUserByToken
-  save: save
-}
+api.addFavoriteRoom = (req, res, next) ->
+  userId = req.param "userId"
+  req.checkBody('_id',  '不正な値です').notEmpty().isMongoId()
+
+  User.load {criteria: {_id: userId}}
+    .then (user) ->
+      if user?
+        user.favoriteRooms = if user.favoriteRooms? then user.favoriteRooms else []
+        user.favoriteRooms.push req.body._id
+        user = user.save()
+      user
+    .then (user) ->
+      res.send user
+    .onReject (err) ->
+      console.log err
+      next err
+
+api.removeFavoriteRoom = (req, res, next) ->
+  userId = req.param "userId"
+  req.checkBody('_id',  '不正な値です').notEmpty().isMongoId()
+
+  User.load {criteria: {_id: userId}}
+    .then (user) ->
+      if user?
+        roomId = req.body._id
+        user.favoriteRooms = if user.favoriteRooms? then user.favoriteRooms else []
+        index = user.favoriteRooms.indexOf roomId
+        if index > -1
+          user.favoriteRooms.splice index, 1
+          user = user.save()
+      user
+    .then (user) ->
+      res.send user
+    .onReject (err) ->
+      console.log err
+      next err
+
+module.exports = api
