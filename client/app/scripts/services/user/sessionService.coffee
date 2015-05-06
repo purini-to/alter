@@ -14,6 +14,7 @@ app.factory 'sessionService', ($cookieStore, $cookies, userModel, topNavModel) -
       topNavModel.addToggleInMenu 'お気に入り', room.name, "chat.chatLog({roomId:'#{room._id}'})"
 
   session.create = (token, user) ->
+    topNavModel.resetDynamicMenus()
     favoriteRoomIds = getFavoriteRoomIds user.favoriteRooms
     userModel.set user._id, user.id, user.name, user.email, favoriteRoomIds
     $cookieStore.put 'token', token

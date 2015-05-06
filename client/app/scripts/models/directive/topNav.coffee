@@ -21,10 +21,13 @@ app.factory 'topNavModel', ->
   service.staticMenus = [
     createMenu 'ルーム一覧', 'chat.room'
   ]
+  # メニューを初期化する
+  service.resetDynamicMenus = ->
+    service.dynamicMenus = [
+      createToggleMenu 'お気に入り'
+    ]
   # お気に入り等のユーザー操作によって変化するメニュー
-  service.dynamicMenus = [
-    createToggleMenu 'お気に入り'
-  ]
+  service.dynamicMenus = []
   # メニューの追加を行う
   service.addLinkMenu = (name, state) ->
     service.dynamicMenus.push createMenu name, state
