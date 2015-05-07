@@ -17,8 +17,9 @@ gulp.task('minify:js', ['build:coffee'], function () {
         gulp.src($.mainBowerFiles())
         .pipe(jsFilter)
         .pipe($.concat('vendor.min.js'))
-        .pipe($.uglify({preserveComments:'some'}))
-        .pipe(gulp.dest(bowerDest)), 
+        // .pipe($.uglify({preserveComments:'some'}))
+        .pipe($.uglify())
+        .pipe(gulp.dest(bowerDest)),
         gulp.src([conf.tmp + '/**/*.js', '!' + conf.tmp + '/bower_components/**/*.js'])
         .pipe($.angularFilesort())
         .pipe($.concat('app.min.js'))
@@ -38,7 +39,7 @@ gulp.task('minify:css', ['build:stylus'], function () {
         .pipe($.replace("url('../", "url('./font-awesome/"))
         .pipe($.concat('vendor.min.css'))
         .pipe($.minifyCss())
-        .pipe(gulp.dest(bowerDest)), 
+        .pipe(gulp.dest(bowerDest)),
         gulp.src([conf.tmp + '/**/*.css', '!' + conf.tmp + '/bower_components/**/*.css'])
         .pipe($.concat('app.min.css'))
         .pipe($.minifyCss())
