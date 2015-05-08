@@ -34,18 +34,22 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         break
     index
 
+  isNotEmptyLog = ->
+    $scope.log.content? and $scope.log.content.trim() isnt ''
+
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
       return false
     pre = index + corre
-    l = $scope.logs[index].user._id 
+    l = $scope.logs[index].user._id
     lp = $scope.logs[pre].user._id
     l is lp
 
   $scope.sendLog = (ev) ->
-    socketUtil.emit 'room:sendLog', $scope.log
-    $scope.log.content = ''
-    $scope.log.contentType = 1
+    if isNotEmptyLog()
+      socketUtil.emit 'room:sendLog', $scope.log
+      $scope.log.content = ''
+      $scope.log.contentType = 1
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
     $scope.logs = logs
