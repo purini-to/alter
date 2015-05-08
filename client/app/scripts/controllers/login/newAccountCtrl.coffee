@@ -45,6 +45,7 @@ app.controller 'newAccountCtrl', ($scope, $mdDialog, $mdToast, $translate, userM
             .position 'bottom left'
             .hideDelay(3000)
         )
+        result
       .catch (error) ->
         code = error.status
         id = error.data.id
