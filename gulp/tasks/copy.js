@@ -43,6 +43,8 @@ gulp.task('copy:dest', ['clean:dest'], function () {
     var fontFilter = $.filter(['**/*.ttf', '**/*.woff*']);
     var path = conf.dest;
 
+    gulp.start("minify:assets");
+
     return gulp.src($.mainBowerFiles(), {base: conf.bowerDir})
         .pipe($.plumber({errorHandler: $.notify.onError('<%= error.message %>')}))
         .pipe(fontFilter)
