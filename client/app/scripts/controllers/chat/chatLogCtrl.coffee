@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, socketUtil, roomService, userService, roomModel, userModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, socketUtil, roomService, userService, roomModel, userModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logs = []
@@ -63,15 +63,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       .targetEvent ev
     $mdDialog.show confirm
       .then ->
-        roomService.remove $scope.activeRoom._id, userModel.user._id
-          .then (result) ->
-            roomId = result.roomId
-            idx = userModel.indexOfFavoriteRoom roomId
-            if idx > -1
-              userService.removeFavoriteRoom $scope.activeRoom, idx
-                .then ->
-                  roomModel.setActiveRoom '', ''
-            $state.go ('chat.room')
+        socketUtil.emit 'room:delete', $scope.activeRoom
 
   $scope.sendLog = (ev) ->
     if isNotEmptyLog()
@@ -95,6 +87,21 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     goButtom goButtomSettings, 0
+  $scope.$on 'socket:room:delete', (ev, data) ->
+    roomId = data.roomId
+    idx = userModel.indexOfFavoriteRoom roomId
+    if idx > -1
+      userService.removeFavoriteRoom $scope.activeRoom, idx
+        .then ->
+          roomModel.setActiveRoom '', ''
+    socketUtil.emit 'room:leave', $scope.activeRoom
+    $state.go ('chat.room')
+    $mdToast.show(
+      $mdToast.simple()
+        .content 'ルームが削除されたため退室しました'
+        .position 'bottom left'
+        .hideDelay(3000)
+    )
 
   leaveRoom = (event,  toState,  toParams,  fromState,  fromParams) ->
     if fromState.name is 'chat.chatLog'
@@ -107,3 +114,4 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   socketUtil.forward 'room:enter:users', $scope
   socketUtil.forward 'room:leave:user', $scope
   socketUtil.forward 'room:sendLog', $scope
+  socketUtil.forward 'room:delete', $scope

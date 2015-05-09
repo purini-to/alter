@@ -3,6 +3,7 @@
 mongoose = require 'mongoose'
 User = mongoose.model 'User'
 ChatLog = mongoose.model 'ChatLog'
+Room = mongoose.model 'Room'
 socketUtil = require '../../utils/socketUtil'
 userInfo = require '../store/userInfo'
 
@@ -31,6 +32,21 @@ broadcastEnterUser = (socket, roomId, userId) ->
         socket.broadcast.to(roomId).emit 'room:enter:user', user
     .onReject (err) ->
       console.log err
+
+findOneRoom = (roomId) ->
+  Room.load {_id: roomId}
+    .then (rooms) ->
+      room = null
+      if rooms.length > 0
+        room = rooms[0]
+      room
+
+isAdminRoom = (room, userId) ->
+  adminUsers = room.users.filter (val) ->
+    val.isAdmin
+  .map (val) ->
+    String(val.user)
+  adminUsers.indexOf(userId) > -1
 
 module.exports = (io, socket) ->
   roomId = null
@@ -62,5 +78,19 @@ module.exports = (io, socket) ->
     log.save()
       .then (log) ->
         io.sockets.to(roomId).emit 'room:sendLog', data
+      .onReject (err) ->
+        console.log err
+
+  socket.on "room:delete", (data) ->
+    roomId = data._id
+    userId = socketUtil.getUserId socket
+    findOneRoom roomId
+      .then (room) ->
+        if room? and isAdminRoom(room, userId)
+          room = room.remove()
+        room
+      .then (room) ->
+        if room?
+          io.sockets.to(roomId).emit 'room:delete', {roomId: roomId}
       .onReject (err) ->
         console.log err
