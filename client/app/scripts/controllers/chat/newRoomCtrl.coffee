@@ -5,7 +5,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, userModel, roomSer
     name: ''
     description: ''
     users: [{
-      user: userModel.user
+      user: userModel.user._id
       isAdmin: true
     }]
   }

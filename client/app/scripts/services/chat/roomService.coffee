@@ -27,6 +27,15 @@ app.factory 'roomService', ($resource, userModel) ->
       .save params
       .$promise
 
+  room.remove = (roomId, userId) ->
+    url = '/api/chat/rooms/:roomId'
+    defaultParams = {roomId: roomId}
+    actions = {}
+
+    $resource url, defaultParams, actions
+      .delete {userId: userId}
+      .$promise
+
   room.in = (roomId, params) ->
     url = '/api/chat/rooms/:roomId'
     defaultParams = {roomId: roomId}

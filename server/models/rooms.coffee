@@ -54,6 +54,9 @@ join = (roomId, userId) ->
         room = room.save()
       room
 
+RoomSchema.pre 'remove', (next) ->
+  this.model('ChatLog').remove {room: this._id}, next
+                                        
 RoomSchema.statics = {
   load: load
   join: join

@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, socketUtil, roomModel, userModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, socketUtil, roomService, userService, roomModel, userModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logs = []
@@ -52,6 +52,26 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         isAdmin = true
         break
     isAdmin
+
+  $scope.showRoomDeleteConfirm = (ev) ->
+    confirm = $mdDialog.confirm()
+      .title 'ルームの削除を行います'
+      .content '入室中のメンバーは強制的に退出されます'
+      .ariaLabel 'Room delete confirm'
+      .ok '削除'
+      .cancel 'キャンセル'
+      .targetEvent ev
+    $mdDialog.show confirm
+      .then ->
+        roomService.remove $scope.activeRoom._id, userModel.user._id
+          .then (result) ->
+            roomId = result.roomId
+            idx = userModel.indexOfFavoriteRoom roomId
+            if idx > -1
+              userService.removeFavoriteRoom $scope.activeRoom, idx
+                .then ->
+                  roomModel.setActiveRoom '', ''
+            $state.go ('chat.room')
 
   $scope.sendLog = (ev) ->
     if isNotEmptyLog()

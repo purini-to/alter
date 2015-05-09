@@ -24,5 +24,7 @@ module.exports = (app) ->
   app.route('/api/chat/rooms/:roomId').get(api.chat.rooms.get)
   # ルームの作成
   app.route('/api/chat/rooms').post(api.chat.rooms.add)
+  # ルームの削除
+  app.route('/api/chat/rooms/:roomId').delete(api.chat.rooms.remove)
   # ルームに参加
   app.route('/api/chat/rooms/:roomId').post(api.chat.rooms.join)
