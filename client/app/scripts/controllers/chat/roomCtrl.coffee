@@ -2,6 +2,8 @@ app = angular.module 'alter'
 
 app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userService, userModel, roomModel, topNavModel, rooms) ->
   $scope.rooms = rooms
+  # 入室ルームの初期化
+  roomModel.setActiveRoom '', ''
 
   $scope.$on 'event:addedRoom', (event, args) ->
     $scope.rooms.unshift args.room

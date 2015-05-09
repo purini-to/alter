@@ -92,8 +92,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     idx = userModel.indexOfFavoriteRoom roomId
     if idx > -1
       userService.removeFavoriteRoom $scope.activeRoom, idx
-        .then ->
-          roomModel.setActiveRoom '', ''
     socketUtil.emit 'room:leave', $scope.activeRoom
     $state.go ('chat.room')
     $mdToast.show(
