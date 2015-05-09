@@ -6,12 +6,14 @@ app.factory 'roomModel', ->
     _id: ''
     name: ''
     description: ''
+    users: []
   }
 
-  service.setActiveRoom = (_id, name, description = '') ->
+  service.setActiveRoom = (_id, name, description = '', users = '') ->
     activeRoom._id = _id
     activeRoom.name = name
     activeRoom.description = description
+    activeRoom.users = users
 
   service.activeRoom = activeRoom
 

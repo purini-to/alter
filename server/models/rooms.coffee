@@ -35,7 +35,7 @@ load = (criteria, select) ->
   select = if select? then select else 'name description users createdAt'
   this.find(criteria)
     .select(select)
-    .populate 'users.user', 'id name email'
+    # .populate 'users.user', 'id name email'
     .sort {createdAt: 'desc'}
     .exec()
 

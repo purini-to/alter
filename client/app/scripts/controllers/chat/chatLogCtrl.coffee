@@ -45,6 +45,14 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     lp = $scope.logs[pre].user._id
     l is lp
 
+  $scope.isAdminRoom = ->
+    isAdmin = false
+    for userInfo in $scope.activeRoom.users
+      if userInfo.user is userModel.user._id and userInfo.isAdmin
+        isAdmin = true
+        break
+    isAdmin
+
   $scope.sendLog = (ev) ->
     if isNotEmptyLog()
       socketUtil.emit 'room:sendLog', $scope.log

@@ -33,7 +33,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
           if roomModel.activeRoom._id is '' or roomModel.activeRoom._id isnt roomId
             roomService.get roomId
               .then (result) ->
-                roomModel.setActiveRoom result._id, result.name, result.description
+                roomModel.setActiveRoom result._id, result.name, result.description, result.users
                 result
       }
       title: "CHAT.CHAT-LOG.TITLE"
