@@ -36,25 +36,33 @@ app.factory 'topNavModel', ->
     service.dynamicMenus.push createToggleMenu name, items
   # トグルメニューに子メニューを追加する
   service.addToggleInMenu = (toggleName, name, state) ->
-    toggleMenu = null
-    for menu in service.dynamicMenus
-      if menu.name is toggleName and menu.type is 'toggle'
-        toggleMenu = menu
-        break
+    toggleMenu = getToggleMenu toggleName
     if toggleMenu?
       toggleMenu.items.push createMenu name, state
-  # トグルメニューに子メニューを追加する
+  # トグルメニューの子メニューを削除する
   service.removeToggleInMenu = (toggleName, name) ->
+    toggleMenu = getToggleMenu toggleName
+    if toggleMenu?
+      for item, index in toggleMenu.items
+        if item.name is name
+          toggleMenu.items.splice index, 1
+          break
+  service.updateToggleInMenu = (toggleName, name, newVal) ->
+    toggleMenu = getToggleMenu toggleName
+    if toggleMenu?
+      for item, index in toggleMenu.items
+        if item.name is name
+          val = angular.extend item, newVal
+          toggleMenu.items[index] = val
+          break
+
+  getToggleMenu = (toggleName) ->
     toggleMenu = null
     for menu, idx in service.dynamicMenus
       if menu.name is toggleName and menu.type is 'toggle'
         index = idx
         toggleMenu = menu
         break
-    if toggleMenu?
-      for item, index in toggleMenu.items
-        if item.name is name
-          toggleMenu.items.splice index, 1
-          break
+    toggleMenu
 
   service

@@ -19,7 +19,7 @@
           </md-button>
           <ul class="nav-sabmenu" ng-show="menu.opened">
             <li ng-repeat="item in menu.items" class="anim-right-slide" flex>
-              <md-button ui-sref="{{::item.state}}" ng-click="close()">{{::item.name}}</md-button>
+              <md-button ui-sref="{{::item.state}}" ng-click="close()">{{item.name}}</md-button>
             </li>
           </ul>
         </div>

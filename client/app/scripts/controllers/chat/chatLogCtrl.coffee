@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, socketUtil, roomService, userService, roomModel, userModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logs = []
@@ -70,6 +70,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     $scope.$watch 'activeRoom', (newVal, oldVal) ->
       if $scope.roomForm? and $scope.roomForm.$valid
         socketUtil.emit 'room:update:info', newVal
+        topNavModel.updateToggleInMenu 'お気に入り', oldVal.name, {name: newVal.name}
     , true
 
   $scope.sendLog = (ev) ->
@@ -95,8 +96,10 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     $scope.logs.push data
     goButtom goButtomSettings, 0
   $scope.$on 'socket:room:update:info', (ev, data) ->
+    oldName = $scope.activeRoom.name
     $scope.activeRoom.name = data.name
     $scope.activeRoom.description = data.description
+    topNavModel.updateToggleInMenu 'お気に入り', oldName, {name: data.name}
   $scope.$on 'socket:room:delete', (ev, data) ->
     roomId = data.roomId
     idx = userModel.indexOfFavoriteRoom roomId
