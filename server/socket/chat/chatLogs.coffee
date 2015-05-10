@@ -72,6 +72,13 @@ module.exports = (io, socket) ->
       userId = socketUtil.getUserId socket
       socket.broadcast.to(roomId).emit 'room:leave:user', {userId: userId}
 
+  socket.on "room:moreLogs", (data) ->
+    roomId = data.roomId
+    offset = data.offset
+    ChatLog.load {room: roomId}, {offset: offset}
+      .then (logs) ->
+        socket.emit 'room:moreLogs', logs
+
   socket.on "room:sendLog", (data) ->
     roomId = data.room._id
     log = new ChatLog(data)

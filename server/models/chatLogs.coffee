@@ -28,13 +28,16 @@ ChatLogSchema = new Schema({
   }
 })
 
-load = (criteria, select) ->
-  select = if select? then select else 'content contentType user room createdAt'
+load = (criteria, option = {}) ->
+  select = if option.select? then option.select else 'content contentType user room createdAt'
+  limit = if option.limit? then option.limit else 20
+  offset = if option.offset? then option.offset else 0
   this.find(criteria)
     .select(select)
     .populate 'user', 'id name'
-    .populate 'room', ''
-    .sort {createdAt: 'asc'}
+    .sort {createdAt: 'desc'}
+    .skip offset
+    .limit limit
     .exec()
 
 ChatLogSchema.statics = {

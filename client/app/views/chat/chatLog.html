@@ -9,7 +9,7 @@
       <section class="container">
         <md-list class="chat-log">
           <md-list-item ng-repeat="log in logs" class="md-2-line" style="word-wrap: break-word;">
-            <div class="md-list-item-text anim-right2left" animate flex>
+            <div class="md-list-item-text" flex>
               <p ng-if="!isContinuation($index, -1)">{{::log.user.name}}</p>
               <div class="chat-content">{{::log.content}}</div>
             </div>

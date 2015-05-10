@@ -3,6 +3,7 @@ app = angular.module 'alter'
 app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
+  $scope.logsLoadBusy = false
   $scope.logs = []
   $scope.log = {
     content: ''
@@ -11,15 +12,16 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     room: roomModel.activeRoom
   }
 
+  scrollElement = angular.element('.main-content')
   goButtomSettings = {
     container: '.main-content'
     duration: 700
     easing: 'swing'
   }
 
-  goButtom = (settings, timout = 700) ->
+  goButtom = (settings, timout, callback) ->
     $timeout ->
-      scrollPane = angular.element(settings.container)
+      scrollPane = scrollElement
       scrollY = scrollPane.get(0).scrollHeight
       scrollPane.animate {scrollTop: scrollY},  settings.duration,  settings.easing, ->
         if typeof callback is 'function'
@@ -37,6 +39,12 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   isNotEmptyLog = ->
     $scope.log.content? and $scope.log.content.trim() isnt ''
 
+  loadLogs = ->
+    if $scope.logsLoadBusy is true
+      return
+    else
+      $scope.logsLoadBusy = true
+      socketUtil.emit 'room:moreLogs', {roomId: $scope.activeRoom._id, offset: $scope.logs.length}
 
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
@@ -80,8 +88,13 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       $scope.log.contentType = 1
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
-    $scope.logs = logs
-    goButtom goButtomSettings
+    $scope.logs = logs.reverse()
+    goButtom goButtomSettings, 700, ->
+      scrollElement.bind 'scroll', (ev)->
+        isLoadScrollPos = ev.target.scrollTop < 20
+        if isLoadScrollPos is true
+          loadLogs()
+
   $scope.$on 'socket:room:enter:user', (ev, data) ->
     index = indexOfEnterUser data._id
     if index is -1
@@ -92,6 +105,16 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     index = indexOfEnterUser data.userId
     if index > -1
       $scope.enterUsers.splice index, 1
+  $scope.$on 'socket:room:moreLogs', (ev, data) ->
+    if data? and data.length > 0
+      originHeight = scrollElement.get(0).scrollHeight
+      $scope.logs = data.reverse().concat $scope.logs
+      $timeout ->
+        top = scrollElement.get(0).scrollTop + scrollElement.get(0).scrollHeight - originHeight
+        scrollElement.get(0).scrollTop = top
+        $timeout ->
+          $scope.logsLoadBusy = false
+        , 1000
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     goButtom goButtomSettings, 0
@@ -127,3 +150,4 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   socketUtil.forward 'room:sendLog', $scope
   socketUtil.forward 'room:delete', $scope
   socketUtil.forward 'room:update:info', $scope
+  socketUtil.forward 'room:moreLogs', $scope
