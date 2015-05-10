@@ -37,6 +37,11 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   isNotEmptyLog = ->
     $scope.log.content? and $scope.log.content.trim() isnt ''
 
+  $scope.$watch 'activeRoom', (newVal, oldVal) ->
+    if $scope.roomForm? and $scope.roomForm.$valid
+      socketUtil.emit 'room:update:info', newVal
+  , true
+
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
       return false
@@ -87,6 +92,9 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     goButtom goButtomSettings, 0
+  $scope.$on 'socket:room:update:info', (ev, data) ->
+    $scope.activeRoom.name = data.name
+    $scope.activeRoom.description = data.description
   $scope.$on 'socket:room:delete', (ev, data) ->
     roomId = data.roomId
     idx = userModel.indexOfFavoriteRoom roomId
@@ -113,3 +121,4 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   socketUtil.forward 'room:leave:user', $scope
   socketUtil.forward 'room:sendLog', $scope
   socketUtil.forward 'room:delete', $scope
+  socketUtil.forward 'room:update:info', $scope

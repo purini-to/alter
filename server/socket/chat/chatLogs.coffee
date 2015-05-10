@@ -81,6 +81,21 @@ module.exports = (io, socket) ->
       .onReject (err) ->
         console.log err
 
+  socket.on "room:update:info", (data) ->
+    _id = data._id
+    name = data.name
+    description = data.description
+    if _id? and name? and description?
+      findOneRoom _id
+        .then (room) ->
+          if room?
+            room.name = name
+            room.description = description
+            room = room.save()
+          room
+        .then (room) ->
+          socket.broadcast.to(_id).emit 'room:update:info', room
+
   socket.on "room:delete", (data) ->
     roomId = data._id
     userId = socketUtil.getUserId socket
