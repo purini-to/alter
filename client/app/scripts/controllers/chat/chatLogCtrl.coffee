@@ -37,10 +37,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   isNotEmptyLog = ->
     $scope.log.content? and $scope.log.content.trim() isnt ''
 
-  $scope.$watch 'activeRoom', (newVal, oldVal) ->
-    if $scope.roomForm? and $scope.roomForm.$valid
-      socketUtil.emit 'room:update:info', newVal
-  , true
 
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
@@ -69,6 +65,12 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     $mdDialog.show confirm
       .then ->
         socketUtil.emit 'room:delete', $scope.activeRoom
+
+  if $scope.isAdminRoom()
+    $scope.$watch 'activeRoom', (newVal, oldVal) ->
+      if $scope.roomForm? and $scope.roomForm.$valid
+        socketUtil.emit 'room:update:info', newVal
+    , true
 
   $scope.sendLog = (ev) ->
     if isNotEmptyLog()
