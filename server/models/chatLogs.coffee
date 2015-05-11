@@ -30,7 +30,7 @@ ChatLogSchema = new Schema({
 
 load = (criteria, option = {}) ->
   select = if option.select? then option.select else 'content contentType user room createdAt'
-  limit = if option.limit? then option.limit else 20
+  limit = if option.limit? then option.limit else 30
   offset = if option.offset? then option.offset else 0
   this.find(criteria)
     .select(select)
