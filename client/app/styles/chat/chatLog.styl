@@ -23,6 +23,7 @@
       padding-bottom 0px
 
 .chat-log
+  margin-bottom 28px
   md-list-item
     min-height 32px
     div.md-list-item-text
@@ -30,6 +31,32 @@
       padding-bottom 8px
       .chat-content
         white-space pre-line
+    &:hover
+      background-color #F3FBFF
+      border solid
+      border-color #ECEFF1
+      border-width 1px 0 1px 0
+      margin-top -1px
+      margin-bottom -1px
+    .tool-bar
+      position absolute
+      bottom -28px
+      right 30px
+      background-color #F3FBFF
+      z-index 99
+      border solid
+      border-color #ECEFF1
+      border-width 0 1px 1px 1px
+      border-radius 3px
+      .tool-button
+        margin 0
+        padding 0
+        height 30px
+        min-height 30px
+        min-width 70px
+        z-index 99
+        background-color #F3FBFF !important
+        line-height normal
 
 md-sidenav.member-nav
   min-width 300px

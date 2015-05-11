@@ -84,6 +84,7 @@ module.exports = (io, socket) ->
     log = new ChatLog(data)
     log.save()
       .then (log) ->
+        data._id = log._id
         io.sockets.to(roomId).emit 'room:sendLog', data
       .onReject (err) ->
         console.log err
@@ -102,6 +103,20 @@ module.exports = (io, socket) ->
           room
         .then (room) ->
           socket.broadcast.to(_id).emit 'room:update:info', room
+
+  socket.on "room:removeLog", (data) ->
+    roomId = data.roomId
+    logId = data.logId
+    ChatLog.load {_id: logId}
+      .then (logs) ->
+        if logs.length > 0
+          logs = logs[0].remove()
+        logs
+      .then (log) ->
+        if log?
+          io.sockets.to(roomId).emit 'room:removeLog', {logId: logId}
+      .onReject (err) ->
+        console.log err
 
   socket.on "room:delete", (data) ->
     roomId = data._id

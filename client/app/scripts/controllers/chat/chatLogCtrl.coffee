@@ -20,6 +20,8 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     easing: 'swing'
   }
 
+  mouseOverLogIndex = null
+
   goButtom = (settings, timout, callback) ->
     $timeout ->
       scrollPane = scrollElement
@@ -46,6 +48,24 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     else
       $scope.logsLoadBusy = true
       socketUtil.emit 'room:moreLogs', {roomId: $scope.activeRoom._id, offset: $scope.logs.length}
+
+  $scope.setMouseOverLogIndex = (index) ->
+    mouseOverLogIndex = index
+  $scope.resetMouseOverLogIndex = ->
+    mouseOverLogIndex = null
+  $scope.isMouseOverLog = (index) ->
+    index is mouseOverLogIndex
+
+  $scope.isOwnerLog = (index) ->
+    result = false
+    logUser = $scope.logs[index].user
+    if logUser?
+      result = logUser._id is userModel.user._id
+    result
+  $scope.removeLog = (index) ->
+    logId = $scope.logs[index]._id
+    socketUtil.emit 'room:removeLog', {roomId: $scope.activeRoom._id, logId: logId}
+    $scope.resetMouseOverLogIndex()
 
   $scope.isContinuation = (index, corre) ->
     if index is 0 and corre < 0
@@ -124,6 +144,14 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     $scope.activeRoom.name = data.name
     $scope.activeRoom.description = data.description
     topNavModel.updateToggleInMenu 'お気に入り', oldName, {name: data.name}
+  $scope.$on 'socket:room:removeLog', (ev, data) ->
+    index = -1
+    for log, idx in $scope.logs
+      if log._id is data.logId
+        index = idx
+        break
+    if index > -1
+      $scope.logs.splice index, 1
   $scope.$on 'socket:room:delete', (ev, data) ->
     roomId = data.roomId
     idx = userModel.indexOfFavoriteRoom roomId
@@ -152,3 +180,4 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   socketUtil.forward 'room:delete', $scope
   socketUtil.forward 'room:update:info', $scope
   socketUtil.forward 'room:moreLogs', $scope
+  socketUtil.forward 'room:removeLog', $scope
