@@ -17,14 +17,14 @@ gulp.task('watch:app', function () {
             } else {
                 gulp.start("inject");
             }
-        }), 
+        }),
         $.watch([conf.src + '/**/*.html'], function(file){
             if (path.basename(file.relative) === 'index.html') {
                 gulp.start("inject");
             } else {
                 gulp.start("copy:html");
             }
-        }), 
+        }),
         $.watch([conf.src + '/assets/**/*'], function(file){
             gulp.start("copy:assets");
         }),

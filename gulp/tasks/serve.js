@@ -30,7 +30,7 @@ gulp.task('serve', ['copy:vendor', 'inject', 'build:coffee:server'], function ()
   gulp.start("watch:app");
 
   // node を再起動する必要のないファイル群用の設定
-  return gulp.watch([conf.tmp + '/**/*'])
+  return gulp.watch([conf.tmp + '/**/*', '!' + conf.tmp + '/uploads/**/*'])
     .on('change', function(event) {
       $.livereload.changed(event);
     });
