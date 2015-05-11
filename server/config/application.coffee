@@ -6,6 +6,7 @@ path = require 'path'
 logger = require 'morgan'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
+multer = require 'multer'
 ECT = require 'ect'
 
 # 環境に応じた設定を読み込み
@@ -54,3 +55,4 @@ module.exports = (app) ->
     app.use express.static(path.join(config.root, '/.tmp'))
     app.set 'appPath', '/.tmp'
     app.use logger('dev')
+    app.use(multer({ dest: '.tmp/uploads/' }))

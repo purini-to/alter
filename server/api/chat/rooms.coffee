@@ -6,6 +6,7 @@
 errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
 Room = mongoose.model 'Room'
+Upload = mongoose.model 'Upload'
 
 
 roomExists = (res, roomId) ->
@@ -86,6 +87,35 @@ join = (req, res, next) ->
       console.log err
       next err
 
+
+###
+#ファイルアップロード
+###
+upload = (req, res, next) ->
+  user = req.body.user
+  files = req.files
+  if user? and files?
+    originName = if files.file.originalname is 'undefined' then '' else files.file.originalname
+    extension = if files.file.extension is '' then files.file.mimetype else files.file.extension
+    path = files.file.path.replace('.tmp/', '')
+    upload = new Upload {
+      originName: originName
+      tmpName: files.file.name
+      extension: extension
+      path: path
+      user: user._id
+    }
+    upload.save()
+      .then (upload) ->
+        res.send upload
+      .onReject (err) ->
+        console.log err
+        next err
+  else
+    res.status 400
+    errData = errUtil.addError 'global', 'ルームまたはユーザーが存在しません'
+    res.send errData
+
 ###
 #ルーム削除
 ###
@@ -127,5 +157,6 @@ module.exports = {
   getList: getList
   add: add
   join: join
+  upload: upload
   # remove: remove
 }

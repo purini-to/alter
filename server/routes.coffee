@@ -28,3 +28,5 @@ module.exports = (app) ->
   # app.route('/api/chat/rooms/:roomId').delete(api.chat.rooms.remove)
   # ルームに参加
   app.route('/api/chat/rooms/:roomId').post(api.chat.rooms.join)
+  # ファイルアップロード
+  app.route('/upload/file/:roomId').post(api.chat.rooms.upload)

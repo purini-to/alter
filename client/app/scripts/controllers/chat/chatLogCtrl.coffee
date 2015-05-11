@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
@@ -48,6 +48,34 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     else
       $scope.logsLoadBusy = true
       socketUtil.emit 'room:moreLogs', {roomId: $scope.activeRoom._id, offset: $scope.logs.length}
+
+  angular.element('.chat-input-container textarea').bind 'paste' , (ev) ->
+    items = ev.originalEvent.clipboardData.items
+    for item in items
+      if item.type.indexOf("image") isnt -1
+        file = item.getAsFile()
+        Upload.upload({
+          url: "upload/file/#{$scope.activeRoom._id}"
+          fields: {user: userModel.user},
+          file: file
+        }).success (data,  status,  headers,  config) ->
+          $scope.log.content = data
+          $scope.log.contentType = 2
+          socketUtil.emit 'room:sendLog', $scope.log
+          $scope.log.content = ''
+          $scope.log.contentType = 1
+    # if $scope.log.content? and $scope.log.content.length
+    #   for file in $scope.log.content
+    #     Upload.upload({
+    #       url: "/upload/file/#{$scope.activeRoom._id}"
+    #       fields: {user: userModel.user},
+    #       file: file
+    #     }).progress((evt) ->
+    #       progressPercentage = parseInt(100.0 * evt.loaded / evt.total)
+    #       console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name)
+    #     ).success (data,  status,  headers,  config) ->
+    #       console.log('file ' + config.file.name + 'uploaded. Response: ' + data)
+
 
   $scope.setMouseOverLogIndex = (index) ->
     mouseOverLogIndex = index
@@ -110,6 +138,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
     $scope.logs = logs.reverse()
+    console.log logs
     goButtom goButtomSettings, 700, ->
       scrollElement.bind 'scroll', (ev)->
         isLoadScrollPos = ev.target.scrollTop < 20
@@ -136,6 +165,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         $timeout ->
           $scope.logsLoadBusy = false
   $scope.$on 'socket:room:sendLog', (ev, data) ->
+    console.log data
     $scope.logs.push data
     goButtom goButtomSettings, 0
   $scope.$on 'socket:room:update:info', (ev, data) ->

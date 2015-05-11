@@ -7,9 +7,7 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 ChatLogSchema = new Schema({
-  content: {
-    type: String
-  }
+  content: {}
   contentType: {
     type: Number
     default: 1
