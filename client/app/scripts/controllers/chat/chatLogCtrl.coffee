@@ -138,7 +138,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
     $scope.logs = logs.reverse()
-    console.log logs
     goButtom goButtomSettings, 700, ->
       scrollElement.bind 'scroll', (ev)->
         isLoadScrollPos = ev.target.scrollTop < 20
@@ -165,7 +164,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         $timeout ->
           $scope.logsLoadBusy = false
   $scope.$on 'socket:room:sendLog', (ev, data) ->
-    console.log data
     $scope.logs.push data
     goButtom goButtomSettings, 0
   $scope.$on 'socket:room:update:info', (ev, data) ->
