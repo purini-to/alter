@@ -29,12 +29,12 @@
     <md-content layout="column">
       <md-tabs md-dynamic-height md-border-bottom class="stretch-tab">
         <md-tab label="ルーム">
-          <form name="roomForm" novalidate layout="column">
+          <form name="form.roomForm" novalidate layout="column">
             <md-content layout-padding>
               <md-input-container layout-margin>
                 <label>ルーム名</label>
                 <input ng-model="activeRoom.name" ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}" type="text" name="name" ng-readonly="!isAdminRoom()" required maxlength="15">
-                <div ng-messages="roomForm.name.$error">
+                <div ng-messages="form.roomForm.name.$error">
                   <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
                   <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.15' | translate}}</div>
                 </div>
@@ -42,7 +42,7 @@
               <md-input-container layout-margin>
                 <label>ルーム説明</label>
                 <textarea ng-model="activeRoom.description" ng-model-options="{updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}" name="description" ng-readonly="!isAdminRoom()" rows="2" maxlength="100"></textarea>
-                <div ng-messages="roomForm.description.$error">
+                <div ng-messages="form.roomForm.description.$error">
                   <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.100' | translate}}</div>
                 </div>
               </md-input-container>

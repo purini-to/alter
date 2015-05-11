@@ -4,6 +4,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
+  $scope.form = {}
   $scope.logs = []
   $scope.log = {
     content: ''
@@ -76,7 +77,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
 
   if $scope.isAdminRoom()
     $scope.$watch 'activeRoom', (newVal, oldVal) ->
-      if $scope.roomForm? and $scope.roomForm.$valid
+      if $scope.form.roomForm? and $scope.form.roomForm.$valid
         socketUtil.emit 'room:update:info', newVal
         topNavModel.updateToggleInMenu 'お気に入り', oldVal.name, {name: newVal.name}
     , true
