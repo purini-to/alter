@@ -135,7 +135,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         scrollElement.get(0).scrollTop = top
         $timeout ->
           $scope.logsLoadBusy = false
-        , 1000
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     goButtom goButtomSettings, 0
