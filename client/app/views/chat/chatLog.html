@@ -10,7 +10,7 @@
         <md-list class="chat-log">
           <md-list-item ng-repeat="log in logs" class="md-2-line" style="word-wrap: break-word;">
             <div class="md-list-item-text" flex>
-              <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'MM/dd HH:mm'}}</p>
+              <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
               <div class="chat-content">{{::log.content}}</div>
             </div>
             <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
