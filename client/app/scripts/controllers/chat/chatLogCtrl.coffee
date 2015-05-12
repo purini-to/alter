@@ -60,7 +60,10 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
         }).success (data,  status,  headers,  config) ->
           tmp = $scope.log.content
           $scope.log.content = data
-          $scope.log.contentType = 3
+          if file.type.indexOf("image") is -1
+            $scope.log.contentType = 3
+          else
+            $scope.log.contentType = 2
           socketUtil.emit 'room:sendLog', $scope.log
           $scope.log.content = tmp
           $scope.log.contentType = 1
