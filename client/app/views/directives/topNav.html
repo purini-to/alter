@@ -1,7 +1,10 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-z2 anim-left2right" animate md-component-id="siteNav" md-is-locked-open="$mdMedia('gt-md')">
-  <md-toolbar>
-    <h1 class="md-toolbar-tools" layout-align="center end">{{ 'NAME' | translate }}</h1>
-  </md-toolbar>
+  <div class="profile-are" layout="column" layout-align="end">
+    <md-button class="profile-button">
+      {{user.name}}
+      <ng-md-icon icon="expand_more" style="fill: white" size="28"></ng-md-icon>
+    </md-button>
+  </div>
   <md-content flex>
     <ul class="nav-menu" flex>
       <li ng-repeat="menu in ::staticMenus" flex>

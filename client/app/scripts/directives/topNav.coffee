@@ -12,7 +12,8 @@ app.directive 'myTopNav', ($rootScope, $translate) ->
     scope:{}
   }
 
-app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, topNavModel) ->
+app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, topNavModel, userModel) ->
+  $scope.user = userModel.user
   $scope.staticMenus = topNavModel.staticMenus
   $scope.dynamicMenus = topNavModel.dynamicMenus
   $scope.isLink = (menu) ->
