@@ -47,12 +47,13 @@ module.exports = (app) ->
   if 'production' is env
     # app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use express.static path.join(config.root, 'public')
-    app.set 'appPath', "#{config.root}/public"
+    app.set 'appPath', "public"
     app.use logger('dev')
+    app.use(multer({ dest: "public/uploads/" }))
 
   if 'development' is env or 'test' is env
     app.use require('connect-livereload')()
     app.use express.static(path.join(config.root, '/.tmp'))
-    app.set 'appPath', '/.tmp'
+    app.set 'appPath', '.tmp'
     app.use logger('dev')
     app.use(multer({ dest: '.tmp/uploads/' }))

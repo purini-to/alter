@@ -95,9 +95,11 @@ upload = (req, res, next) ->
   user = req.body.user
   files = req.files
   if user? and files?
+    appPath = require('../../app').get('appPath')
+    console.log appPath
     originName = if files.file.originalname is 'undefined' then '' else files.file.originalname
     extension = if files.file.extension is '' then files.file.mimetype else files.file.extension
-    path = files.file.path.replace('.tmp/', '')
+    path = files.file.path.replace("#{appPath}/", '')
     upload = new Upload {
       originName: originName
       tmpName: files.file.name
