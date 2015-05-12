@@ -3,6 +3,7 @@
 ###
 'use strict'
 
+fs = require 'fs'
 mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
@@ -38,6 +39,15 @@ load = (criteria, option = {}) ->
     .select(select)
     .populate 'user', 'id name'
     .exec()
+
+UploadSchema.pre 'remove', (next) ->
+  app = require '../app'
+  path = "#{app.get('rootPath')}/#{app.get('appPath')}/uploads/#{this.tmpName}"
+  fs.unlink path, (err) ->
+    if err?
+      console.log err
+      throw err
+  next()
 
 UploadSchema.statics = {
   load: load

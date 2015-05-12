@@ -38,6 +38,17 @@ load = (criteria, option = {}) ->
     .limit limit
     .exec()
 
+ChatLogSchema.pre 'remove', (next) ->
+  if this.contentType is 2 or this.contentType is 3
+    this.model('Upload').findOne {tmpName: this.content.tmpName}
+      .then (upload) ->
+        if upload?
+          upload.remove(next)
+        else
+          next()
+  else
+    next()
+
 ChatLogSchema.statics = {
   load: load
 }
