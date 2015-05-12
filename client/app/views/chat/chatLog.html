@@ -8,12 +8,18 @@
     <md-content class="main-content md-whiteframe-z1" flex>
       <section class="container">
         <md-list class="chat-log">
-          <md-list-item ng-repeat="log in logs" ng-mouseover="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
+          <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
             <div class="md-list-item-text" flex>
               <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
               <div class="chat-content" layout>
                 <span ng-if="log.contentType==1">{{::log.content}}</span>
-                <img ng-src="{{log.content.path}}" ng-if="log.contentType==2">
+                <img ng-src="{{::log.content.path}}" ng-if="log.contentType==2">
+                <div ng-if="log.contentType==3" layout="column">
+                  <md-button ng-href="{{::log.content.path}}" ng-download="{{::log.content.originName}}" class="md-raised md-primary download-button">
+                    <ng-md-icon icon="file_download" style="fill: white" class="size-20" size="20"></ng-md-icon>
+                    {{::log.content.originName}} ({{::log.content.size | bytes}})
+                  </md-button>
+                </div>
               </div>
               <div ng-show="isMouseOverLog($index)" class="tool-bar">
                 <md-button ng-if="isOwnerLog($index)" ng-click="removeLog($index)" class="tool-button">
@@ -27,7 +33,8 @@
       </section>
     </md-content>
     <section class="chat-input-container" layout="column">
-      <textarea ng-model="log.content" ng-enter="sendLog($event)" ngf-drop ngf-multiple="true" ngf-allow-dir="true" accept="image/*, application/pdf" msd-elastic placeholder="メッセージ" flex></textarea>
+      <textarea ng-model="log.content" ng-enter="sendLog($event)" placeholder="メッセージ" flex></textarea>
+      <div ng-model="files" ngf-drop ngf-multiple="true" msd-elastic class="file-upload">
     </section>
   </section>
   <md-sidenav class="member-nav md-whiteframe-z2" md-component-id="chat-member" md-is-locked-open="$mdMedia('gt-sm')">

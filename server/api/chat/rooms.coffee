@@ -94,16 +94,17 @@ join = (req, res, next) ->
 upload = (req, res, next) ->
   user = req.body.user
   files = req.files
-  if user? and files?
+  if user? and files? and files.file?
     appPath = require('../../app').get('appPath')
-    console.log appPath
     originName = if files.file.originalname is 'undefined' then '' else files.file.originalname
     extension = if files.file.extension is '' then files.file.mimetype else files.file.extension
     path = files.file.path.replace("#{appPath}/", '')
+    size = files.file.size
     upload = new Upload {
       originName: originName
       tmpName: files.file.name
       extension: extension
+      size: size
       path: path
       user: user._id
     }

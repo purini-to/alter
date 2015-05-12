@@ -2,7 +2,8 @@
   padding-top 8px
   padding-bottom 5px
   background-color #ECEFF1
-  & textarea
+  position relative
+  textarea
     color rgba(0, 0, 0, 0.87)
     border-color rgba(0, 0, 0, 0.12)
     border-width 0 0 1px 0
@@ -21,6 +22,15 @@
       border-color rgb(96, 125, 139)
       border-width 0 0 2px 0
       padding-bottom 0px
+  .file-upload
+    position absolute
+    top 0px
+    bottom 0px
+    left 0px
+    right 0px
+    z-index -1
+    &.active
+      z-index 10
 
 .chat-log
   margin-bottom 28px
@@ -57,6 +67,10 @@
         z-index 99
         background-color #ECF7F6 !important
         line-height normal
+
+.download-button.md-button
+  text-transform none
+  margin-left 0px
 
 md-sidenav.member-nav
   min-width 300px

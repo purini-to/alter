@@ -5,6 +5,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
   $scope.form = {}
+  $scope.files = null
   $scope.logs = []
   $scope.log = {
     content: ''
@@ -19,6 +20,50 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     duration: 700
     easing: 'swing'
   }
+
+  textareaElement = angular.element('.chat-input-container textarea')
+  fileupElement = angular.element('.chat-input-container .file-upload')
+
+  textareaElement.bind 'paste', (ev) ->
+    items = ev.originalEvent.clipboardData.items
+    for item in items
+      if item.type.indexOf("image") isnt -1
+        file = item.getAsFile()
+        Upload.upload({
+          url: "upload/file/#{$scope.activeRoom._id}"
+          fields: {user: userModel.user},
+          file: file
+        }).success (data,  status,  headers,  config) ->
+          tmp = $scope.log.content
+          $scope.log.content = data
+          $scope.log.contentType = 2
+          socketUtil.emit 'room:sendLog', $scope.log
+          $scope.log.content = tmp
+          $scope.log.contentType = 1
+
+  textareaElement.bind 'dragenter', (ev) ->
+    fileupElement.addClass 'active'
+
+  fileupElement.bind 'dragleave', (ev) ->
+    fileupElement.removeClass 'active'
+
+  fileupElement.bind 'drop', (ev) ->
+    fileupElement.removeClass 'active'
+
+  $scope.$watch 'files', (files) ->
+    if files? and files.length
+      for file in files
+        Upload.upload({
+          url: "upload/file/#{$scope.activeRoom._id}",
+          fields: {user: userModel.user},
+          file: file
+        }).success (data,  status,  headers,  config) ->
+          tmp = $scope.log.content
+          $scope.log.content = data
+          $scope.log.contentType = 3
+          socketUtil.emit 'room:sendLog', $scope.log
+          $scope.log.content = tmp
+          $scope.log.contentType = 1
 
   mouseOverLogIndex = null
 
@@ -48,34 +93,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     else
       $scope.logsLoadBusy = true
       socketUtil.emit 'room:moreLogs', {roomId: $scope.activeRoom._id, offset: $scope.logs.length}
-
-  angular.element('.chat-input-container textarea').bind 'paste' , (ev) ->
-    items = ev.originalEvent.clipboardData.items
-    for item in items
-      if item.type.indexOf("image") isnt -1
-        file = item.getAsFile()
-        Upload.upload({
-          url: "upload/file/#{$scope.activeRoom._id}"
-          fields: {user: userModel.user},
-          file: file
-        }).success (data,  status,  headers,  config) ->
-          $scope.log.content = data
-          $scope.log.contentType = 2
-          socketUtil.emit 'room:sendLog', $scope.log
-          $scope.log.content = ''
-          $scope.log.contentType = 1
-    # if $scope.log.content? and $scope.log.content.length
-    #   for file in $scope.log.content
-    #     Upload.upload({
-    #       url: "/upload/file/#{$scope.activeRoom._id}"
-    #       fields: {user: userModel.user},
-    #       file: file
-    #     }).progress((evt) ->
-    #       progressPercentage = parseInt(100.0 * evt.loaded / evt.total)
-    #       console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name)
-    #     ).success (data,  status,  headers,  config) ->
-    #       console.log('file ' + config.file.name + 'uploaded. Response: ' + data)
-
 
   $scope.setMouseOverLogIndex = (index) ->
     mouseOverLogIndex = index

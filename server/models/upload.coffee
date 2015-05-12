@@ -20,6 +20,9 @@ UploadSchema = new Schema({
   extension: {
     type: String
   }
+  size: {
+    type: Number
+  }
   path: {
     type: String
   }
