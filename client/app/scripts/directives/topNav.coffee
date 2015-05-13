@@ -12,8 +12,10 @@ app.directive 'myTopNav', ($rootScope, $translate) ->
     scope:{}
   }
 
-app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, topNavModel, userModel) ->
+app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, sessionService, topNavModel, userModel) ->
   $scope.user = userModel.user
+  $scope.isOpenProfileMenu = false
+  $scope.profileIcon = 'expand_more'
   $scope.staticMenus = topNavModel.staticMenus
   $scope.dynamicMenus = topNavModel.dynamicMenus
   $scope.isLink = (menu) ->
@@ -27,8 +29,16 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, topNavModel, userM
       menu.iconClose
   $scope.toggleMenu = (ev, menu) ->
     menu.opened = !menu.opened
+  $scope.toggleProfileMenu = (ev) ->
+    $scope.isOpenProfileMenu = !$scope.isOpenProfileMenu
+    $scope.profileIcon = if $scope.isOpenProfileMenu then 'expand_less' else 'expand_more'
   $scope.close = ->
+    $scope.isOpenProfileMenu = false
+    $scope.profileIcon = 'expand_more'
     $mdSidenav('siteNav').close()
+  $scope.logout = ->
+    sessionService.destroy()
+    $state.go 'login'
 
   $rootScope.sideNavToggle = ->
     $mdSidenav('siteNav').toggle()
