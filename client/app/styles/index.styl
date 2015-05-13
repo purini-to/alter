@@ -15,7 +15,7 @@ md-card-content
   padding 10px
 
 md-dialog
-  md-toolbar
+  md-toolbar:not(.full-dialog)
     min-height 32px
     .md-toolbar-tools
       height 32px
@@ -28,6 +28,36 @@ md-dialog
         .md-subheader-inner
           padding 0
           font-size 16px
+
+  &.full-dialog
+    min-width 100%
+    min-height 100%
+
+    md-toolbar
+      .md-button
+        font-size 18px
+        margin 0
+        position absolute
+        &.right-action
+          top 13px
+          right 5px
+        &.left-action
+          top 6px
+          left 8px
+
+      .md-tall
+        h3
+          padding-top 10px
+
+      font-size 20px
+      min-height 64px
+
+    md-card
+      margin 0
+      &.overlap
+        margin -50px auto 0 auto
+        z-index 5
+        min-width 680px
 
 .md-button.md-default-theme[disabled]
   cursor not-allowed
@@ -48,6 +78,13 @@ ng-md-icon.size-32 svg
 
 ng-md-icon.size-42 svg
   vertical-align -15px
+
+md-input-container
+  .help-message
+    position absolute
+    font-size 12px
+    line-height 24px
+    color grey
 
 [ui-view]
   width 100%
@@ -71,6 +108,9 @@ ng-md-icon.size-42 svg
 
 .scroll
   overflow auto
+
+.bg-back
+  background-color baseBgColor !important
 
 .no-border, md-chips.no-border md-chips-wrap.md-chips
   padding-bottom 0px

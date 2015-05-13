@@ -12,7 +12,7 @@ app.directive 'myTopNav', ($rootScope, $translate) ->
     scope:{}
   }
 
-app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, sessionService, topNavModel, userModel) ->
+app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog, sessionService, topNavModel, userModel) ->
   $scope.user = userModel.user
   $scope.isOpenProfileMenu = false
   $scope.profileIcon = 'expand_more'
@@ -39,6 +39,13 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, sessionSer
   $scope.logout = ->
     sessionService.destroy()
     $state.go 'login'
+
+  $scope.showNewRoomDialog = (ev) ->
+    $mdDialog.show({
+      controller: "profileCtrl"
+      templateUrl: 'views/chat/profile.html'
+      targetEvent: ev
+    })
 
   $rootScope.sideNavToggle = ->
     $mdSidenav('siteNav').toggle()

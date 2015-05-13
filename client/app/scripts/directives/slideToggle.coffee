@@ -9,7 +9,6 @@ app.directive 'slideToggle', ->
       startShown: "@"
     }
     link: (scope, element, attrs) ->
-      console.log scope.startShown
       isShown = if scope.startShown is 'false' then false else Boolean(scope.startShown)
       if isShown is false
         element.hide()
