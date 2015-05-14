@@ -13,6 +13,12 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     user: userModel.user
     room: roomModel.activeRoom
   }
+  $scope.getAvator = (index) ->
+    logUser = $scope.logs[index].user
+    if logUser.avator? and logUser.avator.path? and !$scope.isContinuation(index, -1)
+      logUser.avator.path
+    else
+      'null'
 
   scrollElement = angular.element('.main-content')
   goButtomSettings = {

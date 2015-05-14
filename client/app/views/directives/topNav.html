@@ -1,10 +1,11 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-z2 anim-left2right" animate md-component-id="siteNav" md-is-locked-open="$mdMedia('gt-md')">
-  <div class="profile-are" layout="column" layout-align="end">
+  <md-toolbar  class="profile-are" layout="column" layout-align="end">
     <md-button class="profile-button" ng-click="toggleProfileMenu($event)">
+      <img ng-src="{{user.avator.path}}" class="avator sm">
       {{user.name}}
       <ng-md-icon icon="{{profileIcon}}" style="fill: white" size="28"></ng-md-icon>
     </md-button>
-  </div>
+  </md-toolbar>
   <md-content flex>
     <ul class="nav-menu profile-menu" slide-toggle="isOpenProfileMenu" start-shown="false" flex>
       <li flex>

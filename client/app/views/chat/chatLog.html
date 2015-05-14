@@ -9,6 +9,7 @@
       <section class="container">
         <md-list class="chat-log">
           <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
+            <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-class="{hidden: isContinuation($index, -1)}">
             <div class="md-list-item-text" flex>
               <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
               <div class="chat-content" layout>
@@ -71,7 +72,10 @@
           <md-content>
             <ul class="nav-menu">
               <li ng-repeat="user in enterUsers" class="anim-right-slide" flex>
-                <md-button class="anim-right-slide">{{::user.name}}</md-button>
+                <md-button class="anim-right-slide">
+                  <img ng-src="{{user.avator.path}}" class="avator sm" style="vertical-align: middle;">
+                  {{::user.name}}
+                </md-button>
               </li>
             </ul>
           </md-content>
