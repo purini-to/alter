@@ -23,18 +23,26 @@ SessionTokenSchema = new Schema({
 })
 
 load = (criteria) ->
+  User = mongoose.model 'User'
   this.findOne criteria
     .select 'token user'
-    .populate 'user', 'id name email favoriteRooms'
+    .populate 'user', 'id name email favoriteRooms avator'
     .exec()
     .then (token) ->
-      User = mongoose.model 'User'
       Room = mongoose.model 'Room'
       User.populate token, {
         path: 'user.favoriteRooms'
         select: 'name'
         model: Room
       }
+    .then (token) ->
+      Upload = mongoose.model 'Upload'
+      User.populate token, {
+        path: 'user.avator'
+        select: 'tmpName path'
+        model: Upload
+      }
+
 
 token = ->
   uuid.v1()

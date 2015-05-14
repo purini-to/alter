@@ -16,7 +16,7 @@ app.factory 'sessionService', ($cookieStore, $cookies, userModel, topNavModel) -
   session.create = (token, user) ->
     topNavModel.resetDynamicMenus()
     favoriteRoomIds = getFavoriteRoomIds user.favoriteRooms
-    userModel.set user._id, user.id, user.name, user.email, favoriteRoomIds
+    userModel.set user._id, user.id, user.name, user.email, favoriteRoomIds, user.avator
     $cookieStore.put 'token', token
     $cookieStore.put 'userId', userModel.user._id
     setFavoriteRoomMenu user.favoriteRooms

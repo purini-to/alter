@@ -16,8 +16,8 @@
             <input ng-model="user.id" type="text" name="id" disabled>
           </md-input-container>
           <div layout layout-align="center center" ngf-drop ngf-select ng-model="avator" class="drop-box" ngf-allow-dir="true" ngf-accept="'image/*'" flex>
-            アバターを変更
-            <img ngf-src="avator[0]" ng-src="{{avatorPre}}"  style="height: 60px; width: 60px; border-radius: 50%;">
+            <img ng-if="avator.length > 0" ngf-src="avator[0]" class="avator">
+            <img ng-if="avator == null || avator.length == 0" ng-src="{{user.avator.path}}" class="avator">
           </div>
         </div>
         <md-input-container flex layout-margin>
@@ -54,9 +54,7 @@
           </div>
         </md-input-container>
         <div layout layout-align="end center">
-          <md-button type="submit" class="md-fab anim-pop" animate aria-label="editProfile">
-            <ng-md-icon icon="done" style="fill: white" class="size-32" size="32"></ng-md-icon>
-          </md-button>
+          <md-button type="submit" class="md-raised md-accent anim-pop" animate aria-label="editProfile">保存</md-button>
         </div>
       </div>
     </form>

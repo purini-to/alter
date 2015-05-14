@@ -3,10 +3,15 @@
 ###
 'use strict'
 
+identicon = require 'identicon'
+fs = require 'fs'
+
 errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
 User = mongoose.model 'User'
+Upload = mongoose.model 'Upload'
 SessionToken = mongoose.model 'SessionToken'
+
 
 api = {}
 
@@ -29,6 +34,7 @@ api.login = (req, res, next) ->
     }
     populate: {
       favoriteRooms: 'name'
+      avator: 'tmpName path'
     }
   }
   resultUser = null
@@ -107,8 +113,25 @@ api.save = (req, res, next) ->
         errData = errUtil.addError 'id', '既に使用されています', 'id', req.body.id
         res.send errData
       else
-        user = new User(req.body).save()
+        app = require('../../app')
+        path = app.get 'appPath'
+        fileName = "#{req.body.id}.png"
+        filePath = "#{path}/uploads/#{fileName}"
+        avator = identicon.generateSync({ id: req.body.id,  size: 60})
+        fs.writeFileSync(filePath, avator)
+        upload = new Upload {
+          tmpName: fileName
+          extension: '.png'
+          path: filePath.replace("#{path}/", '')
+        }
+        user = upload.save()
       user
+    .then (avator) ->
+      if avator?
+        user = req.body
+        user.avator = avator._id
+        avator = new User(user).save()
+      avator
     .then (user) ->
       if res.finished is false
         resData = {

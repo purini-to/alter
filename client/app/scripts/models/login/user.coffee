@@ -8,14 +8,16 @@ app.factory 'userModel', () ->
     name: ''
     email: ''
     favoriteRooms: []
+    avator: {}
   }
 
-  service.set = (_id, id = '', name = '', email = '', favoriteRooms = []) ->
+  service.set = (_id, id = '', name = '', email = '', favoriteRooms = [], avator = {}) ->
     user._id = _id
     user.id = id
     user.name = name
     user.email = email
     user.favoriteRooms = favoriteRooms
+    user.avator = avator
     user
 
   service.indexOfFavoriteRoom = (roomId) ->

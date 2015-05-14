@@ -26,6 +26,10 @@ UserSchema = new Schema({
     type: Schema.Types.ObjectId
     ref: 'Room'
   ]
+  avator: {
+    type: Schema.Types.ObjectId
+    ref: 'Upload'
+  }
   createdAt: {
     type: Date
     default: Date.now
@@ -33,7 +37,7 @@ UserSchema = new Schema({
 })
 
 load = (options) ->
-  options.select = options.select || 'id name email favoriteRooms'
+  options.select = options.select || 'id name email favoriteRooms avator'
   options.populate = options.populate || {}
   query = this.findOne(options.criteria)
     .select(options.select)
@@ -41,9 +45,10 @@ load = (options) ->
     query.populate key, value
   query.exec()
 loads = (options) ->
-  options.select = options.select || 'id name email'
+  options.select = options.select || 'id name email avator'
   this.find(options.criteria)
     .select(options.select)
+    .populate('avator', 'tmpName path')
     .exec()
 
 UserSchema.statics = {

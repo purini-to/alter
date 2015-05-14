@@ -27,6 +27,12 @@ echo "Defaults    env_keep += \"PATH\"" >> /etc/sudoers
 # 社内等ではポートが閉鎖されている場合があるため
 git config --global url."https://".insteadOf git://
 
+# 依存関係ツールをインストール
+echo "==========================================================="
+echo "  Tools install"
+echo "==========================================================="
+yum -y install cairo cairo-devel cairomm-devel libjpeg-turbo-devel libxml2-devel pango pango-devel pangomm pangomm-devel giflib-devel libpng-devel freetype freetype-devel libart_lgpl-devel
+
 # MongoDBのインストール
 echo "==========================================================="
 echo "  MongoDB install"
