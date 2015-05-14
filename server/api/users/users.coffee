@@ -109,6 +109,7 @@ api.save = (req, res, next) ->
   User.load {criteria: {id: req.body.id}}
     .then (user) ->
       if user?
+        user = null
         res.status 400
         errData = errUtil.addError 'id', '既に使用されています', 'id', req.body.id
         res.send errData
