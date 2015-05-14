@@ -14,6 +14,9 @@ loadUser = (criteria, isArray = false) ->
   if isArray is true
     User.loads options
   else
+    options.populate = {
+      avator: 'tmpName path'
+    }
     User.load options
 
 emitEnterUsers = (socket, roomId) ->

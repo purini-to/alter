@@ -32,11 +32,20 @@ load = (criteria, option = {}) ->
   offset = if option.offset? then option.offset else 0
   this.find(criteria)
     .select(select)
-    .populate 'user', 'id name'
+    .populate 'user', 'id name avator'
     .sort {createdAt: 'desc'}
     .skip offset
     .limit limit
     .exec()
+    .then (logs) ->
+      if logs.length > 0
+        User = mongoose.model 'User'
+        Upload = mongoose.model 'Upload'
+        User.populate logs, {
+          path: 'user.avator'
+          select: 'tmpName path'
+          model: Upload
+        }
 
 ChatLogSchema.pre 'remove', (next) ->
   if this.contentType is 2 or this.contentType is 3
