@@ -13,7 +13,7 @@
             <div class="md-list-item-text" flex>
               <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
               <div class="chat-content" layout>
-                <span ng-if="log.contentType==1">{{::log.content}}</span>
+                <div ng-bind-html="::log.content | linky" ng-if="log.contentType==1"></div>
                 <img ng-src="{{::log.content.path}}" ng-if="log.contentType==2">
                 <div ng-if="log.contentType==3" layout="column">
                   <md-button ng-href="{{::log.content.path}}" ng-download="{{::log.content.originName}}" class="md-raised md-primary download-button">
