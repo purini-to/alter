@@ -163,12 +163,13 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       $scope.log.contentType = 1
 
   $scope.$on 'socket:room:enter:logs', (ev, logs) ->
-    $scope.logs = logs.reverse()
-    goButtom goButtomSettings, 700, ->
-      scrollElement.bind 'scroll', (ev)->
-        isLoadScrollPos = ev.target.scrollTop < 20
-        if isLoadScrollPos is true
-          loadLogs()
+    if logs? and logs.length > 0
+      $scope.logs = logs.reverse()
+      goButtom goButtomSettings, 700, ->
+        scrollElement.bind 'scroll', (ev)->
+          isLoadScrollPos = ev.target.scrollTop < 20
+          if isLoadScrollPos is true
+            loadLogs()
 
   $scope.$on 'socket:room:enter:user', (ev, data) ->
     index = indexOfEnterUser data._id
