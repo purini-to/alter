@@ -1,36 +1,44 @@
-<md-button type="button" ng-click="showNewRoomDialog($event)" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
-  <ng-md-icon icon="add" style="fill: white" class="size-42" size="42"></ng-md-icon>
-</md-button>
-<md-content layout="column" flex>
-  <md-toolbar class="md-hue-3 sub-toolbar">
-    <div class="md-toolbar-tools">
-      <h2>ルーム一覧</h2>
-    </div>
-  </md-toolbar>
-  <md-content class="main-content">
-    <div ng-if="rooms.length === 0">
-      <h3 class="title">ルームが存在しません</h3>
-      <md-subheader class="md-primary md-no-sticky">新規ルームを作成してください</md-subheader>
-    </div>
-    <div ng-if="rooms.length > 0">
-      <h3 class="title">{{rooms.length}}ルーム見つかりました</h3>
-      <md-subheader class="md-primary">入室するルームを選択してください</md-subheader>
-    </div>
-    <section class="container">
-      <md-list>
-        <md-list-item ng-repeat="room in rooms" class="md-2-line" ng-click="inRoom($event, $index)">
-          <div class="md-list-item-text anim-right2left" style="position: relative" animate flex>
-            <h3>{{room.name}}</h3>
-            <p>{{room.description}}</p>
-            <list-actions>
-              <md-button type="button" ng-click="toggleFavorite($event, $index)" class="md-secondary-container md-icon-button" animate aria-label="roomAdd">
-                <ng-md-icon icon="favorite" ng-attr-style="fill: {{getFavoriteColor($index)}}" class="size-32" size="32"></ng-md-icon>
-              </md-button>
-            </list-actions>
-          </div>
-          <md-divider ng-if="!$last"></md-divider>
-        </md-list-item>
-      </md-list>
-    </section>
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-button ng-click="sideNavToggle()" class="md-icon-button menu-button" hide-gt-md aria-label="SideNav">
+      <ng-md-icon icon="menu" style="fill: white" class="size-32" size="32"></ng-md-icon>
+    </md-button>
+    <h2>
+      <span content-title></span>
+    </h2>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<section flex layout="row">
+  <md-button type="button" ng-click="showNewRoomDialog($event)" class="md-fab main-content-fab anim-pop" animate aria-label="addRoom">
+    <ng-md-icon icon="add" style="fill: white" class="size-42" size="42"></ng-md-icon>
+  </md-button>
+  <md-content layout="column" flex>
+    <md-content class="main-content">
+      <div ng-if="rooms.length === 0">
+        <h3 class="title">ルームが存在しません</h3>
+        <md-subheader class="md-primary md-no-sticky">新規ルームを作成してください</md-subheader>
+      </div>
+      <div ng-if="rooms.length > 0">
+        <h3 class="title">{{rooms.length}}ルーム見つかりました</h3>
+        <md-subheader class="md-primary">入室するルームを選択してください</md-subheader>
+      </div>
+      <section class="container">
+        <md-list>
+          <md-list-item ng-repeat="room in rooms" class="md-2-line" ng-click="inRoom($event, $index)">
+            <div class="md-list-item-text anim-right2left" style="position: relative" animate flex>
+              <h3>{{room.name}}</h3>
+              <p>{{room.description}}</p>
+              <list-actions>
+                <md-button type="button" ng-click="toggleFavorite($event, $index)" class="md-secondary-container md-icon-button" animate aria-label="roomAdd">
+                  <ng-md-icon icon="favorite" ng-attr-style="fill: {{getFavoriteColor($index)}}" class="size-32" size="32"></ng-md-icon>
+                </md-button>
+              </list-actions>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+          </md-list-item>
+        </md-list>
+      </section>
+    </md-content>
   </md-content>
-</md-content>
+</section>

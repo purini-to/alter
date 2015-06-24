@@ -1,6 +1,7 @@
 app = angular.module 'alter'
 
 ###
+TODO: いらないかも
 コンテンツごとのタイトルを設定するディレクティブ
 ###
 app.directive 'contentTitle', ($rootScope, $translate, $state, stateUtil) ->
@@ -8,14 +9,15 @@ app.directive 'contentTitle', ($rootScope, $translate, $state, stateUtil) ->
     restrict: 'A'
     link : (scope, element) ->
       listener = (event,  toState,  toParams,  fromState,  fromParams) ->
+        event.preventDefault()
         element.html ''
-        parentsState = stateUtil.getCurrentParentsState()
-        for s in parentsState
-          if s.title?
-            setPageTitle = (translateValue) ->
-              element.html "#{translateValue} <i class=\"fa fa-angle-right fa-lg title-separator\"></i> #{element.text()}"
+        if toParams.title?
+          element.html "#{toParams.title}"
+        else if toState.title?
+          setPageTitle = (translateValue) ->
+            element.html "#{translateValue}"
 
-            $translate(s.title).then(setPageTitle)
+          $translate(toState.title).then(setPageTitle)
 
       scope.$on '$stateChangeSuccess',  listener
   }

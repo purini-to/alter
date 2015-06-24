@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userService, userModel, roomModel, topNavModel, rooms) ->
+app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, stateService, roomService, userService, userModel, roomModel, topNavModel, rooms) ->
   $scope.rooms = rooms
   # 入室ルームの初期化
   roomModel.setActiveRoom '', ''
@@ -27,7 +27,7 @@ app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, roomService, userServ
   $scope.inRoom = (event, index) ->
     room = $scope.rooms[index]
     roomModel.setActiveRoom room._id, room.name, room.description, room.users
-    $state.go 'chat.chatLog', {roomId: room._id}
+    stateService.go 'chat.chatLog', {roomId: room._id}
 
   $scope.showNewRoomDialog = (ev) ->
     $mdDialog.show({

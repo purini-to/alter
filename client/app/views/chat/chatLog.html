@@ -1,46 +1,58 @@
-<md-content layout="row" flex>
-  <section layout="column" flex>
-    <md-toolbar class="md-hue-3 sub-toolbar">
+<section layout="row" flex>
+  <div layout="column" flex>
+    <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>{{activeRoom.name}}</h2>
+        <md-button ng-click="sideNavToggle()" class="md-icon-button menu-button" hide-gt-md aria-label="SideNav">
+          <ng-md-icon icon="menu" style="fill: white" class="size-32" size="32"></ng-md-icon>
+        </md-button>
+        <h2>
+          <span>{{ activeRoom.name  }}</span>
+        </h2>
+        <span flex></span>
       </div>
     </md-toolbar>
-    <md-content class="main-content md-whiteframe-z1" flex>
-      <section class="container">
-        <md-list class="chat-log">
-          <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
-            <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-class="{hidden: isContinuation($index, -1)}">
-            <div class="md-list-item-text" flex>
-              <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
-              <div class="chat-content" layout>
-                <div ng-bind-html="::log.content | linky" ng-if="log.contentType==1"></div>
-                <img ng-src="{{::log.content.path}}" ng-if="log.contentType==2">
-                <div ng-if="log.contentType==3" layout="column">
-                  <md-button ng-href="{{::log.content.path}}" ng-download="{{::log.content.originName}}" class="md-raised md-primary download-button">
-                    <ng-md-icon icon="file_download" style="fill: white" class="size-20" size="20"></ng-md-icon>
-                    {{::log.content.originName}} ({{::log.content.size | bytes}})
-                  </md-button>
-                </div>
-              </div>
-              <div ng-show="isMouseOverLog($index)" class="tool-bar">
-                <md-button ng-if="isOwnerLog($index)" ng-click="removeLog($index)" class="tool-button">
-                  <ng-md-icon icon="clear" style="fill: grey" class="size-20" size="20"></ng-md-icon>削除
-                </md-button>
-              </div>
-            </div>
-            <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
-          </md-list-item>
-        </md-list>
-      </section>
-    </md-content>
-    <section class="chat-input-container md-whiteframe-z1" layout="column">
-      <textarea ng-model="log.content" ng-enter="sendLog($event)" placeholder="メッセージ" flex></textarea>
-      <div ng-model="files" ngf-drop ngf-multiple="true" msd-elastic class="file-upload">
+    <section flex layout="row">
+      <md-content layout="row" flex>
+        <section layout="column" flex>
+          <md-content class="main-content md-whiteframe-z1" flex>
+            <section class="container">
+              <md-list class="chat-log">
+                <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
+                  <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-class="{hidden: isContinuation($index, -1)}">
+                  <div class="md-list-item-text" flex>
+                    <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
+                    <div class="chat-content" layout>
+                      <div ng-bind-html="::log.content | linky" ng-if="log.contentType==1"></div>
+                      <img ng-src="{{::log.content.path}}" ng-if="log.contentType==2">
+                      <div ng-if="log.contentType==3" layout="column">
+                        <md-button ng-href="{{::log.content.path}}" ng-download="{{::log.content.originName}}" class="md-raised md-primary download-button">
+                          <ng-md-icon icon="file_download" style="fill: white" class="size-20" size="20"></ng-md-icon>
+                          {{::log.content.originName}} ({{::log.content.size | bytes}})
+                        </md-button>
+                      </div>
+                    </div>
+                    <div ng-show="isMouseOverLog($index)" class="tool-bar">
+                      <md-button ng-if="isOwnerLog($index)" ng-click="removeLog($index)" class="tool-button">
+                        <ng-md-icon icon="clear" style="fill: grey" class="size-20" size="20"></ng-md-icon>削除
+                      </md-button>
+                    </div>
+                  </div>
+                  <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>
+                </md-list-item>
+              </md-list>
+            </section>
+          </md-content>
+          <section class="chat-input-container md-whiteframe-z1" layout="column">
+            <textarea ng-model="log.content" ng-enter="sendLog($event)" placeholder="メッセージ" flex></textarea>
+            <div ng-model="files" ngf-drop ngf-multiple="true" msd-elastic class="file-upload">
+          </section>
+        </section>
+      </md-content>
     </section>
-  </section>
+  </div>
   <md-sidenav class="member-nav md-whiteframe-z2" md-component-id="chat-member" md-is-locked-open="$mdMedia('gt-sm')">
-    <md-toolbar class="md-hue-3 sub-toolbar">
-      <h3 class="md-toolbar-tools">情報</h3>
+    <md-toolbar>
+      <h3 class="md-toolbar-tools">インフォメーション</h3>
     </md-toolbar>
     <md-content layout="column">
       <md-tabs md-dynamic-height md-border-bottom class="stretch-tab">
@@ -83,4 +95,4 @@
       </md-tabs>
     </md-content>
   </md-sidenav>
-</md-content>
+</section>
