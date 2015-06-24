@@ -17,7 +17,7 @@
           <md-content class="main-content md-whiteframe-z1" flex>
             <section class="container">
               <md-list class="chat-log">
-                <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line" style="word-wrap: break-word;">
+                <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line">
                   <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-class="{hidden: isContinuation($index, -1)}">
                   <div class="md-list-item-text" flex>
                     <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
