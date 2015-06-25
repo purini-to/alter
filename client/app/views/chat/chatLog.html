@@ -5,10 +5,26 @@
         <md-button ng-click="sideNavToggle()" class="md-icon-button menu-button" hide-gt-md aria-label="SideNav">
           <ng-md-icon icon="menu" style="fill: white" class="size-32" size="32"></ng-md-icon>
         </md-button>
-        <h2>
-          <span>{{ activeRoom.name  }}</span>
-        </h2>
+        <span>{{ activeRoom.name  }}</span>
         <span flex></span>
+        <md-fab-speed-dial md-direction="down" class="md-scale" style="top: 73px;">
+          <md-fab-trigger>
+            <md-button aria-label="info-menu" class="md-icon-button">
+              <ng-md-icon icon="more_vert" style="fill: white" class="size-32" size="32"></ng-md-icon>
+            </md-button>
+          </md-fab-trigger>
+          <md-fab-actions>
+            <md-button ng-click="subNavOpen('info')" aria-label="info" class="md-icon-button">
+              <ng-md-icon icon="info" style="fill: black" class="size-32" size="32"></ng-md-icon>
+            </md-button>
+            <md-button aria-label="memo" class="md-icon-button">
+              <ng-md-icon icon="description" style="fill: black" class="size-32" size="32"></ng-md-icon>
+            </md-button>
+            <md-button aria-label="board" class="md-icon-button">
+              <ng-md-icon icon="crop_original" style="fill: black" class="size-32" size="32"></ng-md-icon>
+            </md-button>
+          </md-fab-actions>
+        </md-fab-speed-dial>
       </div>
     </md-toolbar>
     <section flex layout="row">
@@ -50,10 +66,15 @@
       </md-content>
     </section>
   </div>
-  <md-sidenav class="member-nav md-whiteframe-z2" md-component-id="chat-member" md-is-locked-open="$mdMedia('gt-sm')">
+  <md-sidenav class="member-nav md-sidenav-right md-whiteframe-z2" md-component-id="chat-sub-nav" md-is-locked-open="isOpenSubNav">
     <md-toolbar class="md-hue-3">
-      <div class="md-toolbar-tools">
-        <h3>インフォメーション</h3>
+      <div class="md-toolbar-tools" flex>
+          <ng-md-icon icon="info" style="fill: white" class="size-32" size="32"></ng-md-icon>
+          インフォメーション
+          <span flex></span>
+          <md-button ng-click="subNavClose()" class="md-icon-button menu-button" aria-label="SubNav">
+            <ng-md-icon icon="arrow_forward" style="fill: white" class="size-32" size="32"></ng-md-icon>
+          </md-button>
       </div>
     </md-toolbar>
     <md-content layout="column">

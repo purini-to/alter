@@ -1,6 +1,7 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $state, $mdToast, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $mdSidenav, $state, $mdToast, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
+  $scope.isOpenSubNav = true
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
@@ -19,6 +20,12 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       logUser.avator.path
     else
       'null'
+
+  $scope.subNavClose = ->
+    $scope.isOpenSubNav = false
+
+  $scope.subNavOpen = (value) ->
+    $scope.isOpenSubNav = true
 
   scrollElement = angular.element('.main-content')
   goButtomSettings = {
