@@ -15,7 +15,7 @@
             <label>{{'LOGIN.ACCOUNT.INPUT.ID.LABEL' | translate}}</label>
             <input ng-model="user.id" type="text" name="id" disabled>
           </md-input-container>
-          <div layout layout-align="center center" ngf-drop ngf-select ng-model="avator" class="drop-box" ngf-allow-dir="true" ngf-accept="'image/*'" flex>
+          <div layout layout-align="center center" ngf-drop ngf-select ng-model="avator" ngf-drag-over-class="dragover-file" class="drop-box" ngf-allow-dir="true" ngf-accept="'image/*'" flex>
             <img ng-if="avator.length > 0" ngf-src="avator[0]" class="avator">
             <img ng-if="avator == null || avator.length == 0" ng-src="{{user.avator.path}}" class="avator">
           </div>

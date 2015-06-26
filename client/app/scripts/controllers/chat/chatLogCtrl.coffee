@@ -1,7 +1,7 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $mdSidenav, $state, $mdToast, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
-  $scope.isOpenSubNav = true
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $mdSidenav, $state, $mdToast, $mdMedia, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
+  $scope.isOpenSubNav = false
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
@@ -54,13 +54,14 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
           $scope.log.content = tmp
           $scope.log.contentType = 1
 
-  textareaElement.bind 'dragenter', (ev) ->
-    fileupElement.addClass 'active'
+  textareaElement.closest('md-content').bind 'dragenter', (ev) ->
+    $timeout ->
+      fileupElement.addClass 'active'
 
-  fileupElement.bind 'dragleave', (ev) ->
+  fileupElement.closest('md-content').bind 'dragleave', (ev) ->
     fileupElement.removeClass 'active'
 
-  fileupElement.bind 'drop', (ev) ->
+  fileupElement.closest('md-content').bind 'drop', (ev) ->
     fileupElement.removeClass 'active'
 
   $scope.$watch 'files', (files) ->

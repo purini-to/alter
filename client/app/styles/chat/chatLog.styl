@@ -2,7 +2,6 @@
   padding-top 8px
   padding-bottom 5px
   background-color #ECEFF1
-  position relative
   textarea
     color rgba(0, 0, 0, 0.87)
     border-color rgba(0, 0, 0, 0.12)
@@ -31,6 +30,9 @@
     z-index -1
     &.active
       z-index 10
+    &.dragover-file
+      border 3px dashed rgb(29,  233,  182)
+      background-color red
 
 .chat-log
   margin-bottom 28px
@@ -71,6 +73,11 @@
         z-index 99
         background-color #ECF7F6 !important
         line-height normal
+
+.md-toolbar-tools
+  .sub-tool-buttons
+    margin-right -8px
+    top 73px
 
 .download-button.md-button
   text-transform none

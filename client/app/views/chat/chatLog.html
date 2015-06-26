@@ -7,7 +7,7 @@
         </md-button>
         <span>{{ activeRoom.name  }}</span>
         <span flex></span>
-        <md-fab-speed-dial md-direction="down" class="md-scale" style="top: 73px;">
+        <md-fab-speed-dial md-direction="down" class="md-scale sub-tool-buttons">
           <md-fab-trigger>
             <md-button aria-label="info-menu" class="md-icon-button">
               <ng-md-icon icon="more_vert" style="fill: white" class="size-32" size="32"></ng-md-icon>
@@ -59,8 +59,8 @@
             </section>
           </md-content>
           <section class="chat-input-container md-whiteframe-z1" layout="column">
-            <textarea ng-model="log.content" ng-enter="sendLog($event)" placeholder="メッセージ" flex></textarea>
-            <div ng-model="files" ngf-drop ngf-multiple="true" msd-elastic class="file-upload">
+            <textarea ng-model="log.content" msd-elastic ng-enter="sendLog($event)" placeholder="メッセージ" flex></textarea>
+            <div ng-model="files" ngf-drop ngf-multiple="true" class="file-upload">
           </section>
         </section>
       </md-content>
@@ -73,7 +73,7 @@
           インフォメーション
           <span flex></span>
           <md-button ng-click="subNavClose()" class="md-icon-button menu-button" aria-label="SubNav">
-            <ng-md-icon icon="arrow_forward" style="fill: white" class="size-32" size="32"></ng-md-icon>
+            <ng-md-icon icon="close" style="fill: white" class="size-32" size="32"></ng-md-icon>
           </md-button>
       </div>
     </md-toolbar>
