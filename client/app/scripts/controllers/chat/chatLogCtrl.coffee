@@ -6,7 +6,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.enterUsers = []
   $scope.logsLoadBusy = false
   $scope.form = {}
-  $scope.files = null
+  $scope.files = []
   $scope.logs = []
   $scope.log = {
     content: ''
@@ -64,23 +64,38 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   fileupElement.closest('md-content').bind 'drop', (ev) ->
     fileupElement.removeClass 'active'
 
+  showAlert = ->
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent document.body
+        .title 'ファイル数が多すぎます'
+        .content '同時にアップロード出来るファイル数は５個までです。'
+        .ariaLabel 'Alert Dialog File Upload'
+        .ok '確認'
+    )
+
   $scope.$watch 'files', (files) ->
-    if files? and files.length
-      for file in files
-        Upload.upload({
-          url: "upload/file/#{$scope.activeRoom._id}",
-          fields: {user: userModel.user},
-          file: file
-        }).success (data,  status,  headers,  config) ->
-          tmp = $scope.log.content
-          $scope.log.content = data
-          if file.type.indexOf("image") is -1
-            $scope.log.contentType = 3
-          else
-            $scope.log.contentType = 2
-          socketUtil.emit 'room:sendLog', $scope.log
-          $scope.log.content = tmp
-          $scope.log.contentType = 1
+    targets = files.filter (val, index) ->
+      val.type? and val.type isnt 'directory'
+    if targets? and targets.length
+      if targets.length < 6
+        for file in targets
+          Upload.upload({
+            url: "upload/file/#{$scope.activeRoom._id}",
+            fields: {user: userModel.user},
+            file: file
+          }).success (data,  status,  headers,  config) ->
+            tmp = $scope.log.content
+            $scope.log.content = data
+            if file.type.indexOf("image") is -1
+              $scope.log.contentType = 3
+            else
+              $scope.log.contentType = 2
+            socketUtil.emit 'room:sendLog', $scope.log
+            $scope.log.content = tmp
+            $scope.log.contentType = 1
+      else
+        showAlert()
 
   mouseOverLogIndex = null
 
