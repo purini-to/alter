@@ -19,6 +19,8 @@ diffUser = (user, newUser) ->
     diffVal.name = newUser.name
   if user.email isnt newUser.email
     diffVal.email = newUser.email
+  if newUser.password? and newUser.password isnt ''
+    diffVal.password = newUser.password
   diffVal
 
 api = {}
@@ -174,6 +176,8 @@ api.update = (req, res, next) ->
         diff = diffUser user, req.body
         user = _.merge user, diff
         user.save()
+        if diff.password?
+          delete diff.password
       else
         res.status 400
         errData = errUtil.addError '_id', '存在しないユーザーです', '_id', userId
