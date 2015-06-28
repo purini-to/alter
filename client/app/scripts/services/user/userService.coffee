@@ -26,6 +26,15 @@ app.factory 'userService', ($resource, $state, sessionService, userModel, topNav
       .save user
       .$promise
 
+  user.update = (user) ->
+    url = '/api/users/:userId'
+    defaultParams = {userId: user._id}
+    actions = {}
+
+    $resource url, defaultParams, actions
+      .save user
+      .$promise
+        
   user.loadByToken = (token) ->
     url = '/api/users/token'
     defaultParams = {}

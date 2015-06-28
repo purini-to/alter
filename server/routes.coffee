@@ -13,6 +13,8 @@ module.exports = (app) ->
   app.route('/api/users/token').post(api.users.users.getUserByToken)
   # アカウント新規登録API
   app.route('/api/users').post(api.users.users.save)
+  # アカウント更新API
+  app.route('/api/users/:userId').post(api.users.users.update)
   # お気に入り追加API
   app.route('/api/users/addFavoriteRoom/:userId').post(api.users.users.addFavoriteRoom)
   # お気に入り削除API
