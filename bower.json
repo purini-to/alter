@@ -23,6 +23,7 @@
     "svg-morpheus": "~0.1.8",
     "angular-socket-io": "~0.7.0",
     "angular-elastic": "~2.4.2",
-    "ng-file-upload": "~4.2.0"
+    "ng-file-upload": "~4.2.0",
+    "angular-thumbnail": "~0.1.1"
   }
 }
