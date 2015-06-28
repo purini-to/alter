@@ -30,6 +30,10 @@ app.controller 'profileCtrl', ($scope, $mdDialog, $mdMedia, $mdToast, $timeout, 
         user.password is '' || user.password is val
   }
 
+  # パスワードの入力を監視して、パスワード確認のバリデーションを行う
+  $scope.$watch 'user.password', ->
+    $scope.accountForm.conf.$validate()
+
   # submitイベントハンドラ
   $scope.submit = (ev) ->
     userService.update $scope.user
