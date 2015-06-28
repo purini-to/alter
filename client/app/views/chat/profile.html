@@ -8,7 +8,7 @@
     </div>
   </md-toolbar>
   <md-card ng-class="{'overlap': !screenIsOverlap()}" flex-md flex-sm>
-    <form ng-submit="newAccountForm.$invalid ? null : submit()" name="newAccountForm" novalidate layout="column">
+    <form ng-submit="accountForm.$invalid ? null : submit()" name="accountForm" novalidate layout="column">
       <div class="dialog-container scroll" layout-margin>
         <div layout layout-sm="column">
           <md-input-container flex layout-margin>
@@ -23,7 +23,7 @@
         <md-input-container flex layout-margin>
           <label>{{'LOGIN.ACCOUNT.INPUT.NAME.LABEL' | translate}}</label>
           <input ng-model="user.name" type="text" name="name" required maxlength="12">
-          <div ng-messages="newAccountForm.name.$error">
+          <div ng-messages="accountForm.name.$error">
             <div ng-message="required">{{'VALIDATION.REQUIRE' | translate}}</div>
             <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.12' | translate}}</div>
           </div>
@@ -31,7 +31,7 @@
         <md-input-container flex>
           <label>{{'LOGIN.ACCOUNT.INPUT.EMAIL.LABEL' | translate}}</label>
           <input ng-model="user.email" type="email" name="email" maxlength="50">
-          <div ng-messages="newAccountForm.email.$error">
+          <div ng-messages="accountForm.email.$error">
             <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.50' | translate}}</div>
             <div ng-message="email">{{'VALIDATION.INVALID.EMAIL' | translate}}</div>
           </div>
@@ -39,17 +39,17 @@
         <md-input-container flex>
           <label>{{'LOGIN.ACCOUNT.INPUT.PASSWORD.LABEL' | translate}}</label>
           <input ng-model="user.password" type="password" name="password" maxlength="20" minlength="6" ng-pattern="/^[a-zA-Z0-9-/:-@\[-\`\{-\~]+$/">
-          <div ng-messages="newAccountForm.password.$error">
+          <div ng-messages="accountForm.password.$error">
             <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.20' | translate}}</div>
             <div ng-message="minlength">{{'VALIDATION.MINLENGTH.6' | translate}}</div>
             <div ng-message="pattern">{{'VALIDATION.INVALID.ALPHANUMSYM' | translate}}</div>
-            <div ng-show="!newAccountForm.password.$dirty" class="help-message">変更する場合は入力してください</div>
+            <div ng-show="!accountForm.password.$dirty" class="help-message">変更する場合は入力してください</div>
           </div>
         </md-input-container>
         <md-input-container flex>
           <label>{{'LOGIN.ACCOUNT.INPUT.CONF.LABEL' | translate}}</label>
-          <input ng-model="conf" type="password" name="conf" required app-validators="validators.password_confirm">
-          <div ng-messages="newAccountForm.conf.$error">
+          <input ng-model="conf" type="password" name="conf" app-validators="validators.password_confirm">
+          <div ng-messages="accountForm.conf.$error">
             <div ng-message="confirm">{{'LOGIN.ACCOUNT.INPUT.CONF.VALIDATION.INVALID' | translate}}</div>
           </div>
         </md-input-container>

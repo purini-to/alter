@@ -5,6 +5,7 @@
 
 identicon = require 'identicon'
 fs = require 'fs'
+_ = require 'lodash'
 
 errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
@@ -12,6 +13,13 @@ User = mongoose.model 'User'
 Upload = mongoose.model 'Upload'
 SessionToken = mongoose.model 'SessionToken'
 
+diffUser = (user, newUser) ->
+  diffVal = {}
+  if user.name isnt newUser.name
+    diffVal.name = newUser.name
+  if user.email isnt newUser.email
+    diffVal.email = newUser.email
+  diffVal
 
 api = {}
 
@@ -140,6 +148,44 @@ api.save = (req, res, next) ->
         }
         res.send resData
       user
+    .onReject (error) ->
+      console.log error
+      next error
+
+###
+# アカウント更新API
+###
+api.update = (req, res, next) ->
+  req.checkBody('id',  '不正な値です').notEmpty().isLength(5, 15).isAlphaNumericSymbol()
+  req.checkBody('name',  '不正な値です').notEmpty().isLength(1, 12)
+  if req.param('password')? and req.param('password') is not ''
+    req.checkBody('password',  '不正な値です').optional().isLength(6, 20).isAlphaNumericSymbol()
+  if req.param('email')? and req.param('email') is not ''
+    req.checkBody('email',  '不正な値です').optional().isEmail()
+  errors = req.validationErrors(true)
+  if errors?
+    res.status 400
+    return res.send errors
+
+  userId = req.param "userId"
+  User.load {criteria: {_id: userId}}
+    .then (user) ->
+      if user?
+        diff = diffUser user, req.body
+        user = _.merge user, diff
+        user.save()
+      else
+        res.status 400
+        errData = errUtil.addError '_id', '存在しないユーザーです', '_id', userId
+        res.send errData
+      [user, diff]
+    .then (result) ->
+      if res.finished is false
+        resData = 
+          user: result[0]
+          diff: result[1]
+        res.send resData
+      result
     .onReject (error) ->
       console.log error
       next error

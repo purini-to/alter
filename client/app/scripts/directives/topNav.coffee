@@ -40,7 +40,7 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog,
     sessionService.destroy()
     $state.go 'login'
 
-  $scope.showNewRoomDialog = (ev) ->
+  $scope.showProfileDialog = (ev) ->
     $mdDialog.show({
       controller: "profileCtrl"
       templateUrl: 'views/chat/profile.html'
