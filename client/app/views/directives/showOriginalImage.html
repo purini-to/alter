@@ -1,0 +1,11 @@
+<md-dialog aria-label="showOriginalImage">
+  <div layout="row">
+    <span flex></span>
+    <md-button ng-click="hide()" aria-label="originalClose" class="md-icon-button">
+      <ng-md-icon icon="close" style="fill: black" class="size-32" size="32"></ng-md-icon>
+    </md-button>
+  </div>
+  <md-dialog-content>
+    <img ng-src="{{ ::originalSrc }}">
+  </md-dialog-content>
+</md-dialog>
