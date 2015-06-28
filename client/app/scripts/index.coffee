@@ -1,7 +1,7 @@
 ###
 アプリケーションのAngularJS依存関係設定
 ###
-angular.module 'alter', ['ui.router', 'ngMaterial', 'ngMessages', 'ngSanitize', 'ngResource', 'ngCookies', 'angular-loading-bar', 'pascalprecht.translate', 'alAngularHero', 'ngMdIcons', 'btford.socket-io', 'monospaced.elastic', 'ngFileUpload']
+angular.module 'alter', ['ui.router', 'ngMaterial', 'ngMessages', 'ngSanitize', 'ngResource', 'ngCookies', 'angular-loading-bar', 'pascalprecht.translate', 'alAngularHero', 'ngMdIcons', 'btford.socket-io', 'monospaced.elastic', 'ngFileUpload', 'ui.thumbnail']
   .constant 'AUTH_EVENTS',
     loginSuccess: 'auth-login-success'
     loginFailed: 'auth-login-failed'
