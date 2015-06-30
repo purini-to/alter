@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.factory 'userService', ($resource, $state, sessionService, userModel, topNavModel) ->
+app.factory 'userService', ($resource, $state, $q, Upload, sessionService, userModel, topNavModel) ->
   user = {}
 
   user.login =  (user) ->
@@ -26,14 +26,20 @@ app.factory 'userService', ($resource, $state, sessionService, userModel, topNav
       .save user
       .$promise
 
-  user.update = (user) ->
-    url = '/api/users/:userId'
-    defaultParams = {userId: user._id}
-    actions = {}
+  user.update = (user, file) ->
+    deferred = $q.defer()
+    url = "/api/users/#{user._id}"
+    Upload.upload({
+      url: url
+      fields: user
+      file: file
+    }).success (data, status, headers, config) ->
+      if status is 200
+        deferred.resolve(data)
+      else
+        deferred.reject(data)
 
-    $resource url, defaultParams, actions
-      .save user
-      .$promise
+    deferred.promise
         
   user.loadByToken = (token) ->
     url = '/api/users/token'
