@@ -36,7 +36,7 @@ app.controller 'profileCtrl', ($scope, $mdDialog, $mdMedia, $mdToast, $timeout, 
 
   # submitイベントハンドラ
   $scope.submit = (ev) ->
-    userService.update $scope.user
+    userService.update $scope.user, $scope.avator
       .then (result) ->
         # diffデータのみ反映する
         angular.extend userModel.user, result.diff

@@ -3,6 +3,7 @@
 ###
 'use strict'
 
+Q = require 'q'
 identicon = require 'identicon'
 fs = require 'fs'
 _ = require 'lodash'
@@ -12,6 +13,23 @@ mongoose = require 'mongoose'
 User = mongoose.model 'User'
 Upload = mongoose.model 'Upload'
 SessionToken = mongoose.model 'SessionToken'
+
+avatorUpload = (files, user) ->
+  appPath = require('../../app').get('appPath')
+  originName = if files.file.originalname is 'undefined' then '' else files.file.originalname
+  extension = if files.file.extension is '' then files.file.mimetype else files.file.extension
+  path = files.file.path.replace("#{appPath}/", '')
+  size = files.file.size
+  upload = new Upload {
+    originName: originName
+    tmpName: files.file.name
+    extension: extension
+    size: size
+    path: path
+    user: user._id
+  }
+
+  upload.save()
 
 diffUser = (user, newUser) ->
   diffVal = {}
@@ -172,16 +190,28 @@ api.update = (req, res, next) ->
   userId = req.param "userId"
   User.load {criteria: {_id: userId}}
     .then (user) ->
+      avator = null
       if user?
-        diff = diffUser user, req.body
-        user = _.merge user, diff
-        user.save()
-        if diff.password?
-          delete diff.password
+        if req.files.file?
+          avator = avatorUpload req.files, user
       else
         res.status 400
         errData = errUtil.addError '_id', '存在しないユーザーです', '_id', userId
         res.send errData
+      Q.all [user, avator]
+    .then (result) ->
+      if res.finished is false
+        user = result[0]
+        diff = diffUser user, req.body
+        user = _.merge user, diff
+        if diff.password?
+          delete diff.password
+        if result[1]?
+          avator = result[1]
+          user.avator = avator._id
+          diff.avator = avator
+        
+        user = user.save()
       [user, diff]
     .then (result) ->
       if res.finished is false
