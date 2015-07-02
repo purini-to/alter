@@ -1,7 +1,13 @@
+.chat-log-container
+  margin-bottom 60px
 .chat-input-container
   padding-top 8px
   padding-bottom 5px
   background-color #ECEFF1
+  position absolute
+  bottom 0px
+  right 0px
+  left 0px
   textarea
     color rgba(0, 0, 0, 0.87)
     border-color rgba(0, 0, 0, 0.12)
@@ -22,7 +28,7 @@
       border-width 0 0 2px 0
       padding-bottom 0px
   .file-upload
-    position absolute
+    position fixed
     top 0px
     bottom 0px
     left 0px
@@ -30,9 +36,7 @@
     z-index -1
     &.active
       z-index 10
-    &.dragover-file
       border 3px dashed rgb(29,  233,  182)
-      background-color red
 
 .chat-log
   margin-bottom 28px
