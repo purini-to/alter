@@ -16,6 +16,7 @@ gulp.task('minify:js', ['build:coffee'], function () {
     return merge(
         gulp.src($.mainBowerFiles())
         .pipe(jsFilter)
+        .pipe($.ngAnnotate())
         .pipe($.concat('vendor.min.js'))
         // .pipe($.uglify({preserveComments:'some'}))
         .pipe($.uglify())
