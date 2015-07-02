@@ -9,7 +9,7 @@ angular.module 'alter', ['ui.router', 'ngMaterial', 'ngMessages', 'ngSanitize', 
     sessionTimeout: 'auth-session-timeout'
     notAuthenticated: 'auth-not-authenticated'
     notAuthorized: 'auth-not-authorized'
-  .run ($window, $rootScope, $state, $mdDialog, AUTH_EVENTS, userService) ->
+  .run ($rootScope, $state, $mdDialog, AUTH_EVENTS, userService) ->
     $rootScope.$on '$stateChangeStart', (event, next) ->
       isAuth = next.auth
       if isAuth? and isAuth is true
