@@ -13,6 +13,13 @@ app.factory 'notifyService', ->
   })
 
   ###
+  # 現在のタブを最前面にする
+  ###
+  activeWindow = ->
+    window.open().close()
+    window.focus()
+
+  ###
   # ブラウザがデスクトップ通知に対応しているかチェック
   ###
   service.isSupported = ->
@@ -39,6 +46,9 @@ app.factory 'notifyService', ->
     if service.isSupported() and service.isPermissionGrant()
       settings = {
         icon: 'notifyAlter.ico'
+        click: (notification, wrapper)->
+          wrapper.close()
+          activeWindow()
       }
       _options = angular.extend settings, options
       _options.body = log
