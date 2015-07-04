@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gulpsync = require('gulp-sync')(gulp);
 var $ = require('gulp-load-plugins')({
     pattern: ['gulp-*', 'main-bower-files']
 });
@@ -36,7 +37,7 @@ gulp.task('serve', ['copy:vendor', 'inject', 'build:coffee:server'], function ()
     });
 });
 
-gulp.task('serve:dest', ['copy:dest', 'inject:dest', 'build:coffee:server'], function () {
+gulp.task('serve:dest', gulpsync.sync(['copy:dest', 'inject:dest', 'build:coffee:server']), function (cb) {
   return $.nodemon({
     script: './bin/www',
     ext: 'js',

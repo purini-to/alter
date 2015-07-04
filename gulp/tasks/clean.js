@@ -47,7 +47,15 @@ gulp.task('clean:assets', function () {
 });
 
 gulp.task('clean:dest', function (cb) {
-    $.del(conf.dest + '/**/*', cb)
+    var target = [
+      conf.dest + '/assets', 
+      conf.dest + '/views', 
+      conf.dest + '/components', 
+      conf.dest + '/javascripts', 
+      conf.dest + '/stylesheets'
+    ]
+
+    $.del(target, cb)
 });
 
 gulp.task('clean:server', function (cb) {
