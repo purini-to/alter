@@ -16,7 +16,6 @@ app.factory 'notifyService', ->
   # 現在のタブを最前面にする
   ###
   activeWindow = ->
-    window.open().close()
     window.focus()
 
   ###
