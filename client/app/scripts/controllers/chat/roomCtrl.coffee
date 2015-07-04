@@ -1,6 +1,7 @@
 app = angular.module 'alter'
 
-app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, stateService, roomService, userService, userModel, roomModel, topNavModel, rooms) ->
+app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, stateService, roomService, userService, notifyService, userModel, roomModel, topNavModel, rooms) ->
+  notifyService.requestPermission()
   $scope.rooms = rooms
   # 入室ルームの初期化
   roomModel.setActiveRoom '', ''

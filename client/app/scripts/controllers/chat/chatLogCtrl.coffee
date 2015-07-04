@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $mdSidenav, $state, $mdToast, $mdMedia, Upload, socketUtil, roomService, userService, roomModel, userModel, topNavModel) ->
+app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $timeout, $mdDialog, $mdSidenav, $state, $mdToast, $mdMedia, Upload, socketUtil, roomService, userService, notifyService, roomModel, userModel, topNavModel) ->
   $scope.isOpenSubNav = false
   $scope.activeRoom = roomModel.activeRoom
   $scope.enterUsers = []
@@ -215,6 +215,8 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
           $scope.logsLoadBusy = false
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
+    if data.user._id isnt userModel.user._id
+      notifyService.showChat data.user.name, data.content, {icon: data.user.avator.path}
     goButtom goButtomSettings, 0
   $scope.$on 'socket:room:update:info', (ev, data) ->
     oldName = $scope.activeRoom.name
