@@ -38,7 +38,7 @@
                   <div class="md-list-item-text" flex>
                     <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
                     <div class="chat-content" layout>
-                      <div ng-bind-html="::log.content | linky" ng-if="log.contentType==1" target-blank></div>
+                      <div ng-if="log.contentType==1" marked="::log.content" class="git-hub-markdown" target-blank flex></div>
                       <ui-thumbnail al-thumnail-pop-up ng-if="log.contentType==2" ng-src="{{::log.content.path}}" src="::log.content.path"></ui-thumbnail>
                       <div ng-if="log.contentType==3" layout="column">
                         <md-button ng-href="{{::log.content.path}}" ng-download="{{::log.content.originName}}" class="md-raised md-primary download-button">
