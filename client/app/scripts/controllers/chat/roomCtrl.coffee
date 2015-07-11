@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, stateService, roomService, userService, notifyService, userModel, roomModel, topNavModel, rooms) ->
+app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, socketUtil, stateService, roomService, userService, notifyService, userModel, roomModel, topNavModel, rooms) ->
   notifyService.requestPermission()
   $scope.rooms = rooms
   # 入室ルームの初期化
@@ -36,3 +36,19 @@ app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, stateService, roomSer
       templateUrl: 'views/chat/newRoom.html'
       targetEvent: ev
     })
+
+  $scope.$on 'socket:room:add', (ev, data) ->
+    if data.room?
+      $scope.rooms.unshift data.room
+
+  $scope.$on 'socket:room:delete', (ev, data) ->
+    if data.room._id?
+      roomId = data.room._id
+      idx = userModel.indexOfFavoriteRoom roomId
+      if idx > -1
+        userService.removeFavoriteRoom data.room, idx
+      _.remove $scope.rooms, (room) ->
+        room._id is roomId
+
+  socketUtil.forward 'room:add', $scope
+  socketUtil.forward 'room:delete', $scope

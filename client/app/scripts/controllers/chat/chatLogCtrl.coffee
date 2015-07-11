@@ -237,18 +237,19 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     if index > -1
       $scope.logs.splice index, 1
   $scope.$on 'socket:room:delete', (ev, data) ->
-    roomId = data.roomId
+    roomId = data.room._id
     idx = userModel.indexOfFavoriteRoom roomId
     if idx > -1
-      userService.removeFavoriteRoom $scope.activeRoom, idx
-    socketUtil.emit 'room:leave', $scope.activeRoom
-    $state.go ('chat.room')
-    $mdToast.show(
-      $mdToast.simple()
-        .content 'ルームが削除されたため退室しました'
-        .position 'bottom left'
-        .hideDelay(3000)
-    )
+      userService.removeFavoriteRoom data.room, idx
+    if $scope.activeRoom._id is roomId
+      socketUtil.emit 'room:leave', $scope.activeRoom
+      $state.go ('chat.room')
+      $mdToast.show(
+        $mdToast.simple()
+          .content 'ルームが削除されたため退室しました'
+          .position 'bottom left'
+          .hideDelay(3000)
+      )
 
   leaveRoom = (event,  toState,  toParams,  fromState,  fromParams) ->
     if fromState.name is 'chat.chatLog'

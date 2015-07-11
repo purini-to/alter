@@ -133,6 +133,6 @@ module.exports = (io, socket) ->
         room
       .then (room) ->
         if room?
-          io.sockets.to(roomId).emit 'room:delete', {roomId: roomId}
+          io.sockets.emit 'room:delete', room: room
       .onReject (err) ->
         console.log err
