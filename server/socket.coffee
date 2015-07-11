@@ -13,6 +13,7 @@ sio = (server) ->
     console.log "Socket Connected {socketId:#{socket.id}, userId:#{userId}}"
 
     require('./socket/chat/chatLogs')(io, socket)
+    require('./socket/chat/rooms')(io, socket)
 
     socket.on "disconnect", ->
       userInfo.removeUser userId, socket.id
