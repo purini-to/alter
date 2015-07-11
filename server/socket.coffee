@@ -9,15 +9,13 @@ sio = (server) ->
 
   io.sockets.on 'connection', (socket) ->
     userId = socketUtil.getUserId socket
-    userInfo.addUser userId, {
-      socketId: socket.id
-    }
-    console.log "Socket Connected {userId:#{userId}}"
+    userInfo.addUser userId, socket.id
+    console.log "Socket Connected {socketId:#{socket.id}, userId:#{userId}}"
 
     require('./socket/chat/chatLogs')(io, socket)
 
     socket.on "disconnect", ->
-      userInfo.removeUser userId
-      console.log "Socket Disconnected {userId:#{userId}}"
+      userInfo.removeUser userId, socket.id
+      console.log "Socket Disconnected {socketId:#{socket.id}, userId:#{userId}}"
 
 module.exports = sio

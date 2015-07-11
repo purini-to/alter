@@ -65,15 +65,17 @@ module.exports = (io, socket) ->
 
   socket.on "room:leave", (data) ->
     roomId = data._id
-    socket.leave roomId
     userId = socketUtil.getUserId socket
-    socket.broadcast.to(roomId).emit 'room:leave:user', {userId: userId}
+    if !userInfo.isOtherEntryRoomSocket(socket, userId, roomId)
+      socket.broadcast.to(roomId).emit 'room:leave:user', {userId: userId}
+    socket.leave roomId
     roomId = null
 
   socket.on "disconnect", ->
-    if roomId?
-      userId = socketUtil.getUserId socket
+    userId = socketUtil.getUserId socket
+    if roomId? and !userInfo.isOtherEntryRoomSocket(socket, userId, roomId)
       socket.broadcast.to(roomId).emit 'room:leave:user', {userId: userId}
+    roomId = null
 
   socket.on "room:moreLogs", (data) ->
     roomId = data.roomId
