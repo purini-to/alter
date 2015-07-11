@@ -216,7 +216,12 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   $scope.$on 'socket:room:sendLog', (ev, data) ->
     $scope.logs.push data
     if data.user._id isnt userModel.user._id
-      notifyService.showChat data.user.name, data.content, {icon: data.user.avator.path}
+      content = data.content
+      if data.contentType is 2
+        content = '画像がアップロードされました。'
+      else if data.contentType is 3
+        content = "ファイルがアップロードされました。\n#{content.originName}"
+      notifyService.showChat data.user.name, content, {icon: data.user.avator.path}
     goButtom goButtomSettings, 0
   $scope.$on 'socket:room:update:info', (ev, data) ->
     oldName = $scope.activeRoom.name
