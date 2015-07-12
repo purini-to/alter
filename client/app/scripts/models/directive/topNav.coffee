@@ -25,6 +25,7 @@ app.factory 'topNavModel', ->
   service.resetDynamicMenus = ->
     service.dynamicMenus = [
       createToggleMenu 'お気に入り'
+      createToggleMenu 'プライベート'
     ]
   # お気に入り等のユーザー操作によって変化するメニュー
   service.dynamicMenus = []

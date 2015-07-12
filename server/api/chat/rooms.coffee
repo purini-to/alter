@@ -3,11 +3,13 @@
 ###
 'use strict'
 
+_ = require 'lodash'
+
 errUtil = require '../../utils/errorUtil'
 mongoose = require 'mongoose'
 Room = mongoose.model 'Room'
 Upload = mongoose.model 'Upload'
-
+Invitation = mongoose.model 'Invitation'
 
 roomExists = (res, roomId) ->
   Room.load {_id: roomId}
@@ -21,6 +23,42 @@ roomExists = (res, roomId) ->
         res.send errData
       result
 
+# ルームの管理者ユーザーを取得する
+getRoomAdminUser = (room) ->
+  result = []
+  if room.users?
+    adminFilter = (user) ->
+      user.isAdmin
+    result = _.map _.filter(room.users, adminFilter), (user) ->
+      mapVal = if user.user._id? then user.user._id else user.user
+      mapVal.toString()
+  result
+
+# ルームの招待ユーザーを取得する
+getInvitationUser = (invitation) ->
+  result = _.map invitation.users, (user) ->
+    mapVal = if user.user._id? then user.user._id else user.user
+    mapVal.toString()
+  result
+
+# プライベートルームの入室許可ユーザーか判定する
+invitationUser = (res, next, room, userId) ->
+  Invitation.load room
+    .then (invitation) ->
+      if invitation?
+        adminUsers = getRoomAdminUser room
+        users = getInvitationUser invitation
+        okUsers = _.union adminUsers, users
+        if okUsers.indexOf(userId) > -1
+          res.send room
+        else 
+          res.status 400
+          errData = errUtil.addError 'global', 'ルームが存在しません'
+          res.send errData
+    .onReject (err) ->
+      console.log err
+      next err
+
 ###
 ルーム取得(単一)API
 ###
@@ -29,7 +67,11 @@ get = (req, res, next) ->
   roomExists res, roomId
     .then (room) ->
       if room?
-        res.send room
+        if room.isPrivate
+          userId = req.cookies.userId.replace(/"/g, '')
+          invitationUser res, next, room, userId
+        else
+          res.send room
     .onReject (err) ->
       console.log err
       next err
