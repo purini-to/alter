@@ -25,6 +25,10 @@ RoomSchema = new Schema({
       }
     }
   ]
+  isPrivate: {
+    type: Boolean
+    default: false
+  }
   createdAt: {
     type: Date
     default: Date.now
@@ -55,7 +59,9 @@ join = (roomId, userId) ->
       room
 
 RoomSchema.pre 'remove', (next) ->
-  this.model('ChatLog').remove {room: this._id}, next
+  self = this
+  self.model('ChatLog').remove {room: self._id}, ->
+    self.model('Invitation').remove {room: self._id}, next
                                         
 RoomSchema.statics = {
   load: load

@@ -14,6 +14,7 @@ sio = (server) ->
 
     require('./socket/chat/chatLogs')(io, socket)
     require('./socket/chat/rooms')(io, socket)
+    require('./socket/chat/users')(io, socket)
 
     socket.on "disconnect", ->
       userInfo.removeUser userId, socket.id
