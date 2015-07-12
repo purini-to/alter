@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userModel, roomService) ->
+app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userModel, roomService, topNavModel) ->
   $scope.room = {
     name: ''
     description: ''
@@ -45,6 +45,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userMo
   # プライベートルームの場合は招待ユーザーを登録する
   registInvitations = (invitations, room) ->
     socketUtil.emit 'room:regist:invitations', {room: room, invitations: invitations}
+    topNavModel.addToggleInMenu 'プライベート', room.name, "chat.chatLog({roomId:'#{room._id}'})"
   $scope.submit = (ev) ->
     roomService.add $scope.room
       .then (room) ->

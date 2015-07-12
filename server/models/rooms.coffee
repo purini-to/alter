@@ -36,7 +36,7 @@ RoomSchema = new Schema({
 })
 
 load = (criteria, select) ->
-  select = if select? then select else 'name description users createdAt'
+  select = if select? then select else 'name description users isPrivate createdAt'
   this.find(criteria)
     .select(select)
     # .populate 'users.user', 'id name email'

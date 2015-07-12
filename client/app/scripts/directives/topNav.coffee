@@ -12,7 +12,7 @@ app.directive 'myTopNav', ($rootScope, $translate) ->
     scope:{}
   }
 
-app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog, sessionService, topNavModel, userModel) ->
+app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog, sessionService, socketUtil, notifyService, topNavModel, userModel) ->
   $scope.user = userModel.user
   $scope.isOpenProfileMenu = false
   $scope.profileIcon = 'expand_more'
@@ -49,3 +49,10 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog,
 
   $rootScope.sideNavToggle = ->
     $mdSidenav('siteNav').toggle()
+
+  # プライベートルームへの招待を受信する
+  socketUtil.on 'room:notify:invitations', (data) ->
+    if data.room?
+      room = data.room
+      topNavModel.addToggleInMenu 'プライベート', room.name, "chat.chatLog({roomId:'#{room._id}'})"
+      notifyService.showPrivete room.name

@@ -53,4 +53,19 @@ app.factory 'notifyService', ->
       _options.body = log
       notify.createNotification "@#{sendUserName}", _options
 
+  ###
+  # プライベートルームの招待通知を表示
+  ###
+  service.showPrivete = (roomName, options) ->
+    if service.isSupported() and service.isPermissionGrant()
+      settings = {
+        icon: 'aaa'
+        click: (notification, wrapper)->
+          wrapper.close()
+          activeWindow()
+      }
+      _options = angular.extend settings, options
+      _options.body = "プライベートルームへの招待が届きました。"
+      notify.createNotification "##{roomName}", _options
+
   service

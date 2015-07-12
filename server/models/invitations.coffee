@@ -31,8 +31,8 @@ InvitationSchema = new Schema({
 
 load = (room) ->
   this.findOne {room: room}
-    .select 'users, room, createdAt'
-    .populate 'users'
+    .select 'users room createdAt'
+    .populate 'users.user'
     .exec()
 
 InvitationSchema.statics = {

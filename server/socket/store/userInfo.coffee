@@ -29,6 +29,14 @@ store.removeUser = (userId, socketId) ->
 store.getUser = (userId) ->
   users[userId]
 
+# 指定されたユーザーのソケットIDリストを取得する
+store.getUserSockets = (targetUsers) ->
+  _users = _.filter users, (val, key) ->
+    targetUsers.indexOf(key) > -1
+  _.reduce _users, (result, val, key) ->
+    _.union result, val.sockets
+  , []
+
 store.getRoomUser = (socket, roomId) ->
   socketIdList = _.keys socket.adapter.rooms[roomId]
   roomUsers = _.reduce users, (result, val, key) ->
