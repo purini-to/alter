@@ -2,19 +2,22 @@ app = angular.module 'alter'
 
 app.factory 'roomModel', ->
   service = {}
-  activeRoom = {
-    _id: ''
-    name: ''
-    description: ''
-    users: []
-  }
+  service.activeRoom = {}
+
+  service.clear = ->
+    service.activeRoom = {
+      _id: ''
+      name: ''
+      description: ''
+      users: []
+    }
 
   service.setActiveRoom = (_id, name, description = '', users = []) ->
-    activeRoom._id = _id
-    activeRoom.name = name
-    activeRoom.description = description
-    activeRoom.users = users
+    service.activeRoom._id = _id
+    service.activeRoom.name = name
+    service.activeRoom.description = description
+    service.activeRoom.users = users
 
-  service.activeRoom = activeRoom
+  service.clear()
 
   service

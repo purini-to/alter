@@ -35,8 +35,24 @@ load = (room) ->
     .populate 'users.user'
     .exec()
 
+# 招待されたルーム一覧を検索する
+loadInvitationRooms = (userId) ->
+  query = {
+    users: {
+      $elemMatch: {
+        user: userId
+      }
+    }
+  }
+
+  this.find query
+    .select 'room'
+    .populate 'room', 'name description isPrivate createdAt'
+    .exec()
+
 InvitationSchema.statics = {
   load: load
+  loadInvitationRooms: loadInvitationRooms
 }
 
 mongoose.model 'Invitation', InvitationSchema

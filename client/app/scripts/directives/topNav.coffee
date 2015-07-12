@@ -38,6 +38,7 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog,
     $mdSidenav('siteNav').close()
   $scope.logout = ->
     sessionService.destroy()
+    socketUtil.removeAllListeners()
     $state.go 'login'
 
   $scope.showProfileDialog = (ev) ->
@@ -51,8 +52,17 @@ app.controller 'topNavCtrl', ($rootScope, $scope, $mdSidenav, $state, $mdDialog,
     $mdSidenav('siteNav').toggle()
 
   # プライベートルームへの招待を受信する
-  socketUtil.on 'room:notify:invitations', (data) ->
+  $scope.$on 'socket:room:notify:invitations', (event, data) ->
     if data.room?
       room = data.room
       topNavModel.addToggleInMenu 'プライベート', room.name, "chat.chatLog({roomId:'#{room._id}'})"
       notifyService.showPrivete room.name
+  socketUtil.forward 'room:notify:invitations', $scope
+
+  socketUtil.emit 'room:get:private'
+  $scope.$on 'socket:room:get:private', (event, data) ->
+    if data.rooms? and data.rooms.length > 0
+      _.each data.rooms, (room) ->
+        topNavModel.addToggleInMenu 'プライベート', room.name, "chat.chatLog({roomId:'#{room._id}'})"
+  socketUtil.forward 'room:get:private', $scope
+

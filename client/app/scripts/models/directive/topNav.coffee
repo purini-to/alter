@@ -38,7 +38,7 @@ app.factory 'topNavModel', ->
   # トグルメニューに子メニューを追加する
   service.addToggleInMenu = (toggleName, name, state) ->
     toggleMenu = getToggleMenu toggleName
-    if toggleMenu?
+    if toggleMenu? and _.findIndex(toggleMenu.items, {state: state}) is -1
       toggleMenu.items.push createMenu name, state
   # トグルメニューの子メニューを削除する
   service.removeToggleInMenu = (toggleName, name) ->

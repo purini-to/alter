@@ -237,10 +237,13 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     if index > -1
       $scope.logs.splice index, 1
   $scope.$on 'socket:room:delete', (ev, data) ->
-    roomId = data.room._id
+    room = data.room
+    roomId = room._id
     idx = userModel.indexOfFavoriteRoom roomId
     if idx > -1
-      userService.removeFavoriteRoom data.room, idx
+      userService.removeFavoriteRoom room, idx
+    else if room.isPrivate
+      topNavModel.removeToggleInMenu 'プライベート', room.name
     if $scope.activeRoom._id is roomId
       socketUtil.emit 'room:leave', $scope.activeRoom
       $state.go ('chat.room')
