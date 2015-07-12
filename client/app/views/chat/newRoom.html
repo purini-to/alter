@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{ 'CHAT.ROOM.TITLE' | translate }}" flex-sm style="width: 400px;">
+<md-dialog aria-label="{{ 'CHAT.ROOM.TITLE' | translate }}" flex-md style="width: 600px;">
   <md-toolbar class="md-hue-3">
     <div class="md-toolbar-tools" layout layout-align="center">
       <md-subheader class="md-no-sticky dialog-header">ルーム作成</md-subheader>
@@ -21,6 +21,30 @@
           <div ng-message="maxlength">{{'VALIDATION.MAXLENGTH.100' | translate}}</div>
         </div>
       </md-input-container>
+      <md-checkbox ng-model="room.isPrivate">プライベート</md-checkbox>
+      <div ng-show="room.isPrivate">
+        <md-contact-chips
+           ng-model="invitations"
+           md-contacts="querySearch($query)"
+           md-contact-name="name"
+           md-contact-image="_path"
+           md-contact-email="email"
+           md-require-match
+           filter-selected="true"
+           placeholder="招待ユーザー">
+        </md-contact-chips>
+        <md-list class="fixedRows">
+          <md-subheader class="md-no-sticky">ユーザー</md-subheader>
+          <md-list-item class="md-2-line contact-item" ng-repeat="(index,  user) in allUser"
+                                                       ng-if="invitations.indexOf(user) < 0">
+            <img ng-src="{{user._path}}" class="md-avatar avator sm" alt="{{user.name}}" />
+            <div class="md-list-item-text compact">
+              <h3>{{user.name}}</h3>
+              <p>{{user.email}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+      </div>
     </div>
     <div class="md-actions" layout="row">
       <span flex></span>

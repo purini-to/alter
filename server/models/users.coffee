@@ -44,7 +44,7 @@ load = (options) ->
   _.each options.populate, (value, key) ->
     query.populate key, value
   query.exec()
-loads = (options) ->
+loads = (options = {}) ->
   options.select = options.select || 'id name email avator'
   this.find(options.criteria)
     .select(options.select)
