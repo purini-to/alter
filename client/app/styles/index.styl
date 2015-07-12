@@ -132,7 +132,7 @@ md-input-container
 .avator
   height 60px
   width 60px
-  border-radius 50%
+  border-radius 10%
   border none
   &.sm
     height 30px
@@ -140,6 +140,10 @@ md-input-container
   &.hidden
     min-height 0 !important
     height 0 !important
+
+md-list-item > .md-avatar:first-child,
+md-list-item .md-list-item-inner > .md-avatar:first-child
+  border-radius 10%
 
 ui-thumbnail
   cursor zoom-in
