@@ -80,7 +80,7 @@ get = (req, res, next) ->
 ルーム取得(一覧)API
 ###
 getList = (req, res, next) ->
-  Room.load {}
+  Room.load {isPrivate: false}
     .then (rooms) ->
       res.send rooms
     .onReject (err) ->

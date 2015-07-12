@@ -1,6 +1,7 @@
 'use strict'
 
 _ = require 'lodash'
+Q = require 'q'
 
 mongoose = require 'mongoose'
 Room = mongoose.model 'Room'
@@ -36,3 +37,19 @@ module.exports = (io, socket) ->
             invitationUserEmit socket, invitation.users, room
         .onReject (err) ->
           console.log err
+
+  socket.on "room:get:private", ->
+    userId = socketUtil.getUserId socket
+    if userId?
+      Invitation.loadInvitationRooms userId
+        .then (rooms) ->
+          rooms = _.map rooms, (item) ->
+            item.room
+          Q.all [rooms, Room.loadPrivateAdminRooms(userId)]
+        .then (results) ->
+          rooms = _.merge results[0], results[1]
+          if rooms.length > 0
+            socket.emit 'room:get:private', rooms: rooms
+        .onReject (err) ->
+          console.log err
+

@@ -10,8 +10,8 @@ angular.module 'alter', ['ui.router', 'ngMaterial', 'ngMessages', 'ngSanitize', 
     notAuthenticated: 'auth-not-authenticated'
     notAuthorized: 'auth-not-authorized'
   .run ($rootScope, $state, $mdDialog, AUTH_EVENTS, userService) ->
-    $rootScope.$on '$stateChangeStart', (event, next) ->
-      isAuth = next.auth
+    $rootScope.$on '$stateChangeStart', (event, toState, toParams, fromState, fromParams) ->
+      isAuth = toState.auth
       if isAuth? and isAuth is true
         if userService.isLogged() is false
           event.preventDefault()

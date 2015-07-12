@@ -43,10 +43,13 @@ app.controller 'roomCtrl', ($scope, $mdDialog, $state, $q, socketUtil, stateServ
 
   $scope.$on 'socket:room:delete', (ev, data) ->
     if data.room._id?
-      roomId = data.room._id
+      room = data.room
+      roomId = room._id
       idx = userModel.indexOfFavoriteRoom roomId
       if idx > -1
-        userService.removeFavoriteRoom data.room, idx
+        userService.removeFavoriteRoom room, idx
+      else if room.isPrivate
+        topNavModel.removeToggleInMenu 'プライベート', room.name
       _.remove $scope.rooms, (room) ->
         room._id is roomId
 

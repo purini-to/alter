@@ -43,6 +43,22 @@ load = (criteria, select) ->
     .sort {createdAt: 'desc'}
     .exec()
 
+# 管理者権限かつプライベートルーム一覧を検索する
+loadPrivateAdminRooms = (userId) ->
+  query = {
+    isPrivate: true
+    users: {
+      $elemMatch: {
+        user: userId
+        isAdmin: true
+      }
+    }
+  }
+
+  this.find query
+    .select 'name description isPrivate createdAt'
+    .exec()
+
 join = (roomId, userId) ->
   this.findOne {_id: roomId}
     .select '_id users'
@@ -66,6 +82,7 @@ RoomSchema.pre 'remove', (next) ->
 RoomSchema.statics = {
   load: load
   join: join
+  loadPrivateAdminRooms: loadPrivateAdminRooms
 }
 
 mongoose.model 'Room',  RoomSchema

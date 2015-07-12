@@ -16,7 +16,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userMo
   # ユーザー一覧取得要求
   socketUtil.emit 'user:get'
   # ユーザー一覧から自分以外をフィルタリングしてスコープに格納
-  socketUtil.on 'user:get', (data) ->
+  $scope.$on 'socket:user:get', (event, data) ->
     if data.users? and data.users.length > 0
       $scope.allUser = data.users.filter (user) ->
         user._id isnt userModel.user._id
@@ -25,6 +25,7 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userMo
         user._path = user.avator.path
         user.avator
         user
+  socketUtil.forward 'user:get', $scope
 
   # ユーザー名でフィルタリングを行う
   createFilterForName = (queryStr) ->
@@ -52,7 +53,8 @@ app.controller 'newRoomCtrl', ($rootScope, $scope, $mdDialog, socketUtil, userMo
         room.users = $scope.room.users
         if room.isPrivate
           registInvitations $scope.invitations, room
-        socketUtil.emit 'room:add', room: room
+        else
+          socketUtil.emit 'room:add', room: room
         $mdDialog.hide()
       .catch (err) ->
         console.log error

@@ -1,6 +1,6 @@
 app = angular.module 'alter'
 
-app.factory 'sessionService', ($cookieStore, $cookies, userModel, topNavModel) ->
+app.factory 'sessionService', ($cookieStore, $cookies, userModel, topNavModel, roomModel) ->
   session = {}
 
   getFavoriteRoomIds = (favoriteRooms) ->
@@ -23,7 +23,9 @@ app.factory 'sessionService', ($cookieStore, $cookies, userModel, topNavModel) -
     session
 
   session.destroy = ->
-    userModel.set '', '', '', ''
+    userModel.clear()
+    roomModel.clear()
+    topNavModel.resetDynamicMenus()
     $cookieStore.remove 'token'
     $cookieStore.remove 'userId'
     session
