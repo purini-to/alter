@@ -102,6 +102,7 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
   goButtom = (settings, timout, callback) ->
     $timeout ->
       scrollPane = scrollElement
+      scrollPane.stop()
       scrollY = scrollPane.get(0).scrollHeight
       scrollPane.animate {scrollTop: scrollY},  settings.duration,  settings.easing, ->
         if typeof callback is 'function'
