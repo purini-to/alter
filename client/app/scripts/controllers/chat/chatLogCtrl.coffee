@@ -97,8 +97,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       else
         showAlert()
 
-  mouseOverLogIndex = null
-
   goButtom = (settings, timout, callback) ->
     $timeout ->
       scrollPane = scrollElement
@@ -127,13 +125,6 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
       $scope.logsLoadBusy = true
       socketUtil.emit 'room:moreLogs', {roomId: $scope.activeRoom._id, offset: $scope.logs.length}
 
-  $scope.setMouseOverLogIndex = (index) ->
-    mouseOverLogIndex = index
-  $scope.resetMouseOverLogIndex = ->
-    mouseOverLogIndex = null
-  $scope.isMouseOverLog = (index) ->
-    index is mouseOverLogIndex
-
   $scope.isOwnerLog = (index) ->
     result = false
     logUser = $scope.logs[index].user
@@ -149,9 +140,14 @@ app.controller 'chatLogCtrl', ($rootScope, $scope, $location, $anchorScroll, $ti
     if index is 0 and corre < 0
       return false
     pre = index + corre
-    l = $scope.logs[index].user._id
-    lp = $scope.logs[pre].user._id
-    l is lp
+    target = $scope.logs[index]
+    preTarget = $scope.logs[pre]
+    l = target.user._id
+    lp = preTarget.user._id
+    dateL = new Date(target.createdAt).getTime()
+    dateLp = new Date(preTarget.createdAt).getTime()
+    diff = if corre > 0 then (dateLp - dateL) / (1000 * 60) else (dateL - dateLp) / (1000 * 60)
+    l is lp and diff < 5
 
   $scope.isAdminRoom = ->
     isAdmin = false

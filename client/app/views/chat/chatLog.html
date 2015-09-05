@@ -31,10 +31,26 @@
       <md-content class="main-content chat-log-container md-whiteframe-z1" flex>
         <section class="container">
           <md-list class="chat-log">
-            <md-list-item ng-repeat="log in logs" ng-mouseenter="setMouseOverLogIndex($index)" ng-mouseleave="resetMouseOverLogIndex()" class="md-2-line">
-              <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-class="{hidden: isContinuation($index, -1)}">
+            <md-list-item ng-repeat="log in logs" ng-init="hovering=false" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false" class="md-2-line">
+              <img ng-src="{{log.user.avator.path}}" class="md-avatar avator sm" ng-if="!isContinuation($index, -1)" ng-class="{'no-hover': !hovering}">
+              <div class="tool-area" ng-if="isContinuation($index, -1)" ng-class="{'hidden': !hovering}">
+                <small class="log-create-time">
+                  <md-tooltip md-direction="top">
+                    {{::log.createdAt | date:'yyyy/MM/dd HH:mm:ss'}}
+                  </md-tooltip>
+                  {{::log.createdAt | date:'H:m'}}
+                </small>
+              </div>
               <div class="md-list-item-text" flex>
-                <p ng-if="!isContinuation($index, -1)" layout>{{::log.user.name}}<span flex/>{{::log.createdAt | date:'M月dd日 HH:mm'}}</p>
+                <p ng-if="!isContinuation($index, -1)" layout>
+                  <span class="user-name">{{::log.user.name}}</span> 
+                  <small class="log-create-time">
+                    <md-tooltip md-direction="top">
+                      {{::log.createdAt | date:'yyyy/MM/dd HH:mm:ss'}}
+                    </md-tooltip>
+                    {{::log.createdAt | date:'H:m'}}
+                  </small>
+                </p>
                 <div class="chat-content" layout>
                   <div ng-if="log.contentType==1" marked="::log.content" class="git-hub-markdown" target-blank flex></div>
                   <ui-thumbnail al-thumnail-pop-up ng-if="log.contentType==2" ng-src="{{::log.content.path}}" src="::log.content.path"></ui-thumbnail>
@@ -44,11 +60,6 @@
                       {{::log.content.originName}} ({{::log.content.size | bytes}})
                     </md-button>
                   </div>
-                </div>
-                <div ng-show="isMouseOverLog($index)" class="tool-bar">
-                  <md-button ng-if="isOwnerLog($index)" ng-click="removeLog($index)" class="tool-button">
-                    <ng-md-icon icon="clear" style="fill: grey" class="size-20" size="20"></ng-md-icon>削除
-                  </md-button>
                 </div>
               </div>
               <md-divider ng-if="!$last && !isContinuation($index, 1)"></md-divider>

@@ -90,6 +90,7 @@ module.exports = (io, socket) ->
     log.save()
       .then (log) ->
         data._id = log._id
+        data.createdAt = log.createdAt
         io.sockets.to(roomId).emit 'room:sendLog', data
       .onReject (err) ->
         console.log err
